@@ -1,12 +1,6 @@
 
 const blogsModel = require("../models/blogs.model")
-const teachersModel = require("../models/teachersData.model")
-const featuredListingsModel = require("../models/featuredListingsData.model")
-const testimonialsModel = require("../models/testimonialsData.model")
-const awardsAndRecognitionsModel = require("../models/awardsAndRecognitionsData.model")
-const aboutChancellorsModel = require("../models/aboutChancellorsData.model")
 const eventsModel = require("../models/events.model")
-
 const services = {
     getBlogs: async function (blogId) {
         let blogData

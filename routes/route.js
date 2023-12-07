@@ -6,7 +6,7 @@ const dashBoardCollectionController = require("../controller/dashboard");
 const authenticationValidator = require("../validator/authentication.validator");
 const dashboardValidator = require("../validator/dashboard.validation");
 const profileValidator = require("../validator/profile.validator");
-const Package = require("../models/package.model");
+// const Package = require("../models/package.model");
 //===================================Authentication========================
 const checkAuthorizationKey = require("../config/jwt.config");
 

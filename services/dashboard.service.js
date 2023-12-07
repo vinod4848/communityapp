@@ -1,5 +1,5 @@
-const susbcribeModel = require("../models/subscribe.model");
-const contactUs = require("../models/subscribe.model");
+// const susbcribeModel = require("../models/subscribe.model");
+// const contactUs = require("../models/subscribe.model");
 const services = {
   susbcribe: async function (body) {
     let addUser = {};
