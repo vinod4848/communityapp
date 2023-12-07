@@ -9,54 +9,54 @@ const adminPanelValidator = require("../validator/adminPanel.validator");
 
 module.exports = function (app) {
   // ==============================blogs=========================
-  app.route("/admin/eduwizer/getBlogs").get(
+  app.route("/admin/community/getBlogs").get(
     // checkAuthorizationKey.checkToken,
     adminPanelController.getBlogs
   );
 
   app
-    .route("/admin/eduwizer/addBlogs")
+    .route("/admin/community/addBlogs")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.addBlogs,
       adminPanelController.addBlogs
     );
   app
-    .route("/admin/eduwizer/updateBlogs")
+    .route("/admin/community/updateBlogs")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.updateBlogs,
       adminPanelController.updateBlogs
     );
   app
-    .route("/admin/eduwizer/removeBlogs")
+    .route("/admin/community/removeBlogs")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.deleteBlogs,
       adminPanelController.removeBlogs
     );
   // ================================TeachersData====================
-  app.route("/admin/eduwizer/getTeachers").get(
+  app.route("/admin/community/getTeachers").get(
     // checkAuthorizationKey.checkToken,
     adminPanelController.getTeachersData
   );
 
   app
-    .route("/admin/eduwizer/addTeachers")
+    .route("/admin/community/addTeachers")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.addTeachersData,
       adminPanelController.addTeachersData
     );
   app
-    .route("/admin/eduwizer/updateTeachers")
+    .route("/admin/community/updateTeachers")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.updateTeacherData,
       adminPanelController.updateTeachersData
     );
   app
-    .route("/admin/eduwizer/removeTeachers")
+    .route("/admin/community/removeTeachers")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.deleteTeacherData,
@@ -64,27 +64,27 @@ module.exports = function (app) {
     );
 
   // ================================Featured Lists Data====================
-  app.route("/admin/eduwizer/getFeaturedLists").get(
+  app.route("/admin/community/getFeaturedLists").get(
     // checkAuthorizationKey.checkToken,
     adminPanelController.getFeaturedListingsData
   );
 
   app
-    .route("/admin/eduwizer/addFeaturedLists")
+    .route("/admin/community/addFeaturedLists")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.addFeaturedListingsData,
       adminPanelController.addFeaturedListingsData
     );
   app
-    .route("/admin/eduwizer/updateFeaturedLists")
+    .route("/admin/community/updateFeaturedLists")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.updateFeaturedListingData,
       adminPanelController.updateFeaturedListingsData
     );
   app
-    .route("/admin/eduwizer/removeFeaturedLists")
+    .route("/admin/community/removeFeaturedLists")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.deleteFeaturedListingData,
@@ -92,27 +92,27 @@ module.exports = function (app) {
     );
 
   // ================================Testimonials====================
-  app.route("/admin/eduwizer/getTestimonials").get(
+  app.route("/admin/community/getTestimonials").get(
     // checkAuthorizationKey.checkToken,
     adminPanelController.getTestimonialsData
   );
 
   app
-    .route("/admin/eduwizer/addTestimonials")
+    .route("/admin/community/addTestimonials")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.addTestimonialsData,
       adminPanelController.addTestimonialsData
     );
   app
-    .route("/admin/eduwizer/updateTestimonials")
+    .route("/admin/community/updateTestimonials")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.updateTestimonialData,
       adminPanelController.updateTestimonialsData
     );
   app
-    .route("/admin/eduwizer/removeTestimonials")
+    .route("/admin/community/removeTestimonials")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.deleteTestimonialData,
@@ -120,27 +120,27 @@ module.exports = function (app) {
     );
 
   // ================================Awards And Recognitions Data====================
-  app.route("/admin/eduwizer/getAwardsAndRecognitions").get(
+  app.route("/admin/community/getAwardsAndRecognitions").get(
     // checkAuthorizationKey.checkToken,
     adminPanelController.getAwardsAndRecognitionsData
   );
 
   app
-    .route("/admin/eduwizer/addAwardsAndRecognitions")
+    .route("/admin/community/addAwardsAndRecognitions")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.addAwardsAndRecognitionsData,
       adminPanelController.addAwardsAndRecognitionsData
     );
   app
-    .route("/admin/eduwizer/updateAwardsAndRecognitions")
+    .route("/admin/community/updateAwardsAndRecognitions")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.updateAwardsAndRecognitionData,
       adminPanelController.updateAwardsAndRecognitionsData
     );
   app
-    .route("/admin/eduwizer/removeAwardsAndRecognitions")
+    .route("/admin/community/removeAwardsAndRecognitions")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.deleteAwardsAndRecognitionData,
@@ -148,27 +148,27 @@ module.exports = function (app) {
     );
 
   // ================================About chancellors Data====================
-  app.route("/admin/eduwizer/getAboutChancellors").get(
+  app.route("/admin/community/getAboutChancellors").get(
     // checkAuthorizationKey.checkToken,
     adminPanelController.getAboutChancellorsData
   );
 
   app
-    .route("/admin/eduwizer/addAboutChancellors")
+    .route("/admin/community/addAboutChancellors")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.addAboutChancellorsData,
       adminPanelController.addAboutChancellorsData
     );
   app
-    .route("/admin/eduwizer/updateAboutChancellors")
+    .route("/admin/community/updateAboutChancellors")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.updateAboutChancellorData,
       adminPanelController.updateAboutChancellorsData
     );
   app
-    .route("/admin/eduwizer/removeAboutChancellors")
+    .route("/admin/community/removeAboutChancellors")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.deleteAboutChancellorData,
@@ -177,27 +177,27 @@ module.exports = function (app) {
 
   // ================================Events====================
 
-  app.route("/admin/eduwizer/getEvents").get(
+  app.route("/admin/community/getEvents").get(
     // checkAuthorizationKey.checkToken,
     adminPanelController.getEvents
   );
 
   app
-    .route("/admin/eduwizer/addEvents")
+    .route("/admin/community/addEvents")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.addEvents,
       adminPanelController.addEvents
     );
   app
-    .route("/admin/eduwizer/updateEvents")
+    .route("/admin/community/updateEvents")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.updateEvents,
       adminPanelController.updateEvents
     );
   app
-    .route("/admin/eduwizer/removeEvents")
+    .route("/admin/community/removeEvents")
     .post(
       checkAuthorizationKey.checkToken,
       adminPanelValidator.deleteEvents,

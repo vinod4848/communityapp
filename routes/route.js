@@ -19,35 +19,37 @@ const upload = multer({ dest: "uploads/" });
 module.exports = function (app) {
   //  ========================Authentication======================
   app.get(
-    "/eduwizer/contact-messages",
+    "/community/contact-messages",
     dashBoardCollectionController.getContactMessages
   );
   app
-    .route("/eduwizer/login")
+    .route("/community/login")
     .post(authenticationValidator.loginValidator, authentication.login);
+
   app
-    .route("/eduwizer/signup")
+    .route("/community/signup")
     .post(authenticationValidator.signUpValidator, authentication.signUp);
-  app.route("/eduwizer/loginGoogle").post(authentication.loginFromGoogle);
-  app.route("/eduwizer/loginFacebook").post(authentication.loginFromLinkedin);
+
+  app.route("/community/loginGoogle").post(authentication.loginFromGoogle);
+  app.route("/community/loginFacebook").post(authentication.loginFromLinkedin);
 
   // ============================profile ===========================
 
-  app.route("/eduwizer/updateProfile").post(
+  app.route("/community/updateProfile").post(
     checkAuthorizationKey.checkToken,
     // profileValidator.updateProfile,
     profileController.updateProfile
   );
 
   app
-    .route("/eduwizer/getProfile")
+    .route("/community/getProfile")
     .get(checkAuthorizationKey.checkToken, profileController.getProfile);
-  app.route("/eduwizer/searchProfile").post(
+  app.route("/community/searchProfile").post(
     checkAuthorizationKey.checkToken,
     // profileValidator.searchProfile,
     profileController.serachProfile
   );
-  app.route("/eduwizer/searchProfile").post(
+  app.route("/community/searchProfile").post(
     checkAuthorizationKey.checkToken,
     // profileValidator.searchProfile,
     profileController.serachProfile
@@ -58,21 +60,19 @@ module.exports = function (app) {
   app.route("/auth/linkedin/callback").post(authentication.linkedinCallBack);
 
   // otp verfification
+
   app
-    .route("/eduwizer/signup")
-    .post(authenticationValidator.signUpValidator, authentication.signUp);
-  app
-    .route("/eduwizer/send/otp")
+    .route("/community/send/otp")
     .post(authenticationValidator.sendOtp, authentication.sendOtp);
   app
-    .route("/eduwizer/verify/otp")
+    .route("/community/verify/otp")
     .post(authenticationValidator.verifyOtp, authentication.verifyOtp);
 
   //Vendor Package routes
   app.post("/createpackage", async (req, res) => {
     try {
-      const { prize, specialPrize, user  } = req.body;
-      const newPackage = new Package({ prize, specialPrize, user  });
+      const { prize, specialPrize, user } = req.body;
+      const newPackage = new Package({ prize, specialPrize, user });
       const savedPackage = await newPackage.save();
       res.status(201).json(savedPackage);
     } catch (error) {
@@ -86,7 +86,7 @@ module.exports = function (app) {
   app.get("/packages", async (req, res) => {
     try {
       const packages = await Package.find();
-      console.log(packages, "sfbshfbfh")
+      console.log(packages, "sfbshfbfh");
       res.json(packages);
     } catch (error) {
       res
@@ -98,7 +98,7 @@ module.exports = function (app) {
   app.get("/package/:id", async (req, res) => {
     try {
       const package = await Package.findById(req.params.id);
-      console.log(package, "sfbshfbfh")
+      console.log(package, "sfbshfbfh");
       if (!package) {
         res.status(404).json({ error: "Package not found" });
       } else {
@@ -133,7 +133,6 @@ module.exports = function (app) {
   });
 
   // READ a single package by ID
-
 
   // UPDATE a package by ID
   app.put("/updatepackage/:id", async (req, res) => {
@@ -174,33 +173,33 @@ module.exports = function (app) {
 
   // susbcriber chanel
   app
-    .route("/eduwizer/susbcribe")
+    .route("/community/susbcribe")
     .post(
       dashboardValidator.susbcribe,
       dashBoardCollectionController.susbcribe
     );
 
   app
-    .route("/uploadResume")
-    .post(upload.single("file"), profileController.uploadResume);
+    .route("/uploadImage")
+    .post(upload.single("file"), profileController.uploadImage);
 
   app
-    .route("/eduwizer/getUsers/_Id")
+    .route("/community/getUsers/_Id")
     .get(checkAuthorizationKey.checkToken, profileController.getUsers);
   app
-    .route("/eduwizer/getUsers")
+    .route("/community/getUsers")
     .get(checkAuthorizationKey.checkToken, profileController.getUsers);
   app
-    .route("/eduwizer/:userType")
+    .route("/community/:userType")
     .get(checkAuthorizationKey.checkToken, profileController.serachProfile);
   app
-    .route("/eduwizer/deleteUsers/:emailId")
+    .route("/community/deleteUsers/:emailId")
     .delete(checkAuthorizationKey.checkToken, profileController.deleteUser);
-  // app.route("/eduwizer/uploadResume").post(
-  //     upload.single("resume"),profileController.uploadResume
+  // app.route("/community/uploadImage").post(
+  //     upload.single("resume"),profileController.uploadImage
   // );
 
-  app.route("/eduwizer/contact-us").post(
+  app.route("/community/contact-us").post(
     // checkAuthorizationKey.checkToken,
     dashboardValidator.contactUs,
     dashBoardCollectionController.contactUs

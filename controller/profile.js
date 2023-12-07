@@ -162,7 +162,7 @@ const controllers = {
     }
     return res.send(response);
   },
-  uploadResume: async function (req, res) {
+  uploadImage: async function (req, res) {
     const bucketName = process.env.AWS_BUCKET_NAME;
 
     const region = "AP-SOUTH-1";
@@ -216,9 +216,9 @@ const controllers = {
         userId: req.payload.userId,
         resumeURL: url,
       });
-  
+
       const apiKey = sgMail.setApiKey(process.env.EMAIL_PROVIDER_AUTH_PASSWORD);
-  
+
       const msg = {
         to: process.env.SUPPORT_EMAIL, // support Email
         from: process.env.EMAIL, // Change to your verified sender
@@ -226,88 +226,13 @@ const controllers = {
         text: `New user signup`,
         html: `New user has signed up. UserId: ${req.payload.userId}. His resume: ${url}`,
       };
-  
+
       await apiKey.send(msg);
     }
 
     const response = {
       success: 0,
       data: url,
-      message: "Successfully Uploaded",
-    };
-    return res.send(response);
-  },
-  uploadResume: async function (req, res) {
-    const bucketName = process.env.AWS_BUCKET_NAME;
-
-    const region = "AP-SOUTH-1";
-    const accessKeyId = process.env.AWS_ACCESS_KEY;
-    const secretAccessKey = process.env.AWS_SECRET_KEY;
-
-    const s3 = new AWS.S3({
-      accessKeyId: accessKeyId,
-      secretAccessKey: secretAccessKey,
-      region: region,
-    });
-    if (req.file == null) {
-      return res.status(400).json({ message: "Please choose the file" });
-    }
-
-    var file = req.file;
-
-    const uploadImage = async (file) => {
-      return new Promise((resolve, reject) => {
-        const fileStream = fs.createReadStream(file.path);
-
-        const params = {
-          Bucket: bucketName,
-          Key: file.originalname,
-          Body: fileStream,
-        };
-
-        s3.upload(params, function (err, data) {
-          if (err) {
-            console.log("err :>> ", err);
-            reject(err);
-          }
-          console.log("data :>> ", data);
-          resolve(data.Location);
-        });
-      });
-    };
-    const resume = await uploadImage(file);
-
-    if (req.body.admin) {
-      const response = {
-        success: 0,
-        data: resume,
-        message: "Successfully Uploaded",
-      };
-      return res.send(response);
-    }
-
-    if (req.payload && req.payload.userId) {
-      await profileService.updateProfile({
-        userId: req.payload.userId,
-        resume: resume,
-      });
-  
-      const apiKey = sgMail.setApiKey(process.env.EMAIL_PROVIDER_AUTH_PASSWORD);
-  
-      const msg = {
-        to: process.env.SUPPORT_EMAIL, // support Email
-        from: process.env.EMAIL, // Change to your verified sender
-        subject: "Eduwizer New User Signup",
-        text: `New user signup`,
-        html: `New user has signed up. UserId: ${req.payload.userId}. His resume: ${resume}`,
-      };
-  
-      await apiKey.send(msg);
-    }
-
-    const response = {
-      success: 0,
-      data: resume,
       message: "Successfully Uploaded",
     };
     return res.send(response);
@@ -379,4 +304,3 @@ const controllers = {
 };
 
 module.exports = controllers;
-

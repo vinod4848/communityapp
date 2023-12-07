@@ -1,7 +1,7 @@
 const mongoose = require("../database/mongodb");
 
 const usersSchema = new mongoose.Schema({
-  username: {
+  userName: {
     type: String,
     required: true,
   },
@@ -26,11 +26,11 @@ const usersSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  firstname: {
+  firstName: {
     type: String,
     required: true,
   },
-  lastname: {
+  lastName: {
     type: String,
     required: true,
   },

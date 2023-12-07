@@ -21,26 +21,20 @@ const validator = {
   signUpValidator: async function (req, res, next) {
     try {
       const signUpSchema = Joi.object({
+        userName: Joi.string().max(25),
+        email: Joi.string().email(),
+        password: Joi.string().max(25),
+        phone: Joi.number(),
         firstName: Joi.string().max(25),
         lastName: Joi.string().max(25),
-        userName: Joi.string().max(25),
-        password: Joi.string().max(25),
-        email: Joi.string().email(),
-        phone: Joi.number(),
+        fatherName: Joi.string().max(25),
+        motherName: Joi.string().max(25),
         url: Joi.string().required(),
-        resume: Joi.string().required(),
-        fileType: Joi.string().required(),
+        address: Joi.string().max(25),
         age: Joi.number(),
-        experience: Joi.number(),
-        pincode: Joi.number(),
-        country: Joi.string(),
-        state: Joi.string(),
-        city: Joi.string(),
-        userType: Joi.string(),
-        board: Joi.string()
-          .valid("icse", "cbse", "igse", "state board", "ib")
-          .error(new Error("Board must be ICSE, CBSE, IGSE, State Board, IB")),
-        preference: Joi.string(),
+        maritalStatus: Joi.string().max(25),
+        gender: Joi.string().max(25),
+
         // .valid('school', 'college', 'private institutions')
         // .error(new Error('Preference must be School, College, Private Institutions'))
       });

@@ -1,13 +1,12 @@
 const mongoose = require("../database/mongodb");
 const usersSchemaNew = new mongoose.Schema({
-  username: {
+  userName: {
     type: String,
     required: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true,
     validate: {
       validator: function (value) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -23,13 +22,12 @@ const usersSchemaNew = new mongoose.Schema({
   phone: {
     type: String,
     required: true,
-    unique: true,
   },
-  firstname: {
+  firstName: {
     type: String,
     required: true,
   },
-  lastname: {
+  lastName: {
     type: String,
     required: true,
   },
@@ -64,7 +62,6 @@ const usersSchemaNew = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
- 
 });
 
 let userInformationIthoutStrict = null;
@@ -129,4 +126,3 @@ const models = {
 };
 
 module.exports = models;
-
