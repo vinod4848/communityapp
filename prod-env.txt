@@ -1,0 +1,31 @@
+env=prod
+port=4000
+DATABASE_URL = mongodb+srv://ngeduwizer:CQCn1FKdSiePzBdL@eduwizer.luvcjts.mongodb.net/
+DATABASE_NAME = eduwizer
+
+# jwt secret 
+secret = "eduwizer"
+
+AUTHORIZATION = 7497293807597239
+
+# login details
+google_clientID=  'your-google-client-id'
+google_clientSecret=  'your-google-client-secret'
+google_callbackURL= 'http://localhost:3000/auth/google/callback'
+linkedin_clientID= 'your-linkedin-client-id'
+linkedin_clientSecret= 'your-linkedin-client-secret'
+linkedin_callbackURL= 'http://localhost:3000/auth/linkedin/callback'
+
+##email configaration
+
+# EMAIL = shivamsingh81699@gmail.com 
+# EMAIL_PROVIDER_AUTH_PASSWORD = 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
+
+EMAIL = ngeduwizer@gmail.com
+EMAIL_PROVIDER_AUTH_PASSWORD = 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
+
+SUPPORT_EMAIL = ngeduwizer@gmail.com
+
+AWS_BUCKET_NAME=uploadedcv
+AWS_SECRET_KEY=Lf6W+KX+UrHQ+5kGtEORtW61GgCQKMVa4hIbRyu4
+AWS_ACCESS_KEY=AKIAQDKYMXPAFF3CG6SA
