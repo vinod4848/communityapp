@@ -117,8 +117,6 @@ const validator = {
       res.status(400).json({ success: 0, data: [], message: error.message })
     }
   },
-
-  // featured listings
   addFeaturedListingsData: async function (req, res, next) {
     try {
       const addFeaturedListings = Joi.object({
@@ -168,8 +166,6 @@ const validator = {
       res.status(400).json({ success: 0, data: [], message: error.message })
     }
   },
-
-    // testimonials
     addTestimonialsData: async function (req, res, next) {
       try {
         const addTestimonials = Joi.object({
@@ -225,8 +221,6 @@ const validator = {
         res.status(400).json({ success: 0, data: [], message: error.message })
       }
     },
-
-    // Awards And Recognitions
     addAwardsAndRecognitionsData: async function (req, res, next) {
       try {
         const addAwardsAndRecognitions = Joi.object({
@@ -278,8 +272,6 @@ const validator = {
         res.status(400).json({ success: 0, data: [], message: error.message })
       }
     },
-
-  // about chancellors
   addAboutChancellorsData: async function (req, res, next) {
     try {
       const addAboutChancellors = Joi.object({

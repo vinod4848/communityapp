@@ -41,7 +41,6 @@ const controllers = {
     }
     return res.send(response);
   },
-
   serachProfile: async function (req, res) {
     let response;
     try {
@@ -127,7 +126,6 @@ const controllers = {
     }
     return res.send(response);
   },
-
   getProfile: async function (req, res) {
     let response;
     try {
@@ -164,9 +162,6 @@ const controllers = {
     }
     return res.send(response);
   },
-
-  // this.getProfile
-
   uploadResume: async function (req, res) {
     const bucketName = process.env.AWS_BUCKET_NAME;
 
@@ -317,13 +312,6 @@ const controllers = {
     };
     return res.send(response);
   },
-
-  // uploadResume: async function (req, res) {
-  //   res.send( req.file.location + '/index.html')
-  // }
-
-  // admin
-
   getUsers: async function (req, res) {
     let response;
     try {
@@ -357,7 +345,6 @@ const controllers = {
     }
     return res.send(response);
   },
-
   deleteUser: async function (req, res) {
     let response;
     try {

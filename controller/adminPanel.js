@@ -223,8 +223,6 @@ const controllers = {
     }
     return res.send(response);
   },
-
-  // about chancellors
   addAboutChancellorsData: async function (req, res) {
     let response;
     try {
@@ -342,8 +340,6 @@ const controllers = {
     }
     return res.send(response);
   },
-
-  // testimonials
   addTestimonialsData: async function (req, res) {
     let response;
     try {
@@ -455,9 +451,6 @@ const controllers = {
     }
     return res.send(response);
   },
-
-  // featured listings
-
   addFeaturedListingsData: async function (req, res) {
     let response;
     try {
@@ -575,9 +568,6 @@ const controllers = {
     }
     return res.send(response);
   },
-
-  // awards and recognitions
-
   addAwardsAndRecognitionsData: async function (req, res) {
     let response;
     try {
