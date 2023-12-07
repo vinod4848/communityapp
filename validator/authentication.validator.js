@@ -29,14 +29,11 @@ const validator = {
         lastName: Joi.string().max(25),
         fatherName: Joi.string().max(25),
         motherName: Joi.string().max(25),
-        url: Joi.string().required(),
+        url: Joi.string(),
         address: Joi.string().max(25),
         age: Joi.number(),
         maritalStatus: Joi.string().max(25),
         gender: Joi.string().max(25),
-
-        // .valid('school', 'college', 'private institutions')
-        // .error(new Error('Preference must be School, College, Private Institutions'))
       });
 
       const { error, value } = await signUpSchema.validateAsync(req.body);

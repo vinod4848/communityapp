@@ -222,7 +222,7 @@ const controllers = {
       const msg = {
         to: process.env.SUPPORT_EMAIL, // support Email
         from: process.env.EMAIL, // Change to your verified sender
-        subject: "Eduwizer New User Signup",
+        subject: "Community New User Signup",
         text: `New user signup`,
         html: `New user has signed up. UserId: ${req.payload.userId}. His resume: ${url}`,
       };
