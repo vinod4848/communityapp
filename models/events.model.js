@@ -4,7 +4,9 @@ const eventsSchema = mongoose.Schema(
     title: { type: String, require: true },
     description: { type: String, require: true },
     image: { type: String, require: true },
-    data: { type: String, require: true },
+    date: { type: String, require: true },
+    addres: { type: String, require: true },
+    paid: { type: String, require: true },
     isActive: { type: Boolean, require: true, default: true },
   },
   {

@@ -26,6 +26,4 @@ module.exports = function (app) {
   app
     .route("/community/deleteUsers/:emailId")
     .delete(checkAuthorizationKey.checkToken, profileController.deleteUser);
-
-
 };

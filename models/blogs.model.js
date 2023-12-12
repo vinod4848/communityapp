@@ -5,7 +5,9 @@ const blogsSchema = mongoose.Schema(
     description: { type: String, require: true },
     author: { type: String, require: true },
     image: { type: String, require: true },
-    data: { type: String, require: true },
+    category: { type: String, require: true },
+    date: { type: String, require: true },
+    scheduleddate: { type: String, require: true },
     isActive: { type: Boolean, require: true, default: true },
   },
   {
