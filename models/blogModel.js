@@ -3,7 +3,7 @@ const blogsSchema = mongoose.Schema(
   {
     title: { type: String, required: true },
     description: { type: String, required: true },
-    images: [],
+    image: { type: String },
     isActive: { type: Boolean, required: true, default: true },
   },
   {

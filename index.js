@@ -13,7 +13,6 @@ const directoryRouter = require("./routes/directoryRoute");
 const blogRouter = require("./routes/blogRoute");
 const advertisingRouter = require("./routes/advertisingRoute");
 const userRoutes = require("./routes/userRoute");
-const uploadRouter = require("./routes/uploadRoute");
 
 const morgan = require("morgan");
 
@@ -42,7 +41,6 @@ app.use("/api", matrimonialRouter);
 app.use("/api", jobRouter);
 app.use("/api", galleryRouter);
 app.use("/api", eventRouter);
-app.use("/api", uploadRouter);
 
 app.listen(process.env.port, function () {
   console.log("user " + " api started on port: " + process.env.port);
