@@ -9,6 +9,9 @@ const matrimonialSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  image:{
+    type:String
+  },
   gender: {
     type: String,
     enum: ["Male", "Female"],
