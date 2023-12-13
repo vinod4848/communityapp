@@ -8,7 +8,7 @@ const eventsSchema = mongoose.Schema(
     category: { type: String, require: true },
     data: { type: String, required: true },
     isActive: { type: Boolean, required: true, default: true },
-    AlbumImage: [{ type: mongoose.Schema.Types.ObjectId, ref: "Gallery" }],
+    GalleryId: [{ type: mongoose.Schema.Types.ObjectId, ref: "Gallery" }],
   },
   {
     timestamps: {

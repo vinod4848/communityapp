@@ -3,7 +3,7 @@ const Gallery = require("../models/galleryModel");
 const galleryController = {
   getAllGalleries: async (req, res) => {
     try {
-      const galleries = await Gallery.find();
+      const galleries = await Gallery.find().populate("EventId");
       res.status(200).json(galleries);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -54,7 +54,6 @@ const galleryController = {
       res.status(400).json({ error: error.message });
     }
   },
-
   updateGallery: async (req, res) => {
     try {
       const updatedGallery = await Gallery.findByIdAndUpdate(
@@ -70,7 +69,6 @@ const galleryController = {
       res.status(400).json({ error: error.message });
     }
   },
-
   deleteGallery: async (req, res) => {
     try {
       const deletedGallery = await Gallery.findByIdAndDelete(req.params.id);
