@@ -1,12 +1,14 @@
 const mongoose = require("mongoose");
+
 const eventsSchema = mongoose.Schema(
   {
     title: { type: String, required: true },
     description: { type: String, required: true },
-    image: { type: String, required: true },
+    image: { type: String },
     category: { type: String, require: true },
     data: { type: String, required: true },
     isActive: { type: Boolean, required: true, default: true },
+    AlbumImage: [{ type: mongoose.Schema.Types.ObjectId, ref: "Gallery" }],
   },
   {
     timestamps: {

@@ -1,5 +1,38 @@
 const Event = require('../models/eventModel'); 
+const AWS = require("aws-sdk");
+const fs = require("fs");
 
+const uploadImage = async (file) => {
+  const bucketName = process.env.AWS_BUCKET_NAME;
+  const region = "AP-SOUTH-1";
+  const accessKeyId = process.env.AWS_ACCESS_KEY;
+  const secretAccessKey = process.env.AWS_SECRET_KEY;
+
+  const s3 = new AWS.S3({
+    accessKeyId: accessKeyId,
+    secretAccessKey: secretAccessKey,
+    region: region,
+  });
+
+  return new Promise((resolve, reject) => {
+    const fileStream = fs.createReadStream(file.path);
+
+    const params = {
+      Bucket: bucketName,
+      Key: file.originalname,
+      Body: fileStream,
+    };
+
+    s3.upload(params, (err, data) => {
+      if (err) {
+        console.error("Error uploading to S3:", err);
+        reject(err);
+      }
+      console.log("S3 Upload Data:", data);
+      resolve(data.Location);
+    });
+  });
+};
 const eventController = {
   getAllEvents: async (req, res) => {
     try {
@@ -9,7 +42,6 @@ const eventController = {
       res.status(500).json({ error: error.message });
     }
   },
-
   getEventById: async (req, res) => {
     try {
       const event = await Event.findById(req.params.id);
@@ -40,7 +72,6 @@ const eventController = {
       res.status(500).json({ error: error.message });
     }
   },
-
   addEvent: async (req, res) => {
     try {
       const newEvent = new Event(req.body);
@@ -50,7 +81,6 @@ const eventController = {
       res.status(400).json({ error: error.message });
     }
   },
-
   updateEvent: async (req, res) => {
     try {
       const updatedEvent = await Event.findByIdAndUpdate(
@@ -66,7 +96,27 @@ const eventController = {
       res.status(400).json({ error: error.message });
     }
   },
+  uploadEventImage: async (req, res) => {
+    try {
+      const file = req.file;
+      const image = await uploadImage(file);
+      const updateData = { ...req.body, image };
 
+      const updatedEvent = await Event.findByIdAndUpdate(
+        req.params.id,
+        updateData,
+        { new: true }
+      );
+
+      if (!updatedEvent) {
+        return res.status(404).json({ message: "Event not found" });
+      }
+
+      res.status(200).json(updatedEvent);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  },
   deleteEvent: async (req, res) => {
     try {
       const deletedEvent = await Event.findByIdAndDelete(req.params.id);
