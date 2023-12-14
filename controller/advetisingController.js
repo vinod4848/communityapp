@@ -14,12 +14,13 @@ const uploadImage = async (file) => {
     region: region,
   });
 
+  const fileName = `Advertising/${file.originalname}`; 
   return new Promise((resolve, reject) => {
     const fileStream = fs.createReadStream(file.path);
 
     const params = {
       Bucket: bucketName,
-      Key: `gallery/${fileName}`,
+      Key: fileName,
       Body: fileStream,
     };
 

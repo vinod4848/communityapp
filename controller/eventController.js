@@ -14,12 +14,14 @@ const uploadImage = async (file) => {
     region: region,
   });
 
+  const fileName = `Event/${file.originalname}`; 
+
   return new Promise((resolve, reject) => {
     const fileStream = fs.createReadStream(file.path);
 
     const params = {
       Bucket: bucketName,
-      Key: file.originalname,
+      Key: fileName,
       Body: fileStream,
     };
 
