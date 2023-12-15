@@ -41,7 +41,7 @@ const AproveAdmin = asyncHandler(async (req, res, next) => {
   const adminUser = await User.findOne({ email }).exec();
 
   if (!adminUser || adminUser.role !== "admin") {
-    return res.status(403).json({ error: "Chal bhosdike nhi furasat me 😀😀😀" });
+    return res.status(403).json({ error: "Sorry You are not authorized approved" });
   }
 
   next();

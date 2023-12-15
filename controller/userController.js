@@ -189,7 +189,7 @@ const userController = {
 
       const user = await User.findById(userId);
       if (!user) {
-        return res.status(404).json({ message: "User not found" });
+        return res.status(404).json({ message: "Matrimonial not found" });
       }
 
       user.isApproved = true;
@@ -198,7 +198,7 @@ const userController = {
 
       res
         .status(200)
-        .json({ message: "User approved successfully", user });
+        .json({ message: "Matrimonial approved successfully", user });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
