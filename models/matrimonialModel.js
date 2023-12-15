@@ -9,8 +9,8 @@ const matrimonialSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  image:{
-    type:String
+  image: {
+    type: String,
   },
   gender: {
     type: String,
@@ -67,7 +67,12 @@ const matrimonialSchema = new mongoose.Schema({
       sisters: Number,
     },
   },
-
+  isApproved: {
+    type: Boolean,
+    default: function () {
+      return this.isPublic;
+    },
+  },
   partnerPreferences: {
     ageRange: {
       min: Number,

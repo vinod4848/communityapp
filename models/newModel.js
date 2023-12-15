@@ -28,6 +28,7 @@ const newsSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  
 });
 
 const News = mongoose.model('News', newsSchema);

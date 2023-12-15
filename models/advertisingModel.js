@@ -16,6 +16,7 @@ const advertisingSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  isApproved: { type: Boolean, default: function () { return this.isPublic; } },
   endDate: {
     type: Date,
     required: true,

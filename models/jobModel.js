@@ -66,6 +66,12 @@ const jobSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  isApproved: {
+    type: Boolean,
+    default: function () {
+      return this.isPublic;
+    },
+  },
   createdAt: {
     type: Date,
     default: Date.now,

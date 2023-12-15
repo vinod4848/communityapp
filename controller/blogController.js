@@ -13,8 +13,7 @@ const uploadImage = async (file) => {
     region: region,
   });
 
-  const fileName = `Blog/${file.originalname}`; 
-
+  const fileName = `Blog/${file.originalname}`;
   return new Promise((resolve, reject) => {
     const fileStream = fs.createReadStream(file.path);
 
@@ -57,13 +56,17 @@ const blogController = {
       const { title } = req.query;
 
       if (!title) {
-        return res.status(400).json({ message: 'Please provide a title parameter' });
+        return res
+          .status(400)
+          .json({ message: "Please provide a title parameter" });
       }
 
-      const blogs = await Blog.find({ title: new RegExp(title, 'i') });
+      const blogs = await Blog.find({ title: new RegExp(title, "i") });
 
       if (blogs.length === 0) {
-        return res.status(404).json({ message: 'No blogs found with the provided title' });
+        return res
+          .status(404)
+          .json({ message: "No blogs found with the provided title" });
       }
 
       res.status(200).json(blogs);

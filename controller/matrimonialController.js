@@ -1,4 +1,4 @@
-const MatrimonialProfile = require('../models/matrimonialModel'); 
+const MatrimonialProfile = require("../models/matrimonialModel");
 const AWS = require("aws-sdk");
 const fs = require("fs");
 const uploadImage = async (file) => {
@@ -46,7 +46,7 @@ const matrimonialController = {
     try {
       const profile = await MatrimonialProfile.findById(req.params.id);
       if (!profile) {
-        return res.status(404).json({ message: 'Profile not found' });
+        return res.status(404).json({ message: "Profile not found" });
       }
       res.status(200).json(profile);
     } catch (error) {
@@ -70,7 +70,7 @@ const matrimonialController = {
         { new: true }
       );
       if (!updatedProfile) {
-        return res.status(404).json({ message: 'Profile not found' });
+        return res.status(404).json({ message: "Profile not found" });
       }
       res.status(200).json(updatedProfile);
     } catch (error) {
@@ -83,14 +83,15 @@ const matrimonialController = {
       const image = await uploadImage(file);
       const updateData = { ...req.body, image };
 
-      const updatedMatrimonialProfile = await MatrimonialProfile.findByIdAndUpdate(
-        req.params.id,
-        updateData,
-        { new: true }
-      );
+      const updatedMatrimonialProfile =
+        await MatrimonialProfile.findByIdAndUpdate(req.params.id, updateData, {
+          new: true,
+        });
 
       if (!updatedMatrimonialProfile) {
-        return res.status(404).json({ message: "MatrimonialProfile not found" });
+        return res
+          .status(404)
+          .json({ message: "MatrimonialProfile not found" });
       }
 
       res.status(200).json(updatedMatrimonialProfile);
@@ -104,9 +105,35 @@ const matrimonialController = {
         req.params.id
       );
       if (!deletedProfile) {
-        return res.status(404).json({ message: 'Profile not found' });
+        return res.status(404).json({ message: "Profile not found" });
       }
       res.status(204).json();
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+  approveMatrimonial: async (req, res) => {
+    try {
+      const { matrimonialId } = req.params;
+
+      if (req.user.role !== "admin") {
+        return res
+          .status(403)
+          .json({ message: "Unauthorized to approve matrimonials" });
+      }
+
+      const matrimonial = await MatrimonialProfile.findById(matrimonialId);
+      if (!matrimonial) {
+        return res.status(404).json({ message: "Matrimonial not found" });
+      }
+
+      matrimonial.isApproved = true;
+      matrimonial.isPublic = true;
+      await matrimonial.save();
+
+      res
+        .status(200)
+        .json({ message: "Matrimonial approved successfully", matrimonial });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
