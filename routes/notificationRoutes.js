@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const notificationController = require("../controller/notificationController");
 
-router.post("/", async (req, res) => {
+router.post("/add", async (req, res) => {
   try {
     const { type, userId, itemId } = req.body;
     await notificationController.createNotification(type, userId, itemId);

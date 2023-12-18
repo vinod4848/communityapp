@@ -17,7 +17,9 @@ const notificationController = {
       const unreadNotificationCount = await Notification.countDocuments({
         userId,
         isRead: false,
-      });
+      })
+        .populate("userId")
+        .exec();
       return unreadNotificationCount;
     } catch (error) {
       console.error("Error getting notification count:", error.message);
@@ -27,7 +29,12 @@ const notificationController = {
 
   markNotificationAsRead: async (notificationId) => {
     try {
-      const notification = await Notification.findById(notificationId);
+      const notification = await Notification.findById(notificationId).populate(
+        {
+          path: "userId",
+          select: "username",
+        }
+      );
 
       if (!notification) {
         throw new Error("Notification not found");
@@ -36,9 +43,22 @@ const notificationController = {
       notification.isRead = true;
       await notification.save();
 
-      return { message: "Notification marked as read" };
+      const populatedNotification = await Notification.findById(notificationId)
+        .populate({
+          path: "userId",
+          select: "username",
+        })
+        .exec();
+
+      return {
+        message: "Notification marked as read",
+        notification: populatedNotification,
+      };
     } catch (error) {
-      console.error("Error marking notification as read:", error.message);
+      console.error("Error marking notification as read:", error);
+      console.error("Notification ID:", notificationId);
+      console.error("Stack Trace:", error.stack);
+
       throw new Error("Failed to mark notification as read");
     }
   },

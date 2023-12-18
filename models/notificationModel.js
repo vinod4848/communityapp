@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
 
 const notificationSchema = new mongoose.Schema({
-type: {
-        type: String,
-        enum: ["MatrimonialProfile", "Job", "Event", "Blog", "News"],
-        required: true,
+  type: {
+    type: String,
+    enum: ["MatrimonialProfile", "Job", "Event", "Blog", "News"],
+    required: true,
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: true,
   },
   itemId: {
