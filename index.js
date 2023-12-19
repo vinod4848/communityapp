@@ -13,7 +13,7 @@ const directoryRouter = require("./routes/directoryRoute");
 const blogRouter = require("./routes/blogRoute");
 const advertisingRouter = require("./routes/advertisingRoute");
 const userRoutes = require("./routes/userRoute");
-const notificationRoutes = require("./routes/notificationRoutes")
+const notificationRoutes = require("./routes/notificationRoutes");
 
 const morgan = require("morgan");
 
@@ -33,7 +33,7 @@ app.use(
 );
 
 app.use("/api", notificationRoutes);
-app.use("/api", userRoutes);
+app.use("/api/user", userRoutes);
 app.use("/api", advertisingRouter);
 app.use("/api", blogRouter);
 app.use("/api", directoryRouter);

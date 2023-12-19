@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const UserController = require("../controller/userController");
+const authController = require("../helper/sendmail");
 const {
   authmiddleware,
   AproveAdmin,
@@ -10,6 +11,7 @@ const baseUserPath = "/users";
 
 router.post("/signup", UserController.signUp);
 router.post("/login", UserController.login);
+router.get("/getAllUser", UserController.getAllUsers);
 
 router.route(baseUserPath).get(UserController.getAllUsers);
 
@@ -21,6 +23,8 @@ router
 
 router.post("/admin-login", UserController.loginAdmin);
 router.get("/admin-logout", UserController.logout);
+
+router.post("/forgot-password", authController.forgotPassword);
 
 router.put(
   "/user/approve/:userId",

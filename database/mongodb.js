@@ -6,7 +6,6 @@ const databaseOptions = {
   useNewUrlParser: true,
   keepAlive: true,
   useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 5000,
 };
 
 mongoose.Promise = global.Promise;
