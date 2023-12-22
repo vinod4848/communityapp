@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ debug: process.env.NODE_ENV !== "production" });
 const express = require("express");
 const dbConnect = require("./helper/dbConnect");
 const app = express();
@@ -17,7 +17,7 @@ const userRoutes = require("./routes/userRoute");
 const notificationRoutes = require("./routes/notificationRoutes");
 
 const morgan = require("morgan");
-
+dbConnect();
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
@@ -45,8 +45,9 @@ app.use("/api", jobRouter);
 app.use("/api", galleryRouter);
 app.use("/api", eventRouter);
 
-app.listen(process.env.port, function () {
-  console.log("user " + " api started on port: " + process.env.port);
+app.listen(process.env.PORT || 3000, () => {
+  console.log(
+    `Server is running in ${process.env.NODE_ENV || "development"} mode`
+  );
+  console.log(`App is listening on port ${process.env.PORT || 3000}`);
 });
-
-dbConnect();
