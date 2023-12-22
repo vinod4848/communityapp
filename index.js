@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const dbConnect = require("./helper/dbConnect");
 const app = express();
 const bodyParser = require("body-parser");
 var cors = require("cors");
@@ -48,7 +49,4 @@ app.listen(process.env.port, function () {
   console.log("user " + " api started on port: " + process.env.port);
 });
 
-const routes = require("./routes/route");
-const adminRoutes = require("./routes/routeAdminPanel");
-routes(app);
-adminRoutes(app);
+dbConnect();
