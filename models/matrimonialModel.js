@@ -87,7 +87,9 @@ const matrimonialSchema = new mongoose.Schema({
     minHeight: Number,
     maxIncome: Number,
   },
-
+  height:{
+    type: Number,
+  },
   aboutMe: String,
   hobbies: [String],
 
