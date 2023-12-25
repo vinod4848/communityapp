@@ -12,6 +12,12 @@ const advertisingSchema = new mongoose.Schema({
   image: {
     type: String,
   },
+  isApproved: {
+    type: Boolean,
+    default: function () {
+      return this.isPublic;
+    },
+  },
 });
 
 const Advertising = mongoose.model("Advertising", advertisingSchema);

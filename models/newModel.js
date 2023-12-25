@@ -28,6 +28,12 @@ const newsSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  isApproved: {
+    type: Boolean,
+    default: function () {
+      return this.isPublic;
+    },
+  },
   
 });
 

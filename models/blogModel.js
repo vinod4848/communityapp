@@ -5,7 +5,14 @@ const blogsSchema = mongoose.Schema(
     description: { type: String, required: true },
     image: { type: String },
     isActive: { type: Boolean, required: true, default: true },
+    isApproved: {
+      type: Boolean,
+      default: function () {
+        return this.isPublic;
+      },
+    },
   },
+  
   {
     timestamps: {
       createdAt: "createdTimestamp",

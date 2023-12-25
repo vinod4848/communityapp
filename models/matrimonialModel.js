@@ -69,10 +69,9 @@ const matrimonialSchema = new mongoose.Schema({
   },
   isApproved: {
     type: Boolean,
-    default: function () {
-      return this.isPublic;
-    },
+    default: false,
   },
+  
   partnerPreferences: {
     ageRange: {
       min: Number,

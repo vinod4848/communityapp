@@ -37,6 +37,12 @@ const directorySchema = new mongoose.Schema({
   tags: {
     type: [String],
   },
+  isApproved: {
+    type: Boolean,
+    default: function () {
+      return this.isPublic;
+    },
+  },
   createdAt: {
     type: Date,
     default: Date.now,
