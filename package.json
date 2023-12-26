@@ -3,13 +3,11 @@
   "version": "1.0.0",
   "description": "Backend code",
   "main": "index.js",
- 
   "scripts": {
     "start": "node ./index.js",
     "dev": "nodemon index.js",
     "run": "set NODE_ENV=production && node index.js"
   },
-  
   "author": "",
   "license": "ISC",
   "dependencies": {
