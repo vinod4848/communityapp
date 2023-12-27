@@ -9,13 +9,11 @@ const eventsSchema = mongoose.Schema(
     date: { type: String, required: true },
     address: { type: String, required: true },
     isActive: { type: Boolean, required: true, default: false },
-    GalleryId: [{ type: mongoose.Schema.Types.ObjectId, ref: "Gallery" }],
   },
   {
     timestamps: {
       createdAt: "createdTimestamp",
       updatedAt: false,
-      
     },
   }
 );

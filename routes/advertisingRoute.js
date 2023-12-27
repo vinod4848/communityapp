@@ -10,6 +10,7 @@ router.get('/advertisements/:id', advertisingController.getAdvertisementById);
 router.post('/advertisements', advertisingController.addAdvertisement);
 router.put('/advertisements/:id', advertisingController.updateAdvertisement);
 router.delete('/advertisements/:id', advertisingController.deleteAdvertisement);
+
 router.post(
     "/uploadImage/advertisements/:id",
     upload.single("image"),

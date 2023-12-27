@@ -31,12 +31,10 @@ const jobSchema = new mongoose.Schema({
   },
   employmentType: {
     type: String,
-    enum: ["Full-time", "Part-time", "Contract", "Freelance", "Internship"],
     required: true,
   },
   experienceLevel: {
     type: String,
-    enum: ["Entry Level", "Mid Level", "Senior Level"],
     required: true,
   },
   educationLevel: {
@@ -69,9 +67,7 @@ const jobSchema = new mongoose.Schema({
   
   isApproved: {
     type: Boolean,
-    default: function () {
-      return this.isPublic;
-    },
+    default: false,
   },
   createdAt: {
     type: Date,

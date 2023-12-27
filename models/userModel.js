@@ -21,11 +21,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  isApproved: {
+  isPublished: {
     type: Boolean,
-    default: function () {
-      return this.isPublic;
-    },
+    default: false,
   },
   role: {
     type: String,
