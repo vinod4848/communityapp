@@ -10,9 +10,10 @@ const {
 
 router.post("/signup", UserController.signUp);
 router.post("/login", UserController.login);
-router.get('/getUserbyId/:id', UserController.signUp);
-router.put('/updateUser/:id', UserController.signUp);
-router.delete('/deleteUser/:id', UserController.signUp);
+router.get("/getUserbyId/:id", UserController.getUserById);
+router.post("/updateUser/:id", UserController.updateUserById);
+router.put("/blockedUser/:id", UserController.blockedUser);
+router.delete("/deleteUser/:id", UserController.deleteUserById);
 router.get("/getAllUser", UserController.getAllUsers);
 router.post("/admin-login", UserController.loginAdmin);
 router.get("/admin-logout", UserController.logout);

@@ -145,6 +145,25 @@ const userController = {
       res.status(500).json({ error: error.message });
     }
   },
+  blockedUser: async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const user = await User.findById(userId);
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      user.isBlocked = !user.isBlocked;
+
+      await user.save();
+
+      res.status(200).json({ message: "User blocked/unblocked successfully" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  },
   updateUserById: async (req, res) => {
     try {
       const updatedUser = await User.findByIdAndUpdate(

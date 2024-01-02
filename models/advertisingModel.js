@@ -12,11 +12,15 @@ const advertisingSchema = new mongoose.Schema({
   image: {
     type: String,
   },
+  bannerSize: {
+    type: String,
+  },
+  click: {
+    type: String,
+  },
   isApproved: {
     type: Boolean,
-    default: function () {
-      return this.isPublic;
-    },
+    default: false,
   },
 });
 
