@@ -13,6 +13,7 @@ router.post("/login", UserController.login);
 router.get("/getUserbyId/:id", UserController.getUserById);
 router.post("/updateUser/:id", UserController.updateUserById);
 router.put("/blockedUser/:id", UserController.blockedUser);
+router.put("/unblockUser/:id", UserController.unblockUser);
 router.delete("/deleteUser/:id", UserController.deleteUserById);
 router.get("/getAllUser", UserController.getAllUsers);
 router.post("/admin-login", UserController.loginAdmin);

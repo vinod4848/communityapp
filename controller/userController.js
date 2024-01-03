@@ -52,35 +52,45 @@ const userController = {
     }
   },
   login: async (req, res) => {
-    const { email, password } = req.body;
-    const findUser = await User.findOne({ email });
-
-    if (findUser && (await findUser.isPasswordValid(password))) {
-      const refreshToken = await generateRefreshToken(findUser?._id);
-      const updateUser = await User.findByIdAndUpdate(
-        findUser.id,
-        {
-          refreshToken: refreshToken,
-        },
-        { new: true }
-      );
-
-      res.cookie(`refreshToken`, refreshToken, {
-        httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000,
-      });
-
-      res.json({
-        _id: findUser?._id,
-        username: findUser?.username,
-        email: findUser?.email,
-        password: findUser?.password,
-        phone: findUser?.phone,
-        role: findUser?.role,
-        token: generateToken(findUser?._id),
-      });
-    } else {
-      throw new Error("Invalid Credentials");
+    try {
+      const { email, password } = req.body;
+      const findUser = await User.findOne({ email });
+  
+      if (findUser && (await findUser.isPasswordValid(password))) {
+        if (findUser.isBlocked) {
+          // Check if the user is blocked
+          return res.status(403).json({ message: "You are temporarily blocked." });
+        }
+  
+        const refreshToken = await generateRefreshToken(findUser?._id);
+        const updateUser = await User.findByIdAndUpdate(
+          findUser.id,
+          {
+            refreshToken: refreshToken,
+          },
+          { new: true }
+        );
+  
+        res.cookie(`refreshToken`, refreshToken, {
+          httpOnly: true,
+          maxAge: 24 * 60 * 60 * 1000,
+        });
+  
+        return res.json({
+          _id: findUser?._id,
+          username: findUser?.username,
+          email: findUser?.email,
+          password: findUser?.password,
+          phone: findUser?.phone,
+          role: findUser?.role,
+          token: generateToken(findUser?._id),
+        });
+      } else {
+        throw new Error("Invalid Credentials");
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
     }
   },
   logout: async (req, res) => {
@@ -146,22 +156,52 @@ const userController = {
     }
   },
   blockedUser: async (req, res) => {
+    const { id } = req.params;
     try {
-      const userId = req.params.userId;
-      const user = await User.findById(userId);
+      const blockUser = await User.findByIdAndUpdate(
+        id,
+        {
+          isBlocked: true,
+        },
+        {
+          new: true,
+        }
+      );
 
-      if (!user) {
+      if (!blockUser) {
         return res.status(404).json({ message: "User not found" });
       }
 
-      user.isBlocked = !user.isBlocked;
-
-      await user.save();
-
-      res.status(200).json({ message: "User blocked/unblocked successfully" });
+      res.json({ message: "User blocked successfully", user: blockUser });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Internal server error" });
+      res
+        .status(500)
+        .json({ message: "Internal server error", error: error.message });
+    }
+  },
+  unblockUser: async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      const unblockUser = await User.findByIdAndUpdate(
+        id,
+        {
+          isBlocked: false,
+        },
+        {
+          new: true,
+        }
+      );
+  
+      if (!unblockUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      res.json({ message: "User Unblocked successfully", user: unblockUser });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error", error: error.message });
     }
   },
   updateUserById: async (req, res) => {
