@@ -55,44 +55,60 @@ const userController = {
     try {
       const { email, password } = req.body;
       const findUser = await User.findOne({ email });
-  
-      if (findUser && (await findUser.isPasswordValid(password))) {
-        if (findUser.isBlocked) {
-          // Check if the user is blocked
-          return res.status(403).json({ message: "You are temporarily blocked." });
-        }
-  
-        const refreshToken = await generateRefreshToken(findUser?._id);
-        const updateUser = await User.findByIdAndUpdate(
-          findUser.id,
-          {
-            refreshToken: refreshToken,
-          },
-          { new: true }
-        );
-  
-        res.cookie(`refreshToken`, refreshToken, {
-          httpOnly: true,
-          maxAge: 24 * 60 * 60 * 1000,
-        });
-  
-        return res.json({
-          _id: findUser?._id,
-          username: findUser?.username,
-          email: findUser?.email,
-          password: findUser?.password,
-          phone: findUser?.phone,
-          role: findUser?.role,
-          token: generateToken(findUser?._id),
-        });
-      } else {
-        throw new Error("Invalid Credentials");
+
+      if (!findUser) {
+        return res
+          .status(400)
+          .json({ message: "Email is not correct Please check" });
       }
+
+      if (!(await findUser.isPasswordValid(password))) {
+        return res.status(400).json({
+          message: "Password is not correct Please check your password",
+        });
+      }
+
+      if (findUser.isBlocked) {
+        return res
+          .status(403)
+          .json({ message: "You are temporarily blocked." });
+      }
+
+      if (!findUser.isPublished) {
+        return res
+          .status(403)
+          .json({ message: "Your profile is under review." });
+      }
+
+      const refreshToken = await generateRefreshToken(findUser?._id);
+      const updateUser = await User.findByIdAndUpdate(
+        findUser.id,
+        {
+          refreshToken: refreshToken,
+        },
+        { new: true }
+      );
+
+      res.cookie(`refreshToken`, refreshToken, {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+
+      return res.json({
+        _id: findUser?._id,
+        username: findUser?.username,
+        email: findUser?.email,
+        password: findUser?.password,
+        phone: findUser?.phone,
+        role: findUser?.role,
+        token: generateToken(findUser?._id),
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal server error" });
     }
   },
+
   logout: async (req, res) => {
     const cookies = req.cookies;
     if (!cookies?.refreshToken) throw new Error("No Refresh Token in cookies");
@@ -182,7 +198,7 @@ const userController = {
   },
   unblockUser: async (req, res) => {
     const { id } = req.params;
-  
+
     try {
       const unblockUser = await User.findByIdAndUpdate(
         id,
@@ -193,15 +209,17 @@ const userController = {
           new: true,
         }
       );
-  
+
       if (!unblockUser) {
         return res.status(404).json({ message: "User not found" });
       }
-  
+
       res.json({ message: "User Unblocked successfully", user: unblockUser });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Internal server error", error: error.message });
+      res
+        .status(500)
+        .json({ message: "Internal server error", error: error.message });
     }
   },
   updateUserById: async (req, res) => {
