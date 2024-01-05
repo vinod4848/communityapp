@@ -108,7 +108,6 @@ const userController = {
       res.status(500).json({ message: "Internal server error" });
     }
   },
-
   logout: async (req, res) => {
     const cookies = req.cookies;
     if (!cookies?.refreshToken) throw new Error("No Refresh Token in cookies");
@@ -159,8 +158,8 @@ const userController = {
   getUserById: async (req, res) => {
     try {
       const user = await User.findById(req.params.id)
-        .populate("referenceId")
-        .exec();
+      .populate("userId")
+      .exec();
 
       if (!user) {
         return res.status(404).json({ error: "User not found" });
@@ -278,6 +277,47 @@ const userController = {
         .json({ message: "Matrimonial approved successfully", user });
     } catch (error) {
       res.status(500).json({ error: error.message });
+    }
+  },
+  searchUser: async (req, res) => {
+    try {
+      const { email, phone, username } = req.query;
+
+      if (!email && !phone && !username) {
+        return res
+          .status(400)
+          .json({
+            message:
+              "Please provide either email, phone, or username for the search.",
+          });
+      }
+
+      let searchCriteria = {};
+      if (email) {
+        searchCriteria.email = email;
+      }
+      if (phone) {
+        searchCriteria.phone = phone;
+      }
+      if (username) {
+        searchCriteria.username = username;
+      }
+
+      const foundUser = await User.findOne(searchCriteria)
+      if (!foundUser) {
+        return res.status(404).json({ message: "User not found." });
+      }
+
+      return res.json({
+        _id: foundUser._id,
+        username: foundUser.username,
+        email: foundUser.email,
+        phone: foundUser.phone,
+        role: foundUser.role,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
     }
   },
 };

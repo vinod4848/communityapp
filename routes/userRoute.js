@@ -11,6 +11,7 @@ const {
 router.post("/signup", UserController.signUp);
 router.post("/login", UserController.login);
 router.get("/getUserbyId/:id", UserController.getUserById);
+router.get("/searchUser", UserController.searchUser);
 router.post("/updateUser/:id", UserController.updateUserById);
 router.put("/blockedUser/:id", UserController.blockedUser);
 router.put("/unblockUser/:id", UserController.unblockUser);
