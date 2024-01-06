@@ -157,9 +157,7 @@ const userController = {
   },
   getUserById: async (req, res) => {
     try {
-      const user = await User.findById(req.params.id)
-      .populate("userId")
-      .exec();
+      const user = await User.findById(req.params.id).populate("userId").exec();
 
       if (!user) {
         return res.status(404).json({ error: "User not found" });
@@ -284,12 +282,10 @@ const userController = {
       const { email, phone, username } = req.query;
 
       if (!email && !phone && !username) {
-        return res
-          .status(400)
-          .json({
-            message:
-              "Please provide either email, phone, or username for the search.",
-          });
+        return res.status(400).json({
+          message:
+            "Please provide either email, phone, or username for the search.",
+        });
       }
 
       let searchCriteria = {};
@@ -303,7 +299,7 @@ const userController = {
         searchCriteria.username = username;
       }
 
-      const foundUser = await User.findOne(searchCriteria)
+      const foundUser = await User.findOne(searchCriteria);
       if (!foundUser) {
         return res.status(404).json({ message: "User not found." });
       }

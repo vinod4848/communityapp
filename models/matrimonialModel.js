@@ -1,48 +1,13 @@
 const mongoose = require("mongoose");
 
 const matrimonialSchema = new mongoose.Schema({
-  firstName: {
-    type: String,
-    required: true,
-  },
-  lastName: {
-    type: String,
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: true,
   },
   image: {
     type: String,
-  },
-  gender: {
-    type: String,
-    enum: ["Male", "Female"],
-    required: true,
-  },
-  dateOfBirth: {
-    type: Date,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    validate: {
-      validator: function (value) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(value);
-      },
-      message: (props) => `${props.value} is not a valid email address!`,
-    },
-  },
-  phone: {
-    type: String,
-    required: true,
-  },
-  address: {
-    street: String,
-    city: String,
-    state: String,
-    country: String,
-    postalCode: String,
   },
   education: {
     degree: String,
@@ -71,7 +36,6 @@ const matrimonialSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  
   partnerPreferences: {
     ageRange: {
       min: Number,
