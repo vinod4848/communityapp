@@ -37,10 +37,10 @@ const uploadImage = async (file) => {
 
 const createAnnouncement = async (req, res) => {
   try {
-    const { createdBy, announcementType, description } = req.body;
+    const { createdBy,date, announcementType, description } = req.body;
     const newAnnouncement = new Announcement({
       createdBy,
-
+      date,
       announcementType,
       description,
     });

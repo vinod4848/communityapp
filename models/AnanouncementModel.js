@@ -10,10 +10,7 @@ const announcementSchema = new mongoose.Schema({
   description: { type: String, required: true },
   date: { type: String, required: true },
   image: String,
-  isApproved: {
-    type: Boolean,
-    default: false,
-  },
+  isActive: { type: Boolean, required: true, default: false },
   createdAt: { type: Date, default: Date.now },
 });
 
