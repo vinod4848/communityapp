@@ -1,36 +1,24 @@
 const mongoose = require("mongoose");
 
 const matrimonialSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Profile",
     required: true,
   },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   image: {
     type: String,
-  },
-  education: {
-    degree: String,
-    institution: String,
-    completionYear: Number,
-  },
-  profession: {
-    type: String,
-    required: true,
   },
   income: {
     type: Number,
   },
   nativePlace: {
     type: String,
-  },
-  family: {
-    fatherName: String,
-    motherName: String,
-    siblings: {
-      brothers: Number,
-      sisters: Number,
-    },
   },
   isApproved: {
     type: Boolean,

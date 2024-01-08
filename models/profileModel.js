@@ -14,11 +14,20 @@ const profileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  fatherName: {
-    type: String,
-    required: true,
+  family: {
+    fatherName: String,
+    motherName: String,
+    siblings: {
+      brothers: Number,
+      sisters: Number,
+    },
   },
-  motherName: {
+  education: {
+    degree: String,
+    institution: String,
+    completionYear: Number,
+  },
+  profession: {
     type: String,
     required: true,
   },
