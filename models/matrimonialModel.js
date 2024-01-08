@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const matrimonialSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   image: {
