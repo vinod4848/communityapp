@@ -18,6 +18,7 @@ const notificationRoutes = require("./routes/notificationRoutes");
 const imageRouter = require("./routes/imageRouter");
 const magazineRouter = require("./routes/magazineRouter");
 const announcementRouter = require("./routes/announcementRoutes");
+const announcementCategoryRouter = require("./routes/announcementCategoryRoutes");
 
 const morgan = require("morgan");
 dbConnect();
@@ -37,6 +38,7 @@ app.use(
 );
 
 app.use("/api", announcementRouter);
+app.use("/api", announcementCategoryRouter);
 app.use("/api", magazineRouter);
 app.use("/api", notificationRoutes);
 app.use("/api/user", userRoutes);
