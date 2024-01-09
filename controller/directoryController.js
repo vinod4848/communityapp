@@ -1,25 +1,29 @@
-const Directory = require('../models/directoryModel'); 
+const Directory = require("../models/directoryModel");
 
 const directoryController = {
   getAllDirectories: async (req, res) => {
     try {
-      const directories = await Directory.find();
+      const directories = await Directory.find().populate("userId").exec();
       res.status(200).json(directories);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   },
+
   getDirectoryById: async (req, res) => {
     try {
-      const directory = await Directory.findById(req.params.id);
+      const directory = await Directory.findById(req.params.id)
+        .populate("userId")
+        .exec();
       if (!directory) {
-        return res.status(404).json({ message: 'Directory not found' });
+        return res.status(404).json({ message: "Directory not found" });
       }
       res.status(200).json(directory);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   },
+
   addDirectory: async (req, res) => {
     try {
       const newDirectory = new Directory(req.body);
@@ -37,7 +41,7 @@ const directoryController = {
         { new: true }
       );
       if (!updatedDirectory) {
-        return res.status(404).json({ message: 'Directory not found' });
+        return res.status(404).json({ message: "Directory not found" });
       }
       res.status(200).json(updatedDirectory);
     } catch (error) {
@@ -48,7 +52,7 @@ const directoryController = {
     try {
       const deletedDirectory = await Directory.findByIdAndDelete(req.params.id);
       if (!deletedDirectory) {
-        return res.status(404).json({ message: 'Directory not found' });
+        return res.status(404).json({ message: "Directory not found" });
       }
       res.status(204).json();
     } catch (error) {

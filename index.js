@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const dbConnect = require("./helper/dbConnect");
 const app = express();
 const bodyParser = require("body-parser");
 var cors = require("cors");
@@ -14,9 +15,12 @@ const blogRouter = require("./routes/blogRoute");
 const advertisingRouter = require("./routes/advertisingRoute");
 const userRoutes = require("./routes/userRoute");
 const notificationRoutes = require("./routes/notificationRoutes");
+const imageRouter = require("./routes/imageRouter");
+const magazineRouter = require("./routes/magazineRouter");
+const announcementRouter = require("./routes/announcementRoutes");
 
 const morgan = require("morgan");
-
+dbConnect();
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
@@ -32,6 +36,8 @@ app.use(
   })
 );
 
+app.use("/api", announcementRouter);
+app.use("/api", magazineRouter);
 app.use("/api", notificationRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api", advertisingRouter);
@@ -43,12 +49,11 @@ app.use("/api", matrimonialRouter);
 app.use("/api", jobRouter);
 app.use("/api", galleryRouter);
 app.use("/api", eventRouter);
+app.use("/api", imageRouter);
 
-app.listen(process.env.port, function () {
-  console.log("user " + " api started on port: " + process.env.port);
+app.listen(process.env.PORT || 3000, () => {
+  console.log(
+    `Server is running in ${process.env.NODE_ENV || "development"} mode`
+  );
+  console.log(`App is listening on port ${process.env.PORT || 3000}`);
 });
-
-const routes = require("./routes/route");
-const adminRoutes = require("./routes/routeAdminPanel");
-routes(app);
-adminRoutes(app);

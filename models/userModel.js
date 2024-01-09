@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
-
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -22,11 +21,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  isApproved: {
+  isPublished: {
     type: Boolean,
-    default: function () {
-      return this.isPublic;
-    },
+    default: false,
+  },
+  isBlocked: {
+    type: Boolean,
+    default: false,
   },
   role: {
     type: String,

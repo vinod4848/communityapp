@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const jobSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   title: {
     type: String,
     required: true,
@@ -31,12 +36,10 @@ const jobSchema = new mongoose.Schema({
   },
   employmentType: {
     type: String,
-    enum: ["Full-time", "Part-time", "Contract", "Freelance", "Internship"],
     required: true,
   },
   experienceLevel: {
     type: String,
-    enum: ["Entry Level", "Mid Level", "Senior Level"],
     required: true,
   },
   educationLevel: {
@@ -66,11 +69,10 @@ const jobSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  
   isApproved: {
     type: Boolean,
-    default: function () {
-      return this.isPublic;
-    },
+    default: false,
   },
   createdAt: {
     type: Date,

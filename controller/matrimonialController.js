@@ -36,7 +36,10 @@ const uploadImage = async (file) => {
 const matrimonialController = {
   getAllProfiles: async (req, res) => {
     try {
-      const profiles = await MatrimonialProfile.find();
+      const profiles = await MatrimonialProfile.find()
+        .populate("userId")
+        .populate("profileId");
+
       res.status(200).json(profiles);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -44,7 +47,9 @@ const matrimonialController = {
   },
   getProfileById: async (req, res) => {
     try {
-      const profile = await MatrimonialProfile.findById(req.params.id);
+      const profile = await MatrimonialProfile.findById(req.params.id)
+        .populate("userId")
+        .populate("profileId");
       if (!profile) {
         return res.status(404).json({ message: "Profile not found" });
       }

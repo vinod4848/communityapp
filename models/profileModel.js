@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const profileSchema = new mongoose.Schema({
-  user: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
@@ -14,23 +14,36 @@ const profileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  fatherName: {
+  family: {
+    fatherName: String,
+    motherName: String,
+    siblings: {
+      brothers: Number,
+      sisters: Number,
+    },
+  },
+  education: {
+    degree: String,
+    institution: String,
+    completionYear: Number,
+  },
+  profession: {
     type: String,
     required: true,
   },
-  motherName: {
+  image: {
     type: String,
-    required: true,
   },
-  url: {
-    type: String,
+  dateOfBirth: {
+    type: Date,
+    required: true,
   },
   address: {
-    type: String,
-    required: true,
-  },
-  age: {
-    type: Number,
+    street: String,
+    city: String,
+    state: String,
+    country: String,
+    postalCode: String,
   },
   maritalStatus: {
     type: String,
@@ -41,7 +54,6 @@ const profileSchema = new mongoose.Schema({
     type: String,
     enum: ["male", "female"],
     required: true,
-    lowercase: true,
   },
   createdAt: {
     type: Date,

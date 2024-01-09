@@ -9,9 +9,9 @@ const { authmiddleware, isAdmin } = require("../middleware/authmiddleware");
 router.get("/blogs/search", blogController.searchBlogByTitle);
 router.get("/blogs", blogController.getAllBlogs);
 router.get("/blogs/:id", blogController.getBlogById);
-router.post("/blogs", authmiddleware, isAdmin, blogController.addBlog);
+router.post("/blogs", blogController.addBlog);
 router.put("/blogs/:id", blogController.updateBlog);
-router.delete("/blogs/:id", authmiddleware, isAdmin, blogController.deleteBlog);
+router.delete("/blogs/:id", blogController.deleteBlog);
 
 router.post(
   "/uploadImage/blogs/:id",
