@@ -14,7 +14,7 @@ const uploadImage = async (file) => {
     region: region,
   });
 
-  const fileName = `Profile/${file.originalname}`; 
+  const fileName = `Profile/${file.originalname}`;
 
   return new Promise((resolve, reject) => {
     const fileStream = fs.createReadStream(file.path);
@@ -39,7 +39,7 @@ const uploadImage = async (file) => {
 const profileController = {
   getProfileById: async (req, res) => {
     try {
-      const profile = await Profile.findById(req.params.id);
+      const profile = await Profile.findById(req.params.id).populate("userId");
       if (!profile) {
         return res.status(404).json({ message: "Profile not found" });
       }
@@ -91,7 +91,7 @@ const profileController = {
   },
   getProfileById: async (req, res) => {
     try {
-      const profile = await Profile.findById(req.params.id);
+      const profile = await Profile.findById(req.params.id).populate("userId");
       if (!profile) {
         return res.status(404).json({ message: "Profile not found" });
       }
