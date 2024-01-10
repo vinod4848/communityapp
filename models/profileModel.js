@@ -17,10 +17,6 @@ const profileSchema = new mongoose.Schema({
   family: {
     fatherName: String,
     motherName: String,
-    siblings: {
-      brothers: Number,
-      sisters: Number,
-    },
   },
   education: {
     degree: String,
@@ -44,11 +40,6 @@ const profileSchema = new mongoose.Schema({
     state: String,
     country: String,
     postalCode: String,
-  },
-  maritalStatus: {
-    type: String,
-    enum: ["single", "married", "divorced", "widowed"],
-    lowercase: true,
   },
   gender: {
     type: String,
