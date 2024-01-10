@@ -11,19 +11,51 @@ const matrimonialSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  image: {
+  profileCreatedBy: String,
+  maritalStatus: {
     type: String,
+    enum: ["Not married", "Married"],
+    default: "Not married",
   },
-  income: {
-    type: Number,
+  image: String,
+  nativePlace: String,
+  healthInformation: String,
+  anyDisability: String,
+  bloodGroup: String,
+  religiousBackground: {
+    religion: String,
+    motherTongue: String,
+    community: String,
+    subCommunity: String,
+    gothraGothram: String,
   },
-  nativePlace: {
-    type: String,
+  family: {
+    fatherStatus: String,
+    with: String,
+    as: String,
+    natureOfBusiness: String,
+    motherStatus: String,
+    familyLocation: String,
+    numberOfSiblings: {
+      type: Number,
+      default: 0,
+    },
+    familyType: String,
+    familyValues: String,
+    familyAffluence: String,
+  },
+  astroDetails: {
+    manglikChevvaidosham: {
+      type: String,
+      enum: ["Yes", "No", "NotSure"],
+    },
+    nakshatra: String,
   },
   isApproved: {
     type: Boolean,
     default: false,
   },
+  hobbies: [String],
   partnerPreferences: {
     ageRange: {
       min: Number,
@@ -38,11 +70,24 @@ const matrimonialSchema = new mongoose.Schema({
     minHeight: Number,
     maxIncome: Number,
   },
-  height:{
-    type: Number,
+  educationAndCareer: {
+    highestQualification: String,
+    collegeAttended: String,
+    workingWith: String,
+    annualIncome: String,
   },
+  lifestyle: String,
+  locationOfGroom: {
+    countryLivingIn: String,
+    stateLivingIn: String,
+    cityLivingIn: String,
+    grewUpIn: String,
+    ethnicOrigin: String,
+    zipPinCode: Number,
+  },
+  moreAboutYourselfPartnerAndFamily: String,
+  height: Number,
   aboutMe: String,
-  hobbies: [String],
 
   createdAt: {
     type: Date,
