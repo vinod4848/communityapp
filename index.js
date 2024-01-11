@@ -20,7 +20,8 @@ const magazineRouter = require("./routes/magazineRouter");
 const announcementRouter = require("./routes/announcementRoutes");
 const announcementCategoryRouter = require("./routes/announcementCategoryRoutes");
 const productRouter = require("./routes/productRouter");
-const applicationRoutee = require("./routes/applicationRouter");
+const applicationRouter = require("./routes/applicationRouter");
+const electronicsRouter = require("./routes/electronicsRoutes");
 
 const morgan = require("morgan");
 dbConnect();
@@ -39,7 +40,8 @@ app.use(
   })
 );
 
-app.use("/api", applicationRoutee);
+app.use("/api", electronicsRouter);
+app.use("/api", applicationRouter);
 app.use("/api", productRouter);
 app.use("/api", announcementRouter);
 app.use("/api", announcementCategoryRouter);

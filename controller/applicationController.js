@@ -1,4 +1,5 @@
 const Application = require("../models/applicationModel");
+const NewApplication = require("../models/ReapplicationModel");
 const AWS = require("aws-sdk");
 const fs = require("fs");
 
@@ -104,24 +105,53 @@ const deleteApplicationById = async (req, res) => {
   }
 };
 const uploadResume = async (req, res) => {
-    try {
-      const file = req.file;
-      const image = await uploadImage(file);
-      const updateData = { ...req.body, image };
-  
-      const updatedApplication = await Application.findByIdAndUpdate(
-        req.params.id,
-        updateData,
-        { new: true }
-      );
-      if (!updatedApplication) {
-        return res.status(404).json({ message: "Application not found" });
-      }
-      res.status(200).json(updatedApplication);
-    } catch (error) {
-      res.status(400).json({ error: error.message });
+  try {
+    const file = req.file;
+    const image = await uploadImage(file);
+    const updateData = { ...req.body, image };
+
+    const updatedApplication = await Application.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+    if (!updatedApplication) {
+      return res.status(404).json({ message: "Application not found" });
     }
-  };
+    res.status(200).json(updatedApplication);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+const reApplyApplication = async (req, res) => {
+  try {
+    const { jobId, applicationId } = req.body;
+
+    const newJobApplication = new NewApplication({
+      jobId: jobId,
+      applicationId: applicationId,
+    });
+    const savedJobApplication = await newJobApplication.save();
+
+    res.status(201).json(savedJobApplication);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+const getReAllJobApplications = async (req, res) => {
+  try {
+    const jobApplications = await NewApplication.find()
+    .populate("jobId")
+    .populate("applicationId")
+    .exec();
+
+    res.status(200).json(jobApplications);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 
 module.exports = {
   applyForJob,
@@ -130,4 +160,6 @@ module.exports = {
   updateApplicationById,
   deleteApplicationById,
   uploadResume,
+  reApplyApplication,
+  getReAllJobApplications
 };
