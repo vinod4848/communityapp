@@ -41,6 +41,14 @@ const profileSchema = new mongoose.Schema({
     country: String,
     postalCode: String,
   },
+  languages: {
+    type: [String],
+    default: [],
+  },
+  skills: {
+    type: [String],
+    default: [],
+  },
   gender: {
     type: String,
     enum: ["male", "female"],
