@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+const uploadMultipleImage = multer({ dest: "uploads/" });
 
 const electronicsController = require("../controller/electronicsController");
 
@@ -17,7 +17,7 @@ router.delete("/electronics/:id", electronicsController.deleteElectronics);
 
 router.post(
     "/electronics/:id",
-    upload.array("image"),
+    uploadMultipleImage.array("image"),
     electronicsController.uploadElectronicsImages
   );
   
