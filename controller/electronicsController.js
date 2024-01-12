@@ -4,6 +4,7 @@ const createElectronics = async (req, res) => {
   try {
     const electronics = new Electronics({
       userId: req.body.userId,
+      electronicsAndAppliances: req.body.electronicsAndAppliances,
       adTitle: req.body.adTitle,
       description: req.body.description,
       price: req.body.price,

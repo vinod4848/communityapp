@@ -6,6 +6,23 @@ const electronicsSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  electronicsAndAppliances: {
+    type: String,
+    enum: [
+      "TVs, Video - Audio",
+      "Kitchen & Other Appliances",
+      "Computers & Laptops",
+      "Cameras & Lenses",
+      "Games & Entertainment",
+      "Fridges",
+      "Computer Accessories",
+      "Hard Disks, Printers & Monitors",
+      "ACs",
+      "Washing Machines",
+      "other",
+    ],
+    required: true,
+  },
   adTitle: {
     type: String,
     required: true,
