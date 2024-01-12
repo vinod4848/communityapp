@@ -86,7 +86,7 @@ const matrimonialSchema = new mongoose.Schema({
     zipPinCode: Number,
   },
   moreAboutYourselfPartnerAndFamily: String,
-  height: Number,
+  height: String,
   aboutMe: String,
 
   createdAt: {
