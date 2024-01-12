@@ -35,10 +35,7 @@ const electronicsSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  photos: {
-    type: [String],
-    required: true,
-  },
+  image:[],
 });
 
 const Electronics = mongoose.model("Electronics", electronicsSchema);
