@@ -14,7 +14,7 @@ const uploadImage = async (file) => {
     region: region,
   });
 
-  const fileName = `Advertising/${file.originalname}`; 
+  const fileName = `Advertising/${file.originalname}`;
   return new Promise((resolve, reject) => {
     const fileStream = fs.createReadStream(file.path);
 
