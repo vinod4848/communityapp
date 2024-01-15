@@ -67,14 +67,15 @@ const uploadFurnitureImages = async (req, res) => {
 
 const createFurniture = async (req, res) => {
   try {
-    const { userId, furnitureType, adTitle, description, price, image } = req.body;
+    const { userId, furnitureType, adTitle, description, price,address,landmark } = req.body;
     const newFurniture = new Furniture({
       userId,
       furnitureType,
       adTitle,
       description,
+      address,
+      landmark,
       price,
-      image,
     });
     const savedFurniture = await newFurniture.save();
 

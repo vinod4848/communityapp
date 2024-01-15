@@ -30,6 +30,14 @@ const furnitureSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  address: {
+    type: String,
+    required: true,
+  },
+  landmark: {
+    type: String,
+    required: true,
+  },
   images: [{ type: String }],
 });
 

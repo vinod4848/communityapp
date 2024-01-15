@@ -104,6 +104,8 @@ const createShopOffice = async (req, res) => {
     projectName,
     adTitle,
     description,
+    address,
+    landmark,
     price,
   } = req.body;
 
@@ -120,6 +122,8 @@ const createShopOffice = async (req, res) => {
     projectName,
     adTitle,
     description,
+    address,
+    landmark,
     price,
   });
 

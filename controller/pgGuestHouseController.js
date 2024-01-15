@@ -99,6 +99,8 @@ const createPgGuestHouse = async (req, res) => {
     mealsIncluded,
     adTitle,
     description,
+    address,
+    landmark,
     price,
   } = req.body;
 
@@ -111,6 +113,8 @@ const createPgGuestHouse = async (req, res) => {
     mealsIncluded,
     adTitle,
     description,
+    address,
+    landmark,
     price,
   });
 

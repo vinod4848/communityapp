@@ -16,11 +16,6 @@ const pgGuestHouseSchema = new mongoose.Schema({
     enum: ["Furnished", "Semi-Furnished", "Unfurnished"],
     required: true,
   },
-  listedBy: {
-    type: String,
-    enum: ["Builder", "Dealer", "Owner"],
-    required: true,
-  },
   carParking: {
     type: Number,
     enum: [0, 1, 2, 3, "3+"],
@@ -34,6 +29,14 @@ const pgGuestHouseSchema = new mongoose.Schema({
     required: true,
   },
   description: {
+    type: String,
+    required: true,
+  },
+  address: {
+    type: String,
+    required: true,
+  },
+  landmark: {
     type: String,
     required: true,
   },

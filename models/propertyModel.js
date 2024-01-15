@@ -15,7 +15,18 @@ const propertySchema = new mongoose.Schema({
     ],
     required: true,
   },
-
+  address: {
+    type: String,
+    required: true,
+  },
+  landmark: {
+    type: String,
+    required: true,
+  },
+  proprietorshiptypes: {
+    type: String,
+    enum: ["Ownership", "Pagdi"],
+  },
   propertyType: {
     type: String,
     enum: ["Apartments", "Builder Floors", "Farm Houses", "Houses & Villas"],
@@ -28,16 +39,6 @@ const propertySchema = new mongoose.Schema({
   furnishing: {
     type: String,
     enum: ["Furnished", "Semi-Furnished", "Unfurnished"],
-    required: true,
-  },
-  constructionStatus: {
-    type: String,
-    enum: ["New Launch", "Ready to Move", "Under Construction"],
-    required: true,
-  },
-  listedBy: {
-    type: String,
-    enum: ["Builder", "Dealer", "Owner"],
     required: true,
   },
   superBuiltupArea: {
@@ -73,9 +74,6 @@ const propertySchema = new mongoose.Schema({
       "South-West",
       "West",
     ],
-  },
-  projectName: {
-    type: String,
   },
   adTitle: {
     type: String,

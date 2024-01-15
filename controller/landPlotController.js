@@ -100,6 +100,8 @@ const createLandPlot = async (req, res) => {
     projectName,
     adTitle,
     description,
+    address,
+    landmark,
     price,
   } = req.body;
 
@@ -112,6 +114,8 @@ const createLandPlot = async (req, res) => {
     projectName,
     adTitle,
     description,
+    address,
+    landmark,
     price,
   });
 

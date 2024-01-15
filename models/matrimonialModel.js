@@ -17,7 +17,7 @@ const matrimonialSchema = new mongoose.Schema({
     enum: ["Not married", "Married"],
     default: "Not married",
   },
-  image: String,
+  images: [{ type: String }],
   nativePlace: String,
   healthInformation: String,
   anyDisability: String,

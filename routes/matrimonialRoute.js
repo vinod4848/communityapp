@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const matrimonialController = require("../controller/matrimonialController");
 const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+const uploadMultipleImage = multer({ dest: "uploads/" });
+
 const { authmiddleware, AproveAdmin } = require("../middleware/authmiddleware");
 
 // Routes
@@ -17,9 +18,11 @@ router.put(
   AproveAdmin,
   matrimonialController.approveMatrimonial
 );
+
 router.post(
   "/uploadImage/matrimonial/profiles/:id",
-  upload.single("image"),
+  uploadMultipleImage.array("image"),
   matrimonialController.uploadMatrimonialProfileImage
 );
+
 module.exports = router;

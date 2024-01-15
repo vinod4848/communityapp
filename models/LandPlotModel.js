@@ -11,11 +11,6 @@ const landPlotSchema = new mongoose.Schema({
     enum: ["For Rent", "For Sale"],
     required: true,
   },
-  listedBy: {
-    type: String,
-    enum: ["Builder", "Dealer", "Owner"],
-    required: true,
-  },
   facing: {
     type: String,
     enum: [
@@ -39,9 +34,6 @@ const landPlotSchema = new mongoose.Schema({
       required: true,
     },
   },
-  projectName: {
-    type: String,
-  },
   adTitle: {
     type: String,
     required: true,
@@ -52,6 +44,14 @@ const landPlotSchema = new mongoose.Schema({
   },
   price: {
     type: Number,
+    required: true,
+  },
+  address: {
+    type: String,
+    required: true,
+  },
+  landmark: {
+    type: String,
     required: true,
   },
   images: [{ type: String }],
