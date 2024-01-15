@@ -1,5 +1,4 @@
-const Gallery = require("../models/galleryModel");
-
+const LandPlot = require("../models/LandPlotModel");
 const AWS = require("aws-sdk");
 const fs = require("fs");
 
@@ -15,7 +14,7 @@ const uploadImage = async (file) => {
     region: region,
   });
 
-  const fileName = `Gallery/${file.originalname}`;
+  const fileName = `LandPlot/${file.originalname}`;
   return new Promise((resolve, reject) => {
     const fileStream = fs.createReadStream(file.path);
 
@@ -36,7 +35,7 @@ const uploadImage = async (file) => {
   });
 };
 
-const uploadGallerieImages = async (req, res) => {
+const uploadLandPlotImages = async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No files provided" });
@@ -54,14 +53,14 @@ const uploadGallerieImages = async (req, res) => {
 
     const updateData = { ...req.body, images };
 
-    const updatedFurniture = await Gallery.findByIdAndUpdate(
+    const updatedFurniture = await LandPlot.findByIdAndUpdate(
       req.params.id,
       updateData,
       { new: true }
     );
 
     if (!updatedFurniture) {
-      return res.status(404).json({ message: "Gallery not found" });
+      return res.status(404).json({ message: "LandPlot not found" });
     }
 
     res.status(200).json(updatedFurniture);
@@ -69,74 +68,96 @@ const uploadGallerieImages = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-const getAllGalleries = async (req, res) => {
+
+const getAllLandPlots = async (req, res) => {
   try {
-    const galleries = await Gallery.find()
-    .populate("userId");
-    res.json(galleries);
+    const landPlots = await LandPlot.find().populate("userId");
+    res.json(landPlots);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-const getGalleryById = async (req, res) => {
+const getLandPlotById = async (req, res) => {
   try {
-    const gallery = await Gallery.findById(req.params.id);
-    if (!gallery) {
-      return res.status(404).json({ message: "Gallery not found" });
+    const landPlot = await LandPlot.findById(req.params.id).populate("userId");
+    if (!landPlot) {
+      return res.status(404).json({ message: "Land plot not found" });
     }
-    res.json(gallery);
+    res.json(landPlot);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-const createGallery = async (req, res) => {
+const createLandPlot = async (req, res) => {
+  const {
+    userId,
+    type,
+    listedBy,
+    facing,
+    plotArea,
+    projectName,
+    adTitle,
+    description,
+    price,
+  } = req.body;
+
+  const landPlot = new LandPlot({
+    userId,
+    type,
+    listedBy,
+    facing,
+    plotArea,
+    projectName,
+    adTitle,
+    description,
+    price,
+  });
+
   try {
-    const newGallery = new Gallery(req.body);
-    const savedGallery = await newGallery.save();
-    res.status(201).json(savedGallery);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
-const updateGallery = async (req, res) => {
-  try {
-    const gallery = await Gallery.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-
-    if (!gallery) {
-      return res.status(404).json({ message: "Gallery not found" });
-    }
-
-    res.json(gallery);
+    const newLandPlot = await landPlot.save();
+    res.status(201).json(newLandPlot);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
-const deleteGallery = async (req, res) => {
+const updateLandPlot = async (req, res) => {
   try {
-    const gallery = await Gallery.findByIdAndRemove(req.params.id)
-    .populate("userId");
+    const landPlot = await LandPlot.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
 
-    if (!gallery) {
-      return res.status(404).json({ message: "Gallery not found" });
+    if (!landPlot) {
+      return res.status(404).json({ message: "Land plot not found" });
     }
 
-    res.json({ message: "Gallery deleted" });
+    res.json(landPlot);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+const deleteLandPlot = async (req, res) => {
+  try {
+    const landPlot = await LandPlot.findByIdAndRemove(req.params.id);
+
+    if (!landPlot) {
+      return res.status(404).json({ message: "Land plot not found" });
+    }
+
+    res.json({ message: "Land plot deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
 module.exports = {
-  uploadGallerieImages,
-  getAllGalleries,
-  getGalleryById,
-  createGallery,
-  updateGallery,
-  deleteGallery,
+  uploadLandPlotImages,
+  getAllLandPlots,
+  getLandPlotById,
+  createLandPlot,
+  updateLandPlot,
+  deleteLandPlot,
 };
