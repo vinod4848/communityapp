@@ -15,7 +15,6 @@ const blogRouter = require("./routes/blogRoute");
 const advertisingRouter = require("./routes/advertisingRoute");
 const userRoutes = require("./routes/userRoute");
 const notificationRoutes = require("./routes/notificationRoutes");
-const imageRouter = require("./routes/imageRouter");
 const magazineRouter = require("./routes/magazineRouter");
 const announcementRouter = require("./routes/announcementRoutes");
 const announcementCategoryRouter = require("./routes/announcementCategoryRoutes");
@@ -69,7 +68,6 @@ app.use("/api", matrimonialRouter);
 app.use("/api", jobRouter);
 app.use("/api", galleryRouter);
 app.use("/api", eventRouter);
-app.use("/api", imageRouter);
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(
