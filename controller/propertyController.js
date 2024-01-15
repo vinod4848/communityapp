@@ -72,11 +72,12 @@ const createProperty = async (req, res) => {
     const {
       userId,
       propertyFor,
+      address,
+      landmark,
+      proprietorshiptypes,
       propertyType,
       bathrooms,
       furnishing,
-      constructionStatus,
-      listedBy,
       superBuiltupArea,
       carpetArea,
       maintenanceMonthly,
@@ -84,20 +85,20 @@ const createProperty = async (req, res) => {
       floorNo,
       carParking,
       facing,
-      projectName,
       adTitle,
       description,
-      price,
+      price
     } = req.body;
 
     const newProperty = new Property({
       userId,
       propertyFor,
+      address,
+      landmark,
+      proprietorshiptypes,
       propertyType,
       bathrooms,
       furnishing,
-      constructionStatus,
-      listedBy,
       superBuiltupArea,
       carpetArea,
       maintenanceMonthly,
@@ -105,10 +106,10 @@ const createProperty = async (req, res) => {
       floorNo,
       carParking,
       facing,
-      projectName,
       adTitle,
       description,
-      price,
+      price
+
     });
 
     const savedProperty = await newProperty.save();

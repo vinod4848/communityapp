@@ -1,28 +1,17 @@
 const mongoose = require("mongoose");
 
-const furnitureSchema = new mongoose.Schema({
+const fashionSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
-  furnitureType: {
+  fashionType: {
     type: String,
-    enum: [
-      "Sofa & Dining",
-      "Beds & Wardrobes",
-      "Home Decor & Garden",
-      "Kids Furniture",
-      "Other Household Items",
-      "other",
-    ],
+    enum: ["Men", "Women", "Kids", "other"],
     required: true,
   },
-  adTitle:{
-    type: String,
-    required: true,
-  },
-  description: {
+  adTitle: {
     type: String,
     required: true,
   },
@@ -41,6 +30,6 @@ const furnitureSchema = new mongoose.Schema({
   images: [{ type: String }],
 });
 
-const Furniture = mongoose.model("Furniture", furnitureSchema);
+const Fashion = mongoose.model("Fashion", fashionSchema);
 
-module.exports = Furniture;
+module.exports = Fashion;

@@ -1,5 +1,4 @@
-const Gallery = require("../models/galleryModel");
-
+const Fashion = require("../models/fashionModel");
 const AWS = require("aws-sdk");
 const fs = require("fs");
 
@@ -15,7 +14,7 @@ const uploadImage = async (file) => {
     region: region,
   });
 
-  const fileName = `Gallery/${file.originalname}`;
+  const fileName = `Fashion/${file.originalname}`;
   return new Promise((resolve, reject) => {
     const fileStream = fs.createReadStream(file.path);
 
@@ -36,7 +35,7 @@ const uploadImage = async (file) => {
   });
 };
 
-const uploadGallerieImages = async (req, res) => {
+const uploadFashionImages = async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No files provided" });
@@ -54,14 +53,14 @@ const uploadGallerieImages = async (req, res) => {
 
     const updateData = { ...req.body, images };
 
-    const updatedFurniture = await Gallery.findByIdAndUpdate(
+    const updatedFurniture = await Fashion.findByIdAndUpdate(
       req.params.id,
       updateData,
       { new: true }
     );
 
     if (!updatedFurniture) {
-      return res.status(404).json({ message: "Gallery not found" });
+      return res.status(404).json({ message: "Fashion not found" });
     }
 
     res.status(200).json(updatedFurniture);
@@ -69,74 +68,86 @@ const uploadGallerieImages = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-const getAllGalleries = async (req, res) => {
+
+const getAllFashion = async (req, res) => {
   try {
-    const galleries = await Gallery.find()
+    const fashionItems = await Fashion.find()
     .populate("userId");
-    res.json(galleries);
+    res.json(fashionItems);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-const getGalleryById = async (req, res) => {
+const getFashionById = async (req, res) => {
   try {
-    const gallery = await Gallery.findById(req.params.id);
-    if (!gallery) {
-      return res.status(404).json({ message: "Gallery not found" });
+    const fashionItem = await Fashion.findById(req.params.id)
+    .populate("userId");
+    if (!fashionItem) {
+      return res.status(404).json({ message: "Fashion item not found" });
     }
-    res.json(gallery);
+    res.json(fashionItem);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-const createGallery = async (req, res) => {
+const createFashion = async (req, res) => {
+  const fashion = new Fashion({
+    userId: req.body.userId,
+    fashionType: req.body.fashionType,
+    adTitle: req.body.adTitle,
+    price: req.body.price,
+  });
+
   try {
-    const newGallery = new Gallery(req.body);
-    const savedGallery = await newGallery.save();
-    res.status(201).json(savedGallery);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
-const updateGallery = async (req, res) => {
-  try {
-    const gallery = await Gallery.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-
-    if (!gallery) {
-      return res.status(404).json({ message: "Gallery not found" });
-    }
-
-    res.json(gallery);
+    const newFashion = await fashion.save();
+    res.status(201).json(newFashion);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
-const deleteGallery = async (req, res) => {
+const updateFashion = async (req, res) => {
   try {
-    const gallery = await Gallery.findByIdAndRemove(req.params.id)
-    .populate("userId");
+    const fashion = await Fashion.findById(req.params.id);
 
-    if (!gallery) {
-      return res.status(404).json({ message: "Gallery not found" });
+    if (!fashion) {
+      return res.status(404).json({ message: "Fashion item not found" });
     }
 
-    res.json({ message: "Gallery deleted" });
+    fashion.userId = req.body.userId;
+    fashion.fashionType = req.body.fashionType;
+    fashion.adTitle = req.body.adTitle;
+    fashion.price = req.body.price;
+    fashion.images = req.body.images;
+
+    const updatedFashion = await fashion.save();
+    res.json(updatedFashion);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+const deleteFashion = async (req, res) => {
+  try {
+    const fashion = await Fashion.findById(req.params.id);
+
+    if (!fashion) {
+      return res.status(404).json({ message: "Fashion item not found" });
+    }
+
+    await fashion.remove();
+    res.json({ message: "Fashion item deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
 module.exports = {
-  uploadGallerieImages,
-  getAllGalleries,
-  getGalleryById,
-  createGallery,
-  updateGallery,
-  deleteGallery,
+  uploadFashionImages,
+  getAllFashion,
+  getFashionById,
+  createFashion,
+  updateFashion,
+  deleteFashion,
 };

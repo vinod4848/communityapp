@@ -1,6 +1,7 @@
 const MatrimonialProfile = require("../models/matrimonialModel");
 const AWS = require("aws-sdk");
 const fs = require("fs");
+
 const uploadImage = async (file) => {
   const bucketName = process.env.AWS_BUCKET_NAME;
   const region = "AP-SOUTH-1";
@@ -84,9 +85,21 @@ const matrimonialController = {
   },
   uploadMatrimonialProfileImage: async (req, res) => {
     try {
-      const file = req.file;
-      const image = await uploadImage(file);
-      const updateData = { ...req.body, image };
+      if (!req.files || req.files.length === 0) {
+        return res.status(400).json({ error: "No files provided" });
+      }
+
+      const images = await Promise.all(
+        req.files.map((file) => uploadImage(file))
+      );
+
+      if (!images.every((image) => image)) {
+        return res
+          .status(400)
+          .json({ error: "Failed to upload one or more images" });
+      }
+
+      const updateData = { ...req.body, images };
 
       const updatedMatrimonialProfile =
         await MatrimonialProfile.findByIdAndUpdate(req.params.id, updateData, {

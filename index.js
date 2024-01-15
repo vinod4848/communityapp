@@ -15,7 +15,6 @@ const blogRouter = require("./routes/blogRoute");
 const advertisingRouter = require("./routes/advertisingRoute");
 const userRoutes = require("./routes/userRoute");
 const notificationRoutes = require("./routes/notificationRoutes");
-const imageRouter = require("./routes/imageRouter");
 const magazineRouter = require("./routes/magazineRouter");
 const announcementRouter = require("./routes/announcementRoutes");
 const announcementCategoryRouter = require("./routes/announcementCategoryRoutes");
@@ -24,6 +23,10 @@ const applicationRouter = require("./routes/applicationRouter");
 const electronicsRouter = require("./routes/electronicsRoutes");
 const furnitureRouter = require("./routes/furnitureRouter");
 const propertyRouter = require("./routes/propertyRouter");
+const fashionRouter = require("./routes/fashionRouter");
+const landPlotsRouter = require("./routes/landPlotRouter");
+const shopOfficesRouter = require("./routes/shopOfficeRouter");
+const pgGuestHouseRouter = require("./routes/pgGuestHouseRouter");
 
 const morgan = require("morgan");
 dbConnect();
@@ -42,6 +45,10 @@ app.use(
   })
 );
 
+app.use("/api", pgGuestHouseRouter);
+app.use("/api", shopOfficesRouter);
+app.use("/api", landPlotsRouter);
+app.use("/api", fashionRouter);
 app.use("/api", propertyRouter);
 app.use("/api", furnitureRouter);
 app.use("/api", electronicsRouter);
@@ -61,7 +68,6 @@ app.use("/api", matrimonialRouter);
 app.use("/api", jobRouter);
 app.use("/api", galleryRouter);
 app.use("/api", eventRouter);
-app.use("/api", imageRouter);
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(

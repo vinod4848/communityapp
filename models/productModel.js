@@ -22,7 +22,15 @@ const phoneSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  image: {
+  address: {
+    type: String,
+    required: true,
+  },
+  landmark: {
+    type: String,
+    required: true,
+  },
+  images: {
     type: String,
   },
 });
@@ -49,7 +57,15 @@ const accessoriesSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  image: {
+  address: {
+    type: String,
+    required: true,
+  },
+  landmark: {
+    type: String,
+    required: true,
+  },
+  images: {
     type: String,
   },
 });
@@ -76,7 +92,15 @@ const tabletsSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  photos: {
+  address: {
+    type: String,
+    required: true,
+  },
+  landmark: {
+    type: String,
+    required: true,
+  },
+  images: {
     type: [String],
   },
 });
@@ -102,7 +126,15 @@ const bicyclesSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  photos: {
+  address: {
+    type: String,
+    required: true,
+  },
+  landmark: {
+    type: String,
+    required: true,
+  },
+  images: {
     type: [String],
   },
 });
@@ -135,7 +167,15 @@ const bikeSchema = new mongoose.Schema({
   price: {
     type: Number,
   },
-  photos: {
+  address: {
+    type: String,
+    required: true,
+  },
+  landmark: {
+    type: String,
+    required: true,
+  },
+  images: {
     type: [String],
   },
 });
@@ -184,7 +224,15 @@ const carSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  photos: {
+  address: {
+    type: String,
+    required: true,
+  },
+  landmark: {
+    type: String,
+    required: true,
+  },
+  images: {
     type: [String],
     required: true,
   },

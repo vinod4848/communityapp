@@ -67,14 +67,15 @@ const uploadFurnitureImages = async (req, res) => {
 
 const createFurniture = async (req, res) => {
   try {
-    const { userId, furnitureType, adTitle, description, price, image } = req.body;
+    const { userId, furnitureType, adTitle, description, price,address,landmark } = req.body;
     const newFurniture = new Furniture({
       userId,
       furnitureType,
       adTitle,
       description,
+      address,
+      landmark,
       price,
-      image,
     });
     const savedFurniture = await newFurniture.save();
 
@@ -86,7 +87,8 @@ const createFurniture = async (req, res) => {
 
 const getAllFurniture = async (req, res) => {
   try {
-    const allFurniture = await Furniture.find();
+    const allFurniture = await Furniture.find()
+    .populate("userId");
     res.status(200).json(allFurniture);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -95,7 +97,8 @@ const getAllFurniture = async (req, res) => {
 
 const getFurnitureById = async (req, res) => {
   try {
-    const furniture = await Furniture.findById(req.params.id);
+    const furniture = await Furniture.findById(req.params.id)
+    .populate("userId");
     if (!furniture) {
       return res.status(404).json({ message: "Furniture not found" });
     }

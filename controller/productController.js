@@ -6,6 +6,239 @@ const {
   Bike,
   Car,
 } = require("../models/productModel");
+const AWS = require("aws-sdk");
+const fs = require("fs");
+
+const uploadImage = async (file) => {
+  const bucketName = process.env.AWS_BUCKET_NAME;
+  const region = "AP-SOUTH-1";
+  const accessKeyId = process.env.AWS_ACCESS_KEY;
+  const secretAccessKey = process.env.AWS_SECRET_KEY;
+
+  const s3 = new AWS.S3({
+    accessKeyId: accessKeyId,
+    secretAccessKey: secretAccessKey,
+    region: region,
+  });
+
+  const fileName = `Products/${file.originalname}`;
+  return new Promise((resolve, reject) => {
+    const fileStream = fs.createReadStream(file.path);
+
+    const params = {
+      Bucket: bucketName,
+      Key: fileName,
+      Body: fileStream,
+    };
+
+    s3.upload(params, (err, data) => {
+      if (err) {
+        console.error("Error uploading to S3:", err);
+        reject(err);
+      }
+      console.log("S3 Upload Data:", data);
+      resolve(data.Location);
+    });
+  });
+};
+const uploadPhoneImages = async (req, res) => {
+  try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ error: "No files provided" });
+    }
+
+    const images = await Promise.all(
+      req.files.map((file) => uploadImage(file))
+    );
+
+    if (!images.every((image) => image)) {
+      return res
+        .status(400)
+        .json({ error: "Failed to upload one or more images" });
+    }
+
+    const updateData = { ...req.body, images };
+
+    const updatedFurniture = await Phone.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedFurniture) {
+      return res.status(404).json({ message: "Phone not found" });
+    }
+
+    res.status(200).json(updatedFurniture);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+const uploadAccessoriesImages = async (req, res) => {
+  try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ error: "No files provided" });
+    }
+
+    const images = await Promise.all(
+      req.files.map((file) => uploadImage(file))
+    );
+
+    if (!images.every((image) => image)) {
+      return res
+        .status(400)
+        .json({ error: "Failed to upload one or more images" });
+    }
+
+    const updateData = { ...req.body, images };
+
+    const updatedFurniture = await Accessories.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedFurniture) {
+      return res.status(404).json({ message: "Accessories not found" });
+    }
+
+    res.status(200).json(updatedFurniture);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+const uploadTabletsImages = async (req, res) => {
+  try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ error: "No files provided" });
+    }
+
+    const images = await Promise.all(
+      req.files.map((file) => uploadImage(file))
+    );
+
+    if (!images.every((image) => image)) {
+      return res
+        .status(400)
+        .json({ error: "Failed to upload one or more images" });
+    }
+
+    const updateData = { ...req.body, images };
+
+    const updatedFurniture = await Tablets.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedFurniture) {
+      return res.status(404).json({ message: "Tablets not found" });
+    }
+
+    res.status(200).json(updatedFurniture);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+const uploadBicyclesImages = async (req, res) => {
+  try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ error: "No files provided" });
+    }
+
+    const images = await Promise.all(
+      req.files.map((file) => uploadImage(file))
+    );
+
+    if (!images.every((image) => image)) {
+      return res
+        .status(400)
+        .json({ error: "Failed to upload one or more images" });
+    }
+
+    const updateData = { ...req.body, images };
+
+    const updatedFurniture = await Bicycles.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedFurniture) {
+      return res.status(404).json({ message: "Bicycles not found" });
+    }
+
+    res.status(200).json(updatedFurniture);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+const uploadBikeImages = async (req, res) => {
+  try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ error: "No files provided" });
+    }
+
+    const images = await Promise.all(
+      req.files.map((file) => uploadImage(file))
+    );
+
+    if (!images.every((image) => image)) {
+      return res
+        .status(400)
+        .json({ error: "Failed to upload one or more images" });
+    }
+
+    const updateData = { ...req.body, images };
+
+    const updatedFurniture = await Bike.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedFurniture) {
+      return res.status(404).json({ message: "Bike not found" });
+    }
+
+    res.status(200).json(updatedFurniture);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+const uploadCarImages = async (req, res) => {
+  try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ error: "No files provided" });
+    }
+
+    const images = await Promise.all(
+      req.files.map((file) => uploadImage(file))
+    );
+
+    if (!images.every((image) => image)) {
+      return res
+        .status(400)
+        .json({ error: "Failed to upload one or more images" });
+    }
+
+    const updateData = { ...req.body, images };
+
+    const updatedFurniture = await Car.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedFurniture) {
+      return res.status(404).json({ message: "Car not found" });
+    }
+
+    res.status(200).json(updatedFurniture);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 const createPhone = async (req, res) => {
   try {
@@ -352,6 +585,12 @@ const deleteCar = async (req, res) => {
 };
 
 module.exports = {
+  uploadCarImages,
+  uploadBikeImages,
+  uploadBicyclesImages,
+  uploadTabletsImages,
+  uploadAccessoriesImages,
+  uploadPhoneImages,
   createPhone,
   createAccessories,
   createTablets,
