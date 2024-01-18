@@ -32,8 +32,14 @@ const propertySchema = new mongoose.Schema({
     enum: ["Apartments", "Builder Floors", "Farm Houses", "Houses & Villas"],
     required: true,
   },
+  bedrooms: {
+    type: Number,
+    enum: [0, 1, 2, 3, "3+"],
+    required: true,
+  },
   bathrooms: {
     type: Number,
+    enum: [0, 1, 2, 3, "3+"],
     required: true,
   },
   furnishing: {
@@ -43,11 +49,11 @@ const propertySchema = new mongoose.Schema({
   },
   superBuiltupArea: {
     type: Number,
-    required: true,
+    // required: true,
   },
   carpetArea: {
     type: Number,
-    required: true,
+    // required: true,
   },
   maintenanceMonthly: {
     type: Number,
@@ -77,17 +83,17 @@ const propertySchema = new mongoose.Schema({
   },
   adTitle: {
     type: String,
-    required: true,
+    // required: true,
   },
   description: {
     type: String,
-    required: true,
+    // required: true,
   },
   price: {
     type: Number,
-    required: true,
+    // required: true,
   },
-  images: {
+  image: {
     type: [String],
   },
 });

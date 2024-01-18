@@ -27,6 +27,7 @@ const fashionRouter = require("./routes/fashionRouter");
 const landPlotsRouter = require("./routes/landPlotRouter");
 const shopOfficesRouter = require("./routes/shopOfficeRouter");
 const pgGuestHouseRouter = require("./routes/pgGuestHouseRouter");
+const familyTreeRouter = require("./routes/familyTreeRoute");
 
 const morgan = require("morgan");
 dbConnect();
@@ -45,6 +46,7 @@ app.use(
   })
 );
 
+app.use("/api", familyTreeRouter);
 app.use("/api", pgGuestHouseRouter);
 app.use("/api", shopOfficesRouter);
 app.use("/api", landPlotsRouter);
