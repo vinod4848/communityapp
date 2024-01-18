@@ -11,10 +11,9 @@ router.put("/properties/:id", propertyController.updateProperty);
 router.delete("/properties/:id", propertyController.deleteProperty);
 
 router.post(
-  "/properties/:id",
+  "/propertiesImagess/:id",
   uploadMultipleImage.array("image"),
   propertyController.uploadPropertyImages
 );
 
 module.exports = router;
-

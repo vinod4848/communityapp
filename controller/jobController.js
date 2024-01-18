@@ -3,7 +3,7 @@ const Job = require("../models/jobModel");
 const jobController = {
   getAllJobs: async (req, res) => {
     try {
-      const jobs = await Job.find();
+      const jobs = await Job.find().populate("userId");
       res.status(200).json(jobs);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -11,7 +11,7 @@ const jobController = {
   },
   getJobById: async (req, res) => {
     try {
-      const job = await Job.findById(req.params.id);
+      const job = await Job.findById(req.params.id).populate("userId");
       if (!job) {
         return res.status(404).json({ message: "Job not found" });
       }
@@ -30,7 +30,7 @@ const jobController = {
           .json({ message: "Please provide a title parameter" });
       }
 
-      const jobs = await Job.find({ title: new RegExp(title, "i") });
+      const jobs = await Job.find({ title: new RegExp(title, "i") }).populate("userId");
 
       if (jobs.length === 0) {
         return res

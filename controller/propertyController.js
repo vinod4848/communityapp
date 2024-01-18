@@ -42,17 +42,21 @@ const uploadPropertyImages = async (req, res) => {
       return res.status(400).json({ error: "No files provided" });
     }
 
-    const images = await Promise.all(req.files.map(file => uploadImage(file)));
+    // Assuming you have an `uploadImage` function defined elsewhere
+    const uploadedImages = await Promise.all(
+      req.files.map((file) => uploadImage(file))
+    );
 
-    if (!images.every(image => image)) {
-      return res.status(400).json({ error: "Failed to upload one or more images" });
+    if (!uploadedImages.every((image) => image)) {
+      return res
+        .status(400)
+        .json({ error: "Failed to upload one or more images" });
     }
 
-    const updateData = { ...req.body, images };
-
+    // Update the property with the uploaded images
     const updatedProperty = await Property.findByIdAndUpdate(
       req.params.id,
-      updateData,
+      { image: uploadedImages, ...req.body },
       { new: true }
     );
 
@@ -65,7 +69,6 @@ const uploadPropertyImages = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
 
 const createProperty = async (req, res) => {
   try {
@@ -87,7 +90,7 @@ const createProperty = async (req, res) => {
       facing,
       adTitle,
       description,
-      price
+      price,
     } = req.body;
 
     const newProperty = new Property({
@@ -108,8 +111,7 @@ const createProperty = async (req, res) => {
       facing,
       adTitle,
       description,
-      price
-
+      price,
     });
 
     const savedProperty = await newProperty.save();
@@ -120,7 +122,7 @@ const createProperty = async (req, res) => {
 };
 const getAllProperties = async (req, res) => {
   try {
-    const allProperties = await Property.find();
+    const allProperties = await Property.find().populate("userId");
     res.status(200).json(allProperties);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -129,7 +131,7 @@ const getAllProperties = async (req, res) => {
 
 const getPropertyById = async (req, res) => {
   try {
-    const property = await Property.findById(req.params.id);
+    const property = await Property.findById(req.params.id).populate("userId");
     if (!property) {
       return res.status(404).json({ message: "Property not found" });
     }

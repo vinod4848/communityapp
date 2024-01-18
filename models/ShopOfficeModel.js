@@ -11,14 +11,9 @@ const shopOfficeSchema = new mongoose.Schema({
     enum: ["Furnished", "Semi-Furnished", "Unfurnished"],
     required: true,
   },
-  listedBy: {
-    type: String,
-    enum: ["Builder", "Dealer", "Owner"],
-    required: true,
-  },
   shopOfficeType: {
     type: String,
-    enum: ["For Rent: Shops & Offices", " For Sale: Shops & Offices", "other"],
+    enum: ["For Rent: Shops & Offices", "For Sale: Shops & Offices", "other"],
     required: true,
   },
   superBuiltupArea: {
@@ -39,9 +34,6 @@ const shopOfficeSchema = new mongoose.Schema({
   washrooms: {
     type: Number,
     required: true,
-  },
-  projectName: {
-    type: String,
   },
   adTitle: {
     type: String,
