@@ -2,11 +2,21 @@ const { Individual } = require("../models/familyTreeModel");
 
 const createIndividual = async (req, res) => {
   try {
-    const individual = new Individual(req.body);
-    const savedIndividual = await individual.save();
-    res.json(savedIndividual);
+    const { fullName, relationship, dateOfBirth, image } = req.body;
+
+    const individual = new Individual({
+      fullName,
+      relationship,
+      dateOfBirth,
+      image,
+    });
+
+    await individual.save();
+
+    return res.status(201).json(individual);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 

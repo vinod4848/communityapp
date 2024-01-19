@@ -155,6 +155,11 @@ const bikeSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  numberOfOwners: {
+    type: Number,
+    required: true,
+    enum: [1, 2, 3, 4, "4+"],
+  },
   adTitle: {
     type: String,
     enum: ["Bike", "Scooter"],
