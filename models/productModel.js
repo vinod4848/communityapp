@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const phoneSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   brand: {
@@ -35,9 +35,9 @@ const phoneSchema = new mongoose.Schema({
   },
 });
 const accessoriesSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   type: {
@@ -70,9 +70,9 @@ const accessoriesSchema = new mongoose.Schema({
   },
 });
 const tabletsSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   type: {
@@ -105,9 +105,9 @@ const tabletsSchema = new mongoose.Schema({
   },
 });
 const bicyclesSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   brand: {
@@ -139,9 +139,9 @@ const bicyclesSchema = new mongoose.Schema({
   },
 });
 const bikeSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   brand: {
@@ -185,9 +185,9 @@ const bikeSchema = new mongoose.Schema({
   },
 });
 const carSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   brand: {

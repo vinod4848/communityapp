@@ -71,7 +71,7 @@ const uploadshopOfficeImages = async (req, res) => {
 
 const getAllShopOffices = async (req, res) => {
   try {
-    const shopOffices = await ShopOffice.find().populate("userId");
+    const shopOffices = await ShopOffice.find().populate("profileId");
     res.json(shopOffices);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -80,7 +80,7 @@ const getAllShopOffices = async (req, res) => {
 
 const getShopOfficeById = async (req, res) => {
   try {
-    const shopOffice = await ShopOffice.findById(req.params.id).populate("userId");
+    const shopOffice = await ShopOffice.findById(req.params.id).populate("profileId");
     if (!shopOffice) {
       return res.status(404).json({ message: "Shop office not found" });
     }
@@ -92,7 +92,7 @@ const getShopOfficeById = async (req, res) => {
 
 const createShopOffice = async (req, res) => {
   const {
-    userId,
+    profileId,
     furnishing,
     shopOfficeType,
     superBuiltupArea,
@@ -108,7 +108,7 @@ const createShopOffice = async (req, res) => {
   } = req.body;
 
   const shopOffice = new ShopOffice({
-    userId,
+    profileId,
     furnishing,
     shopOfficeType,
     superBuiltupArea,

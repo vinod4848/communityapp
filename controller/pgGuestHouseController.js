@@ -70,7 +70,7 @@ const uploadPgGuestHouseImages = async (req, res) => {
 };
 const getAllPgGuestHouses = async (req, res) => {
   try {
-    const pgGuestHouses = await PgGuestHouse.find().populate("userId");
+    const pgGuestHouses = await PgGuestHouse.find().populate("profileId");
     res.json(pgGuestHouses);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -79,7 +79,7 @@ const getAllPgGuestHouses = async (req, res) => {
 
 const getPgGuestHouseById = async (req, res) => {
   try {
-    const pgGuestHouse = await PgGuestHouse.findById(req.params.id).populate("userId");
+    const pgGuestHouse = await PgGuestHouse.findById(req.params.id).populate("profileId");
     if (!pgGuestHouse) {
       return res.status(404).json({ message: "PG or Guest House not found" });
     }
@@ -91,7 +91,7 @@ const getPgGuestHouseById = async (req, res) => {
 
 const createPgGuestHouse = async (req, res) => {
   const {
-    userId,
+    profileId,
     subtype,
     furnishing,
     listedBy,
@@ -105,7 +105,7 @@ const createPgGuestHouse = async (req, res) => {
   } = req.body;
 
   const pgGuestHouse = new PgGuestHouse({
-    userId,
+    profileId,
     subtype,
     furnishing,
     listedBy,

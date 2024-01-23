@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const furnitureSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   furnitureType: {
@@ -16,6 +16,11 @@ const furnitureSchema = new mongoose.Schema({
       "Other Household Items",
       "other",
     ],
+    required: true,
+  },
+  used:{
+    type: String,
+    enum: ["New", "Old"],
     required: true,
   },
   adTitle:{

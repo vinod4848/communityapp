@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const landPlotSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   type: {

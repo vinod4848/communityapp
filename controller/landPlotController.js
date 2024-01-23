@@ -71,7 +71,7 @@ const uploadLandPlotImages = async (req, res) => {
 
 const getAllLandPlots = async (req, res) => {
   try {
-    const landPlots = await LandPlot.find().populate("userId");
+    const landPlots = await LandPlot.find().populate("profileId");
     res.json(landPlots);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -80,7 +80,7 @@ const getAllLandPlots = async (req, res) => {
 
 const getLandPlotById = async (req, res) => {
   try {
-    const landPlot = await LandPlot.findById(req.params.id).populate("userId");
+    const landPlot = await LandPlot.findById(req.params.id).populate("profileId");
     if (!landPlot) {
       return res.status(404).json({ message: "Land plot not found" });
     }
@@ -91,41 +91,46 @@ const getLandPlotById = async (req, res) => {
 };
 
 const createLandPlot = async (req, res) => {
-  const {
-    userId,
-    type,
-    listedBy,
-    facing,
-    plotArea,
-    projectName,
-    adTitle,
-    description,
-    address,
-    landmark,
-    price,
-  } = req.body;
-
-  const landPlot = new LandPlot({
-    userId,
-    type,
-    listedBy,
-    facing,
-    plotArea,
-    projectName,
-    adTitle,
-    description,
-    address,
-    landmark,
-    price,
-  });
-
   try {
-    const newLandPlot = await landPlot.save();
-    res.status(201).json(newLandPlot);
+    const {
+      profileId,
+      subtype,
+      furnishing,
+      carParking,
+      mealsIncluded,
+      adTitle,
+      description,
+      address,
+      landmark,
+      price,
+      images,
+    } = req.body;
+
+    // Create a new PgGuestHouse instance
+    const newPgGuestHouse = new PgGuestHouse({
+      profileId,
+      subtype,
+      furnishing,
+      carParking,
+      mealsIncluded,
+      adTitle,
+      description,
+      address,
+      landmark,
+      price,
+      images,
+    });
+
+    // Save the PgGuestHouse to the database
+    const savedPgGuestHouse = await newPgGuestHouse.save();
+
+    res.status(201).json(savedPgGuestHouse);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error('Error creating PgGuestHouse:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
 
 const updateLandPlot = async (req, res) => {
   try {

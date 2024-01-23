@@ -23,3 +23,4 @@ const individualSchema = new mongoose.Schema({
 const Individual = mongoose.model("Individual", individualSchema);
 
 module.exports = { Individual };
+

@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const electronicsSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   electronicsAndAppliances: {

@@ -71,8 +71,7 @@ const uploadFashionImages = async (req, res) => {
 
 const getAllFashion = async (req, res) => {
   try {
-    const fashionItems = await Fashion.find()
-    .populate("userId");
+    const fashionItems = await Fashion.find().populate("profileId");
     res.json(fashionItems);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -81,8 +80,9 @@ const getAllFashion = async (req, res) => {
 
 const getFashionById = async (req, res) => {
   try {
-    const fashionItem = await Fashion.findById(req.params.id)
-    .populate("userId");
+    const fashionItem = await Fashion.findById(req.params.id).populate(
+      "profileId"
+    );
     if (!fashionItem) {
       return res.status(404).json({ message: "Fashion item not found" });
     }
@@ -94,10 +94,13 @@ const getFashionById = async (req, res) => {
 
 const createFashion = async (req, res) => {
   const fashion = new Fashion({
-    userId: req.body.userId,
+    profileId: req.body.profileId,
     fashionType: req.body.fashionType,
     adTitle: req.body.adTitle,
     price: req.body.price,
+    description: req.body.description,
+    address: req.body.address,
+    landmark: req.body.landmark,
   });
 
   try {
