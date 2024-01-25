@@ -33,6 +33,10 @@ const phoneSchema = new mongoose.Schema({
   images: {
     type: String,
   },
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 const accessoriesSchema = new mongoose.Schema({
   profileId: {
@@ -67,6 +71,10 @@ const accessoriesSchema = new mongoose.Schema({
   },
   images: {
     type: String,
+  },
+  isActive: {
+    type: Boolean,
+    default: false,
   },
 });
 const tabletsSchema = new mongoose.Schema({
@@ -103,6 +111,10 @@ const tabletsSchema = new mongoose.Schema({
   images: {
     type: [String],
   },
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 const bicyclesSchema = new mongoose.Schema({
   profileId: {
@@ -136,6 +148,10 @@ const bicyclesSchema = new mongoose.Schema({
   },
   images: {
     type: [String],
+  },
+  isActive: {
+    type: Boolean,
+    default: false,
   },
 });
 const bikeSchema = new mongoose.Schema({
@@ -182,6 +198,10 @@ const bikeSchema = new mongoose.Schema({
   },
   images: {
     type: [String],
+  },
+  isActive: {
+    type: Boolean,
+    default: false,
   },
 });
 const carSchema = new mongoose.Schema({
@@ -240,6 +260,10 @@ const carSchema = new mongoose.Schema({
   images: {
     type: [String],
     required: true,
+  },
+  isActive: {
+    type: Boolean,
+    default: false,
   },
 });
 

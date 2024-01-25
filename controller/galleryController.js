@@ -35,7 +35,6 @@ const uploadImage = async (file) => {
     });
   });
 };
-
 const uploadGallerieImages = async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
@@ -54,17 +53,17 @@ const uploadGallerieImages = async (req, res) => {
 
     const updateData = { ...req.body, images };
 
-    const updatedFurniture = await Gallery.findByIdAndUpdate(
+    const updatedGallery = await Gallery.findByIdAndUpdate(
       req.params.id,
       updateData,
       { new: true }
     );
 
-    if (!updatedFurniture) {
+    if (!updatedGallery) {
       return res.status(404).json({ message: "Gallery not found" });
     }
 
-    res.status(200).json(updatedFurniture);
+    res.status(200).json(updatedGallery);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

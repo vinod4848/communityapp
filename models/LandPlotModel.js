@@ -55,6 +55,10 @@ const landPlotSchema = new mongoose.Schema({
     required: true,
   },
   images: [{ type: String }],
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const LandPlot = mongoose.model("LandPlot", landPlotSchema);

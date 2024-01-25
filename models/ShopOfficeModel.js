@@ -56,6 +56,10 @@ const shopOfficeSchema = new mongoose.Schema({
     required: true,
   },
   images: [{ type: String }],
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const ShopOffice = mongoose.model("ShopOffice", shopOfficeSchema);

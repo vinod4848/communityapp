@@ -36,6 +36,10 @@ const electronicsSchema = new mongoose.Schema({
     required: true,
   },
   images: [{ type: String }],
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Electronics = mongoose.model("Electronics", electronicsSchema);

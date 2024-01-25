@@ -32,6 +32,10 @@ const fashionSchema = new mongoose.Schema({
     required: true,
   },
   images: [{ type: String }],
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Fashion = mongoose.model("Fashion", fashionSchema);

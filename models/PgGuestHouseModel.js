@@ -45,6 +45,10 @@ const pgGuestHouseSchema = new mongoose.Schema({
     required: true,
   },
   images: [{ type: String }],
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const PgGuestHouse = mongoose.model("PgGuestHouse", pgGuestHouseSchema);

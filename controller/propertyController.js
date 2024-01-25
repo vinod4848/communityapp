@@ -70,54 +70,14 @@ const uploadPropertyImages = async (req, res) => {
   }
 };
 
-const createProperty = async (req, res) => {
+const createProperty =  async (req, res) => {
   try {
-    const {
-      profileId,
-      propertyFor,
-      address,
-      landmark,
-      proprietorshiptypes,
-      propertyType,
-      bathrooms,
-      furnishing,
-      superBuiltupArea,
-      carpetArea,
-      maintenanceMonthly,
-      totalFloors,
-      floorNo,
-      carParking,
-      facing,
-      adTitle,
-      description,
-      price,
-    } = req.body;
-
-    const newProperty = new Property({
-      profileId,
-      propertyFor,
-      address,
-      landmark,
-      proprietorshiptypes,
-      propertyType,
-      bathrooms,
-      furnishing,
-      superBuiltupArea,
-      carpetArea,
-      maintenanceMonthly,
-      totalFloors,
-      floorNo,
-      carParking,
-      facing,
-      adTitle,
-      description,
-      price,
-    });
-
-    const savedProperty = await newProperty.save();
-    res.status(201).json(savedProperty);
+    const property = new Property(req.body);
+    await property.save();
+    res.status(201).send(property);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Error creating property:", error);
+    res.status(500).send(error);
   }
 };
 const getAllProperties = async (req, res) => {
