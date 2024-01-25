@@ -41,17 +41,17 @@ const uploadGallerieImages = async (req, res) => {
       return res.status(400).json({ error: "No files provided" });
     }
 
-    const images = await Promise.all(
+    const image = await Promise.all(
       req.files.map((file) => uploadImage(file))
     );
 
-    if (!images.every((image) => image)) {
+    if (!image.every((image) => image)) {
       return res
         .status(400)
-        .json({ error: "Failed to upload one or more images" });
+        .json({ error: "Failed to upload one or more image" });
     }
 
-    const updateData = { ...req.body, images };
+    const updateData = { ...req.body, image };
 
     const updatedGallery = await Gallery.findByIdAndUpdate(
       req.params.id,

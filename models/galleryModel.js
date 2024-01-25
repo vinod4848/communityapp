@@ -9,7 +9,7 @@ const gallerySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  images: [{ type: String }],
+  image: [{ type: String }],
   createdAt: {
     type: Date,
     default: Date.now,
