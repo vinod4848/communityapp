@@ -32,7 +32,6 @@ const applicationSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-  Experience: {},
   yearsOfExperience: {
     type: Number,
     default: 0,
@@ -82,6 +81,10 @@ const applicationSchema = new mongoose.Schema({
     default: "",
   },
   willingnessToTravel: {
+    type: Boolean,
+    default: false,
+  },
+  relocated: {
     type: Boolean,
     default: false,
   },
