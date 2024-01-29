@@ -90,39 +90,13 @@ const getPgGuestHouseById = async (req, res) => {
 };
 
 const createPgGuestHouse = async (req, res) => {
-  const {
-    profileId,
-    subtype,
-    furnishing,
-    listedBy,
-    carParking,
-    mealsIncluded,
-    adTitle,
-    description,
-    address,
-    landmark,
-    price,
-  } = req.body;
-
-  const pgGuestHouse = new PgGuestHouse({
-    profileId,
-    subtype,
-    furnishing,
-    listedBy,
-    carParking,
-    mealsIncluded,
-    adTitle,
-    description,
-    address,
-    landmark,
-    price,
-  });
-
   try {
-    const newPgGuestHouse = await pgGuestHouse.save();
+    const newPgGuestHouse = new PgGuestHouse(req.body);
+    await newPgGuestHouse.save();
     res.status(201).json(newPgGuestHouse);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 

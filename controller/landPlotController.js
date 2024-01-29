@@ -1,4 +1,5 @@
 const LandPlot = require("../models/LandPlotModel");
+const mongoose = require("mongoose");
 const AWS = require("aws-sdk");
 const fs = require("fs");
 
@@ -80,7 +81,9 @@ const getAllLandPlots = async (req, res) => {
 
 const getLandPlotById = async (req, res) => {
   try {
-    const landPlot = await LandPlot.findById(req.params.id).populate("profileId");
+    const landPlot = await LandPlot.findById(req.params.id).populate(
+      "profileId"
+    );
     if (!landPlot) {
       return res.status(404).json({ message: "Land plot not found" });
     }
@@ -92,46 +95,13 @@ const getLandPlotById = async (req, res) => {
 
 const createLandPlot = async (req, res) => {
   try {
-    const {
-      profileId,
-      subtype,
-      furnishing,
-      carParking,
-      mealsIncluded,
-      adTitle,
-      description,
-      address,
-      landmark,
-      price,
-      images,
-    } = req.body;
-
-    // Create a new PgGuestHouse instance
-    const newPgGuestHouse = new PgGuestHouse({
-      profileId,
-      subtype,
-      furnishing,
-      carParking,
-      mealsIncluded,
-      adTitle,
-      description,
-      address,
-      landmark,
-      price,
-      images,
-    });
-
-    // Save the PgGuestHouse to the database
-    const savedPgGuestHouse = await newPgGuestHouse.save();
-
-    res.status(201).json(savedPgGuestHouse);
+    const newlandplot = new LandPlot(req.body);
+    const savelandplot = await newlandplot.save();
+    res.status(201).json(savelandplot);
   } catch (error) {
-    console.error('Error creating PgGuestHouse:', error.message);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(400).json({ error: error.message });
   }
 };
-
-
 const updateLandPlot = async (req, res) => {
   try {
     const landPlot = await LandPlot.findByIdAndUpdate(req.params.id, req.body, {

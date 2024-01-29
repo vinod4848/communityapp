@@ -13,7 +13,7 @@ const shopOfficeSchema = new mongoose.Schema({
   },
   shopOfficeType: {
     type: String,
-    enum: ["For Rent: Shops & Offices", "For Sale: Shops & Offices", "other"],
+    enum: ["For Rent: Shops & Offices", "For Sale: Shops & Offices", "Other"],
     required: true,
   },
   superBuiltupArea: {
@@ -54,6 +54,13 @@ const shopOfficeSchema = new mongoose.Schema({
   price: {
     type: Number,
     required: true,
+  },
+  facilities: {
+    wifi: Boolean,
+    ac: Boolean,
+    tv: Boolean,
+    refrigerator: Boolean,
+    security: Boolean,
   },
   images: [{ type: String }],
   isActive: {

@@ -9,7 +9,31 @@ const directorySchema = new mongoose.Schema({
   description: {
     type: String,
   },
+  gstNumber: {
+    type: Number,
+    required: true,
+  },
+  contactNumber: {
+    type: Number,
+    required: true,
+  },
+  businessArea: {
+    type: Number,
+    required: true,
+  },
+  locality: {
+    type: String,
+    required: true,
+  },
   companyName: {
+    type: String,
+    required: true,
+  },
+  website: {
+    type: String,
+    required: true,
+  },
+  address: {
     type: String,
     required: true,
   },

@@ -11,35 +11,20 @@ const landPlotSchema = new mongoose.Schema({
     enum: ["For Rent", "For Sale"],
     required: true,
   },
-  facing: {
-    type: String,
-    enum: [
-      "East",
-      "North",
-      "North-East",
-      "North-West",
-      "South",
-      "South-East",
-      "South-West",
-      "West",
-    ],
-  },
-  plotArea: {
-    length: {
-      type: Number,
-      required: true,
-    },
-    breadth: {
-      type: Number,
-      required: true,
-    },
-  },
   adTitle: {
     type: String,
     required: true,
   },
   description: {
     type: String,
+    required: true,
+  },
+  superBuiltupArea: {
+    type: Number,
+    required: true,
+  },
+  carpetArea: {
+    type: Number,
     required: true,
   },
   price: {
@@ -54,7 +39,25 @@ const landPlotSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  facilities: {
+    type: {
+      electricity: Boolean,
+      waterSupply: Boolean,
+      gasPipeline: Boolean,
+      roadAccess: Boolean,
+      streetLighting: Boolean,
+      parking: Boolean,
+      garden: Boolean,
+      gym: Boolean,
+      playground: Boolean,
+      nearbySchools: Boolean,
+      nearbyHospitals: Boolean,
+      nearbyPublicTransport: Boolean,
+    },
+    default: {},
+  },
   images: [{ type: String }],
+  document: [{ type: String }],
   isActive: {
     type: Boolean,
     default: false,

@@ -14,10 +14,11 @@ const matrimonialSchema = new mongoose.Schema({
   profileCreatedBy: String,
   maritalStatus: {
     type: String,
-    enum: ["Not married", "Married"],
-    default: "Not married",
+    enum: ["Never married", "Divorced","Awaiting Divorce"],
+    default: "Never married",
   },
   images: [{ type: String }],
+  patrika: [{ type: String }],
   nativePlace: String,
   healthInformation: String,
   anyDisability: String,
@@ -74,7 +75,7 @@ const matrimonialSchema = new mongoose.Schema({
     highestQualification: String,
     collegeAttended: String,
     workingWith: String,
-    annualIncome: String,
+    workingAs: String,
   },
   lifestyle: String,
   locationOfGroom: {

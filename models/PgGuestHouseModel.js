@@ -44,6 +44,31 @@ const pgGuestHouseSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  bedrooms: {
+    type: Number,
+    required: true,
+  },
+  bathrooms: {
+    type: Number,
+    required: true,
+  },
+  facilities: {
+    wifi: Boolean,
+    ac: Boolean,
+    tv: Boolean,
+    refrigerator: Boolean,
+    washingMachine: Boolean,
+    security: Boolean,
+    parking: Boolean,
+    gym: Boolean,
+    garden: Boolean,
+    hotWater: Boolean,
+    balcony: Boolean,
+    housekeeping: Boolean,
+    laundryService: Boolean,
+    swimmingPool: Boolean,
+  },
+
   images: [{ type: String }],
   isActive: {
     type: Boolean,
