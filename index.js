@@ -1,5 +1,7 @@
 require("dotenv").config();
 const express = require("express");
+const http = require("http");
+const socketIO = require("./helper/socket");
 const dbConnect = require("./helper/dbConnect");
 const app = express();
 const bodyParser = require("body-parser");
@@ -40,6 +42,9 @@ app.use(
     limit: "50mb",
   })
 );
+
+const server = http.createServer(app);
+socketIO.attach(server);
 app.use(
   bodyParser.urlencoded({
     extended: true,
