@@ -9,7 +9,6 @@ const directoryController = {
       res.status(500).json({ error: error.message });
     }
   },
-
   getDirectoryById: async (req, res) => {
     try {
       const directory = await Directory.findById(req.params.id)
@@ -23,7 +22,6 @@ const directoryController = {
       res.status(500).json({ error: error.message });
     }
   },
-
   addDirectory: async (req, res) => {
     try {
       const newDirectory = new Directory(req.body);
@@ -55,6 +53,56 @@ const directoryController = {
         return res.status(404).json({ message: "Directory not found" });
       }
       res.status(204).json();
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+  searchDirectory: async (req, res) => {
+    try {
+      const {
+        contactNumber,
+        businessArea,
+        locality,
+        companyName,
+        address,
+        tags,
+      } = req.query;
+
+      const searchQuery = {};
+
+      if (contactNumber) {
+        searchQuery.contactNumber = { $regex: new RegExp(contactNumber, "i") };
+      }
+
+      if (businessArea) {
+        searchQuery.businessArea = { $regex: new RegExp(businessArea, "i") };
+      }
+
+      if (locality) {
+        searchQuery.locality = { $regex: new RegExp(locality, "i") };
+      }
+
+      if (companyName) {
+        searchQuery.companyName = { $regex: new RegExp(companyName, "i") };
+      }
+
+      if (address) {
+        searchQuery.address = { $regex: new RegExp(address, "i") };
+      }
+
+      if (tags) {
+        searchQuery.tags = { $in: tags };
+      }
+
+      const directory = await Directory.findOne(searchQuery)
+        .populate("userId")
+        .exec();
+
+      if (!directory) {
+        return res.status(404).json({ message: "Directory not found" });
+      }
+
+      res.status(200).json(directory);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

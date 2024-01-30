@@ -1,8 +1,9 @@
 const UserV1 = require("../models/userV1Model");
+const Profile = require("../models/profileModel");
 const { Individual } = require("../models/familyTreeModel");
 const generateOTP = () => {
   const otp = Math.floor(1000 + Math.random() * 9000).toString();
-  const expirationTime = new Date().getTime() + 60 * 1000; 
+  const expirationTime = new Date().getTime() + 60 * 1000;
   return { otp, expirationTime };
 };
 
@@ -94,8 +95,10 @@ const verifyOTP = async (req, res) => {
       return res.status(401).json({ error: "Invalid OTP" });
     }
     await UserV1.updateOne({ phone }, { $unset: { otp: 1, otpExpiration: 1 } });
-
-    return res.status(200).json({ message: "Login successful" });
+    const userProfile = await Profile.findOne({ userId: user._id });
+    return res
+      .status(200)
+      .json({ message: "Login successful", user, userProfile });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal Server Error" });
