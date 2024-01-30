@@ -20,8 +20,7 @@ const profileSchema = new mongoose.Schema({
   },
   maritalStatus: {
     type: String,
-    enum: ["Married"],
-    default: "Single",
+    enum: ["Married", "Single"],
   },
   education: {
     degree: String,
