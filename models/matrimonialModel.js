@@ -8,15 +8,10 @@ const matrimonialSchema = new mongoose.Schema({
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "UserV1",
     required: true,
   },
   profileCreatedBy: String,
-  maritalStatus: {
-    type: String,
-    enum: ["Never married", "Divorced","Awaiting Divorce"],
-    default: "Never married",
-  },
   images: [{ type: String }],
   patrika: [{ type: String }],
   nativePlace: String,

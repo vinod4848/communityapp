@@ -1,13 +1,18 @@
 const mongoose = require("mongoose");
 
 const directorySchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
-  description: {
+  companyLogo: {
     type: String,
+    required: true,
+  },
+  companyEmail: {
+    type: String,
+    required: true,
   },
   gstNumber: {
     type: Number,
@@ -18,7 +23,7 @@ const directorySchema = new mongoose.Schema({
     required: true,
   },
   businessArea: {
-    type: Number,
+    type: String,
     required: true,
   },
   locality: {
@@ -36,6 +41,9 @@ const directorySchema = new mongoose.Schema({
   address: {
     type: String,
     required: true,
+  },
+  description: {
+    type: String,
   },
   establishedDate: {
     type: Date,

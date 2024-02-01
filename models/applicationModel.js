@@ -8,7 +8,7 @@ const applicationSchema = new mongoose.Schema({
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "UserV1",
     required: true,
   },
   profileId: {
@@ -71,6 +71,10 @@ const applicationSchema = new mongoose.Schema({
   portfolioLink: {
     type: String,
     default: "",
+  },
+  skills: {
+    type: [String],
+    default: [],
   },
   references: {
     type: [String],

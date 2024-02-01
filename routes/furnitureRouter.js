@@ -11,7 +11,7 @@ router.put("/furniture/:id", furnitureController.updateFurniture);
 router.delete("/furniture/:id", furnitureController.deleteFurniture);
 
 router.post(
-  "/furniture/:id",
+  "/furnitureImage/:id",
   uploadMultipleImage.array("image"),
   furnitureController.uploadFurnitureImages
 );

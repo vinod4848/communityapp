@@ -24,11 +24,10 @@ const directoryController = {
   },
   addDirectory: async (req, res) => {
     try {
-      const newDirectory = new Directory(req.body);
-      const savedDirectory = await newDirectory.save();
-      res.status(201).json(savedDirectory);
+      const newDirectory = await Directory.create(req.body);
+      res.json(newDirectory);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      res.status(500).json({ message: error.message });
     }
   },
   updateDirectory: async (req, res) => {

@@ -23,6 +23,19 @@ const electronicsSchema = new mongoose.Schema({
     ],
     required: true,
   },
+  address: {
+    type: String,
+    required: true,
+  },
+  landmark: {
+    type: String,
+    required: true,
+  },
+  used: {
+    type: String,
+    enum: ["New", "Old"],
+    required: true,
+  },
   adTitle: {
     type: String,
     required: true,
