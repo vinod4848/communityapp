@@ -350,7 +350,9 @@ const getAllCars = async (req, res) => {
 
 const getPhoneById = async (req, res) => {
   try {
-    const phone = await Phone.findById(req.params.id).populate("profileId").exec();
+    const phone = await Phone.findById(req.params.id)
+      .populate("profileId")
+      .exec();
     if (!phone) {
       return res.status(404).json({ error: "Phone not found" });
     }
@@ -404,7 +406,9 @@ const getBicyclesById = async (req, res) => {
 
 const getBikeById = async (req, res) => {
   try {
-    const bike = await Bike.findById(req.params.id).populate("profileId").exec();
+    const bike = await Bike.findById(req.params.id)
+      .populate("profileId")
+      .exec();
     if (!bike) {
       return res.status(404).json({ error: "Bike not found" });
     }
@@ -514,73 +518,72 @@ const updateCar = async (req, res) => {
 
 const deletePhone = async (req, res) => {
   try {
-    const phone = await Phone.findByIdAndDelete(req.params.id);
-    if (!phone) {
-      return res.status(404).json({ error: "Phone not found" });
+    const deletecar = await Phone.findByIdAndRemove(req.params.id);
+    if (!deletecar) {
+      return res.status(404).json({ message: "Phone not found" });
     }
-    res.status(204).end();
+    res.status(200).json({ message: "Phone deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message });
   }
 };
 
 const deleteAccessories = async (req, res) => {
   try {
-    const accessories = await Accessories.findByIdAndDelete(req.params.id);
-    if (!accessories) {
-      return res.status(404).json({ error: "Accessories not found" });
+    const deletecar = await Accessories.findByIdAndRemove(req.params.id);
+    if (!deletecar) {
+      return res.status(404).json({ message: "Accessories not found" });
     }
-    res.status(204).end();
+    res.status(200).json({ message: "Accessories deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message });
   }
 };
 
 const deleteTablets = async (req, res) => {
   try {
-    const tablets = await Tablets.findByIdAndDelete(req.params.id);
-    if (!tablets) {
-      return res.status(404).json({ error: "Tablets not found" });
+    const deletecar = await Tablets.findByIdAndRemove(req.params.id);
+    if (!deletecar) {
+      return res.status(404).json({ message: "Tablets not found" });
     }
-    res.status(204).end();
+    res.status(200).json({ message: "Tablets deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message });
   }
 };
-
 const deleteBicycles = async (req, res) => {
   try {
-    const bicycles = await Bicycles.findByIdAndDelete(req.params.id);
-    if (!bicycles) {
-      return res.status(404).json({ error: "Bicycles not found" });
+    const deletecar = await Bicycles.findByIdAndRemove(req.params.id);
+    if (!deletecar) {
+      return res.status(404).json({ message: "Bicycles not found" });
     }
-    res.status(204).end();
+    res.status(200).json({ message: "Bicycles deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message });
   }
 };
 
 const deleteBike = async (req, res) => {
   try {
-    const bike = await Bike.findByIdAndDelete(req.params.id);
-    if (!bike) {
-      return res.status(404).json({ error: "Bike not found" });
+    const deletecar = await Bike.findByIdAndRemove(req.params.id);
+    if (!deletecar) {
+      return res.status(404).json({ message: "Bike not found" });
     }
-    res.status(204).end();
+    res.status(200).json({ message: "Bike deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message });
   }
 };
 
 const deleteCar = async (req, res) => {
   try {
-    const car = await Car.findByIdAndDelete(req.params.id);
-    if (!car) {
-      return res.status(404).json({ error: "Car not found" });
+    const deletecar = await Car.findByIdAndRemove(req.params.id);
+    if (!deletecar) {
+      return res.status(404).json({ message: "Car not found" });
     }
-    res.status(204).end();
+    res.status(200).json({ message: "Car deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message });
   }
 };
 

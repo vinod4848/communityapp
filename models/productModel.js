@@ -167,6 +167,9 @@ const bikeSchema = new mongoose.Schema({
   year: {
     type: Number,
   },
+  number: {
+    type: Number,
+  },
   kmDriven: {
     type: Number,
     required: true,
@@ -216,6 +219,10 @@ const carSchema = new mongoose.Schema({
   },
   year: {
     type: Number,
+    required: true,
+  },
+  number: {
+    type: String,
     required: true,
   },
   fuelType: {
@@ -273,6 +280,7 @@ const Tablets = mongoose.model("Tablets", tabletsSchema);
 const Bicycles = mongoose.model("Bicycles", bicyclesSchema);
 const Bike = mongoose.model("Bike", bikeSchema);
 const Car = mongoose.model("Car", carSchema);
+
 module.exports = {
   Phone,
   Accessories,
