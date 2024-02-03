@@ -11,7 +11,7 @@ router.put("/gallery/:id", galleryController.updateGallery);
 router.delete("/gallery/:id", galleryController.deleteGallery);
 
 router.post(
-  "/gallery/:id",
+  "/gallery/image/:id",
   uploadMultipleImage.array("image"),
   galleryController.uploadGallerieImages
 );

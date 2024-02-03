@@ -70,59 +70,19 @@ const uploadPropertyImages = async (req, res) => {
   }
 };
 
-const createProperty = async (req, res) => {
+const createProperty =  async (req, res) => {
   try {
-    const {
-      userId,
-      propertyFor,
-      address,
-      landmark,
-      proprietorshiptypes,
-      propertyType,
-      bathrooms,
-      furnishing,
-      superBuiltupArea,
-      carpetArea,
-      maintenanceMonthly,
-      totalFloors,
-      floorNo,
-      carParking,
-      facing,
-      adTitle,
-      description,
-      price,
-    } = req.body;
-
-    const newProperty = new Property({
-      userId,
-      propertyFor,
-      address,
-      landmark,
-      proprietorshiptypes,
-      propertyType,
-      bathrooms,
-      furnishing,
-      superBuiltupArea,
-      carpetArea,
-      maintenanceMonthly,
-      totalFloors,
-      floorNo,
-      carParking,
-      facing,
-      adTitle,
-      description,
-      price,
-    });
-
-    const savedProperty = await newProperty.save();
-    res.status(201).json(savedProperty);
+    const property = new Property(req.body);
+    await property.save();
+    res.status(201).send(property);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Error creating property:", error);
+    res.status(500).send(error);
   }
 };
 const getAllProperties = async (req, res) => {
   try {
-    const allProperties = await Property.find().populate("userId");
+    const allProperties = await Property.find().populate("profileId");
     res.status(200).json(allProperties);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -131,7 +91,7 @@ const getAllProperties = async (req, res) => {
 
 const getPropertyById = async (req, res) => {
   try {
-    const property = await Property.findById(req.params.id).populate("userId");
+    const property = await Property.findById(req.params.id).populate("profileId");
     if (!property) {
       return res.status(404).json({ message: "Property not found" });
     }

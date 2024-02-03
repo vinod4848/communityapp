@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const fashionSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   fashionType: {
@@ -12,6 +12,10 @@ const fashionSchema = new mongoose.Schema({
     required: true,
   },
   adTitle: {
+    type: String,
+    required: true,
+  },
+  description: {
     type: String,
     required: true,
   },
@@ -28,6 +32,10 @@ const fashionSchema = new mongoose.Schema({
     required: true,
   },
   images: [{ type: String }],
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Fashion = mongoose.model("Fashion", fashionSchema);

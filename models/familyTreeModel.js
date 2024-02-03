@@ -1,14 +1,26 @@
 const mongoose = require("mongoose");
 
+const generateNumericId = () => {
+  const digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let numericId = "";
+
+  for (let i = 0; i < 10; i++) {
+    const randomIndex = Math.floor(Math.random() * digits.length);
+    numericId += digits.charAt(randomIndex);
+  }
+
+  return numericId;
+};
+
 const individualSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  relationship: { type: String, required: true },
+  fullName: { type: String, required: true },
+  gender: { type: String, required: true },
   dateOfBirth: { type: Date },
   image: { type: String },
+  membershipId: { type: String, unique: true, default: generateNumericId },
 });
 
 const Individual = mongoose.model("Individual", individualSchema);
 
 module.exports = { Individual };
+

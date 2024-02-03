@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const shopOfficeSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   furnishing: {
@@ -13,7 +13,7 @@ const shopOfficeSchema = new mongoose.Schema({
   },
   shopOfficeType: {
     type: String,
-    enum: ["For Rent: Shops & Offices", "For Sale: Shops & Offices", "other"],
+    enum: ["For Rent: Shops & Offices", "For Sale: Shops & Offices", "Other"],
     required: true,
   },
   superBuiltupArea: {
@@ -55,7 +55,18 @@ const shopOfficeSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  facilities: {
+    wifi: Boolean,
+    ac: Boolean,
+    tv: Boolean,
+    refrigerator: Boolean,
+    security: Boolean,
+  },
   images: [{ type: String }],
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const ShopOffice = mongoose.model("ShopOffice", shopOfficeSchema);

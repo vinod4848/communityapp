@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const furnitureSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   furnitureType: {
@@ -16,6 +16,11 @@ const furnitureSchema = new mongoose.Schema({
       "Other Household Items",
       "other",
     ],
+    required: true,
+  },
+  used:{
+    type: String,
+    enum: ["New", "Old"],
     required: true,
   },
   adTitle:{
@@ -39,6 +44,10 @@ const furnitureSchema = new mongoose.Schema({
     required: true,
   },
   images: [{ type: String }],
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Furniture = mongoose.model("Furniture", furnitureSchema);

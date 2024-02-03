@@ -1,5 +1,7 @@
 require("dotenv").config();
 const express = require("express");
+const http = require("http");
+const socketIO = require("./helper/socket");
 const dbConnect = require("./helper/dbConnect");
 const app = express();
 const bodyParser = require("body-parser");
@@ -28,6 +30,7 @@ const landPlotsRouter = require("./routes/landPlotRouter");
 const shopOfficesRouter = require("./routes/shopOfficeRouter");
 const pgGuestHouseRouter = require("./routes/pgGuestHouseRouter");
 const familyTreeRouter = require("./routes/familyTreeRoute");
+const individualRouter = require("./routes/individualRouter");
 
 const morgan = require("morgan");
 dbConnect();
@@ -39,6 +42,9 @@ app.use(
     limit: "50mb",
   })
 );
+
+const server = http.createServer(app);
+socketIO.attach(server);
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -46,6 +52,7 @@ app.use(
   })
 );
 
+app.use("/api", individualRouter);
 app.use("/api", familyTreeRouter);
 app.use("/api", pgGuestHouseRouter);
 app.use("/api", shopOfficesRouter);

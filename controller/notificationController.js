@@ -1,67 +1,51 @@
 const Notification = require("../models/notificationModel");
 
-const notificationController = {
-  createNotification: async (type, userId, itemId) => {
-    try {
-      const notification = new Notification({ type, userId, itemId });
-      await notification.save();
-      return notification;
-    } catch (error) {
-      console.error("Error creating notification:", error.message);
-      throw new Error("Failed to create notification");
-    }
-  },
+exports.getAllNotifications = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const notifications = await Notification.find({ userId }).sort({
+      timestamp: -1,
+    });
 
-  getNotificationCount: async (userId) => {
-    try {
-      const unreadNotificationCount = await Notification.countDocuments({
-        userId,
-        isRead: false,
-      })
-        .populate("userId")
-        .exec();
-      return unreadNotificationCount;
-    } catch (error) {
-      console.error("Error getting notification count:", error.message);
-      throw new Error("Failed to get notification count");
-    }
-  },
-
-  markNotificationAsRead: async (notificationId) => {
-    try {
-      const notification = await Notification.findById(notificationId).populate(
-        {
-          path: "userId",
-          select: "username",
-        }
-      );
-
-      if (!notification) {
-        throw new Error("Notification not found");
-      }
-
-      notification.isRead = true;
-      await notification.save();
-
-      const populatedNotification = await Notification.findById(notificationId)
-        .populate({
-          path: "userId",
-          select: "username",
-        })
-        .exec();
-
-      return {
-        message: "Notification marked as read",
-        notification: populatedNotification,
-      };
-    } catch (error) {
-      console.error("Error marking notification as read:", error);
-      console.error("Notification ID:", notificationId);
-      console.error("Stack Trace:", error.stack);
-
-      throw new Error("Failed to mark notification as read");
-    }
-  },
+    res.status(200).json(notifications);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 };
 
-module.exports = notificationController;
+exports.markAsRead = async (req, res) => {
+  try {
+    const notificationId = req.params.notificationId;
+    const notification = await Notification.findByIdAndUpdate(
+      notificationId,
+      { isRead: true },
+      { new: true }
+    );
+
+    if (!notification) {
+      return res.status(404).json({ error: "Notification not found" });
+    }
+
+    res.status(200).json(notification);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.deleteNotification = async (req, res) => {
+  try {
+    const notificationId = req.params.notificationId;
+    const notification = await Notification.findByIdAndRemove(notificationId);
+
+    if (!notification) {
+      return res.status(404).json({ error: "Notification not found" });
+    }
+
+    res.status(204).end();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};

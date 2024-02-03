@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const propertySchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   propertyFor: {
@@ -49,11 +49,11 @@ const propertySchema = new mongoose.Schema({
   },
   superBuiltupArea: {
     type: Number,
-    // required: true,
+    required: true,
   },
   carpetArea: {
     type: Number,
-    // required: true,
+    required: true,
   },
   maintenanceMonthly: {
     type: Number,
@@ -83,18 +83,22 @@ const propertySchema = new mongoose.Schema({
   },
   adTitle: {
     type: String,
-    // required: true,
+    required: true,
   },
   description: {
     type: String,
-    // required: true,
+    required: true,
   },
   price: {
     type: Number,
-    // required: true,
+    required: true,
   },
   image: {
     type: [String],
+  },
+  isActive: {
+    type: Boolean,
+    default: false,
   },
 });
 

@@ -8,16 +8,12 @@ const matrimonialSchema = new mongoose.Schema({
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "UserV1",
     required: true,
   },
   profileCreatedBy: String,
-  maritalStatus: {
-    type: String,
-    enum: ["Not married", "Married"],
-    default: "Not married",
-  },
   images: [{ type: String }],
+  patrika: [{ type: String }],
   nativePlace: String,
   healthInformation: String,
   anyDisability: String,
@@ -74,7 +70,7 @@ const matrimonialSchema = new mongoose.Schema({
     highestQualification: String,
     collegeAttended: String,
     workingWith: String,
-    annualIncome: String,
+    workingAs: String,
   },
   lifestyle: String,
   locationOfGroom: {

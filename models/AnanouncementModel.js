@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const announcementSchema = new mongoose.Schema({
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "UserV1",
     required: true,
   },
   announcementType: { type: String, required: true },

@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const electronicsSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   electronicsAndAppliances: {
@@ -23,6 +23,19 @@ const electronicsSchema = new mongoose.Schema({
     ],
     required: true,
   },
+  address: {
+    type: String,
+    required: true,
+  },
+  landmark: {
+    type: String,
+    required: true,
+  },
+  used: {
+    type: String,
+    enum: ["New", "Old"],
+    required: true,
+  },
   adTitle: {
     type: String,
     required: true,
@@ -36,6 +49,10 @@ const electronicsSchema = new mongoose.Schema({
     required: true,
   },
   images: [{ type: String }],
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Electronics = mongoose.model("Electronics", electronicsSchema);

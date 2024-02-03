@@ -70,7 +70,7 @@ const uploadPgGuestHouseImages = async (req, res) => {
 };
 const getAllPgGuestHouses = async (req, res) => {
   try {
-    const pgGuestHouses = await PgGuestHouse.find().populate("userId");
+    const pgGuestHouses = await PgGuestHouse.find().populate("profileId");
     res.json(pgGuestHouses);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -79,7 +79,7 @@ const getAllPgGuestHouses = async (req, res) => {
 
 const getPgGuestHouseById = async (req, res) => {
   try {
-    const pgGuestHouse = await PgGuestHouse.findById(req.params.id).populate("userId");
+    const pgGuestHouse = await PgGuestHouse.findById(req.params.id).populate("profileId");
     if (!pgGuestHouse) {
       return res.status(404).json({ message: "PG or Guest House not found" });
     }
@@ -90,39 +90,13 @@ const getPgGuestHouseById = async (req, res) => {
 };
 
 const createPgGuestHouse = async (req, res) => {
-  const {
-    userId,
-    subtype,
-    furnishing,
-    listedBy,
-    carParking,
-    mealsIncluded,
-    adTitle,
-    description,
-    address,
-    landmark,
-    price,
-  } = req.body;
-
-  const pgGuestHouse = new PgGuestHouse({
-    userId,
-    subtype,
-    furnishing,
-    listedBy,
-    carParking,
-    mealsIncluded,
-    adTitle,
-    description,
-    address,
-    landmark,
-    price,
-  });
-
   try {
-    const newPgGuestHouse = await pgGuestHouse.save();
+    const newPgGuestHouse = new PgGuestHouse(req.body);
+    await newPgGuestHouse.save();
     res.status(201).json(newPgGuestHouse);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 

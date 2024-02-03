@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const profileSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "UserV1",
     required: true,
   },
   firstName: {
@@ -18,6 +18,10 @@ const profileSchema = new mongoose.Schema({
     fatherName: String,
     motherName: String,
   },
+  maritalStatus: {
+    type: String,
+    enum: ["Married", "Single", "Divorced", "Awaiting Divorce"],
+  },
   education: {
     degree: String,
     institution: String,
@@ -27,7 +31,7 @@ const profileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  image: {
+  url: {
     type: String,
   },
   dateOfBirth: {
@@ -42,10 +46,6 @@ const profileSchema = new mongoose.Schema({
     postalCode: String,
   },
   languages: {
-    type: [String],
-    default: [],
-  },
-  skills: {
     type: [String],
     default: [],
   },

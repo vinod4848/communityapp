@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const phoneSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   brand: {
@@ -33,11 +33,15 @@ const phoneSchema = new mongoose.Schema({
   images: {
     type: String,
   },
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 const accessoriesSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   type: {
@@ -68,11 +72,15 @@ const accessoriesSchema = new mongoose.Schema({
   images: {
     type: String,
   },
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 const tabletsSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   type: {
@@ -103,11 +111,15 @@ const tabletsSchema = new mongoose.Schema({
   images: {
     type: [String],
   },
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 const bicyclesSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   brand: {
@@ -137,11 +149,15 @@ const bicyclesSchema = new mongoose.Schema({
   images: {
     type: [String],
   },
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 const bikeSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   brand: {
@@ -151,9 +167,17 @@ const bikeSchema = new mongoose.Schema({
   year: {
     type: Number,
   },
+  number: {
+    type: Number,
+  },
   kmDriven: {
     type: Number,
     required: true,
+  },
+  numberOfOwners: {
+    type: Number,
+    required: true,
+    enum: [1, 2, 3, 4, "4+"],
   },
   adTitle: {
     type: String,
@@ -178,11 +202,15 @@ const bikeSchema = new mongoose.Schema({
   images: {
     type: [String],
   },
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 const carSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   brand: {
@@ -191,6 +219,10 @@ const carSchema = new mongoose.Schema({
   },
   year: {
     type: Number,
+    required: true,
+  },
+  number: {
+    type: String,
     required: true,
   },
   fuelType: {
@@ -236,6 +268,10 @@ const carSchema = new mongoose.Schema({
     type: [String],
     required: true,
   },
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Phone = mongoose.model("Phone", phoneSchema);
@@ -244,6 +280,7 @@ const Tablets = mongoose.model("Tablets", tabletsSchema);
 const Bicycles = mongoose.model("Bicycles", bicyclesSchema);
 const Bike = mongoose.model("Bike", bikeSchema);
 const Car = mongoose.model("Car", carSchema);
+
 module.exports = {
   Phone,
   Accessories,

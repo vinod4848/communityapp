@@ -15,6 +15,9 @@ const advertisingSchema = new mongoose.Schema({
   bannerSize: {
     type: String,
   },
+  adPosition: {
+    type: String,
+  },
   click: {
     type: String,
   },

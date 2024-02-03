@@ -8,7 +8,7 @@ const applicationSchema = new mongoose.Schema({
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "UserV1",
     required: true,
   },
   profileId: {
@@ -32,7 +32,6 @@ const applicationSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-  Experience: {},
   yearsOfExperience: {
     type: Number,
     default: 0,
@@ -73,6 +72,10 @@ const applicationSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  skills: {
+    type: [String],
+    default: [],
+  },
   references: {
     type: [String],
     default: [],
@@ -82,6 +85,10 @@ const applicationSchema = new mongoose.Schema({
     default: "",
   },
   willingnessToTravel: {
+    type: Boolean,
+    default: false,
+  },
+  relocated: {
     type: Boolean,
     default: false,
   },

@@ -35,36 +35,35 @@ const uploadImage = async (file) => {
     });
   });
 };
-
 const uploadGallerieImages = async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No files provided" });
     }
 
-    const images = await Promise.all(
+    const image = await Promise.all(
       req.files.map((file) => uploadImage(file))
     );
 
-    if (!images.every((image) => image)) {
+    if (!image.every((image) => image)) {
       return res
         .status(400)
-        .json({ error: "Failed to upload one or more images" });
+        .json({ error: "Failed to upload one or more image" });
     }
 
-    const updateData = { ...req.body, images };
+    const updateData = { ...req.body, image };
 
-    const updatedFurniture = await Gallery.findByIdAndUpdate(
+    const updatedGallery = await Gallery.findByIdAndUpdate(
       req.params.id,
       updateData,
       { new: true }
     );
 
-    if (!updatedFurniture) {
+    if (!updatedGallery) {
       return res.status(404).json({ message: "Gallery not found" });
     }
 
-    res.status(200).json(updatedFurniture);
+    res.status(200).json(updatedGallery);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

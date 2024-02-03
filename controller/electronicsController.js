@@ -41,10 +41,14 @@ const uploadElectronicsImages = async (req, res) => {
       return res.status(400).json({ error: "No files provided" });
     }
 
-    const images = await Promise.all(req.files.map(file => uploadImage(file)));
+    const images = await Promise.all(
+      req.files.map((file) => uploadImage(file))
+    );
 
-    if (!images.every(image => image)) {
-      return res.status(400).json({ error: "Failed to upload one or more images" });
+    if (!images.every((image) => image)) {
+      return res
+        .status(400)
+        .json({ error: "Failed to upload one or more images" });
     }
 
     const updateData = { ...req.body, images };
@@ -65,29 +69,18 @@ const uploadElectronicsImages = async (req, res) => {
   }
 };
 
-
-
-
 const createElectronics = async (req, res) => {
   try {
-    const electronics = new Electronics({
-      userId: req.body.userId,
-      electronicsAndAppliances: req.body.electronicsAndAppliances,
-      adTitle: req.body.adTitle,
-      description: req.body.description,
-      price: req.body.price,
-    });
-
-    const savedElectronics = await electronics.save();
-    res.json(savedElectronics);
+    const newListing = await Electronics.create(req.body);
+    return res.status(201).json(newListing);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
 const getAllElectronics = async (req, res) => {
   try {
-    const electronics = await Electronics.find();
+    const electronics = await Electronics.find().populate("profileId").exec();
     res.json(electronics);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -96,7 +89,7 @@ const getAllElectronics = async (req, res) => {
 
 const getElectronicsById = async (req, res) => {
   try {
-    const electronics = await Electronics.findById(req.params.id);
+    const electronics = await Electronics.findById(req.params.id).populate("profileId").exec();;
     res.json(electronics);
   } catch (error) {
     res.status(500).json({ error: error.message });

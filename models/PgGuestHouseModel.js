@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const pgGuestHouseSchema = new mongoose.Schema({
-  userId: {
+  profileId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Profile",
     required: true,
   },
   subtype: {
@@ -44,7 +44,36 @@ const pgGuestHouseSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  bedrooms: {
+    type: Number,
+    required: true,
+  },
+  bathrooms: {
+    type: Number,
+    required: true,
+  },
+  facilities: {
+    wifi: Boolean,
+    ac: Boolean,
+    tv: Boolean,
+    refrigerator: Boolean,
+    washingMachine: Boolean,
+    security: Boolean,
+    parking: Boolean,
+    gym: Boolean,
+    garden: Boolean,
+    hotWater: Boolean,
+    balcony: Boolean,
+    housekeeping: Boolean,
+    laundryService: Boolean,
+    swimmingPool: Boolean,
+  },
+
   images: [{ type: String }],
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const PgGuestHouse = mongoose.model("PgGuestHouse", pgGuestHouseSchema);
