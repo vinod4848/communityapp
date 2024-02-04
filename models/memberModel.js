@@ -4,11 +4,14 @@ const memberSchema = new mongoose.Schema({
   profileId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Profile",
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "UserV1",
     required: true,
   },
   fullname: {
     type: String,
-    required: true,
   },
   image: {
     type: String,

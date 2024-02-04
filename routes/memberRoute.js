@@ -9,6 +9,7 @@ router.get("/members", memberController.getMembersPage);
 router.get("/members/search", memberController.searchMembers);
 router.post("/members", memberController.createMember);
 router.get("/members/all", memberController.getMembers);
+router.get("/getAllMember/:id", memberController.getMembers);
 router.get("/members/:id", memberController.getMemberById);
 router.put("/members/:id", memberController.updateMemberById);
 router.delete("/members/:id", memberController.deleteMemberById);

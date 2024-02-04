@@ -45,9 +45,9 @@ const directorySchema = new mongoose.Schema({
   description: {
     type: String,
   },
-  establishedDate: {
-    type: Date,
-  },
+  // establishedDate: {
+  //   type: Date,
+  // },
   socialMediaLinks: {
     facebook: String,
     twitter: String,

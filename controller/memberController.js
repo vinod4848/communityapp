@@ -1,4 +1,5 @@
 const Member = require("../models/memberModel");
+const User = require("../models/userV1Model");
 const ITEMS_PER_PAGE = 10;
 const AWS = require("aws-sdk");
 const fs = require("fs");
@@ -112,6 +113,21 @@ const getMembers = async (req, res) => {
   }
 };
 
+const GetAllMember = async (req, res) => {
+  try {
+    const members = await Member.find().populate("profileId");
+
+    const userIds = members.map((member) => member.userId);
+
+    const userProfiles = await Profile.find({ userId: { $in: userIds } });
+
+    return res.status(200).json({ members, userProfiles });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const getMemberById = async (req, res) => {
   try {
     const member = await Member.findById(req.params.id).populate("profileId");
@@ -157,6 +173,7 @@ const deleteMemberById = async (req, res) => {
 };
 
 module.exports = {
+  GetAllMember,
   createMember,
   uploadMemberImage,
   getMembers,
