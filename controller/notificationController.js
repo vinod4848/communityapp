@@ -1,6 +1,6 @@
 const Notification = require("../models/notificationModel");
 
-exports.getAllNotifications = async (req, res) => {
+const getAllNotifications = async (req, res) => {
   try {
     const userId = req.params.userId;
     const notifications = await Notification.find({ userId }).sort({
@@ -14,7 +14,7 @@ exports.getAllNotifications = async (req, res) => {
   }
 };
 
-exports.markAsRead = async (req, res) => {
+const markAsRead = async (req, res) => {
   try {
     const notificationId = req.params.notificationId;
     const notification = await Notification.findByIdAndUpdate(
@@ -34,7 +34,7 @@ exports.markAsRead = async (req, res) => {
   }
 };
 
-exports.deleteNotification = async (req, res) => {
+const deleteNotification = async (req, res) => {
   try {
     const notificationId = req.params.notificationId;
     const notification = await Notification.findByIdAndRemove(notificationId);
@@ -48,4 +48,21 @@ exports.deleteNotification = async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
+};
+
+const getNotificationCount = async (userId) => {
+  try {
+    const count = await Notification.countDocuments({ userId, isRead: false });
+    return count;
+  } catch (error) {
+    console.error("Error getting notification count:", error);
+    throw error;
+  }
+};
+
+module.exports = {
+  getAllNotifications,
+  markAsRead,
+  deleteNotification,
+  getNotificationCount,
 };

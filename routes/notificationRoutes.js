@@ -1,19 +1,9 @@
 const express = require("express");
-const router = express.Router();
 const notificationController = require("../controller/notificationController");
 
-router.post("/add", async (req, res) => {
-  try {
-    const { type, userId, itemId } = req.body;
-    await notificationController.createNotification(type, userId, itemId);
-    res.status(201).json({ message: "Notification created successfully" });
-  } catch (error) {
-    console.error("Error creating notification:", error);
-    res.status(500).json({ error: "Failed to create notification" });
-  }
-});
+const router = express.Router();
 
-router.get("/count/:userId", async (req, res) => {
+router.get("/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
     const unreadNotificationCount =
@@ -25,17 +15,13 @@ router.get("/count/:userId", async (req, res) => {
   }
 });
 
-router.put("/ReadNotification/:notificationId", async (req, res) => {
-  try {
-    const notificationId = req.params.notificationId;
-    const result = await notificationController.markNotificationAsRead(
-      notificationId
-    );
-    res.json(result);
-  } catch (error) {
-    console.error("Error marking notification as read:", error);
-    res.status(500).json({ error: "Failed to mark notification as read" });
-  }
-});
+router.get("/all/:userId", notificationController.getAllNotifications);
+
+router.put("/mark-read/:notificationId", notificationController.markAsRead);
+
+router.delete(
+  "/delete/:notificationId",
+  notificationController.deleteNotification
+);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const Event = require('../models/eventModel'); 
 const AWS = require("aws-sdk");
 const fs = require("fs");
-
+const sendNotificationOfEventToAllUsers= require("../helper/notifier")
 const uploadImage = async (file) => {
   const bucketName = process.env.AWS_BUCKET_NAME;
   const region = "AP-SOUTH-1";
@@ -78,6 +78,8 @@ const eventController = {
     try {
       const newEvent = new Event(req.body);
       const savedEvent = await newEvent.save();
+      await sendNotificationOfEventToAllUsers(savedEvent);
+
       res.status(201).json(savedEvent);
     } catch (error) {
       res.status(400).json({ error: error.message });
