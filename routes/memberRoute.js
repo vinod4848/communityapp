@@ -6,6 +6,7 @@ const upload = multer({ dest: "uploads/" });
 const memberController = require("../controller/memberController");
 
 router.get("/members", memberController.getMembersPage);
+router.get("/GetAllMyMember", memberController.GetAllMyMember);
 router.get("/members/search", memberController.searchMembers);
 router.post("/members", memberController.createMember);
 router.get("/members/all", memberController.getMembers);

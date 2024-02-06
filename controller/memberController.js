@@ -106,22 +106,36 @@ const createMember = async (req, res) => {
 
 const getMembers = async (req, res) => {
   try {
-    const members = await Member.find().populate("profileId");
+    const members = await Member.find()
+      .populate("profileId")
+      .populate("userId");
     res.status(200).json(members);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
-const GetAllMember = async (req, res) => {
+const GetAllMyMember = async (req, res) => {
   try {
-    const members = await Member.find().populate("profileId");
+    const UserId = req.body.UserId;
 
-    const userIds = members.map((member) => member.userId);
+    if (!UserId) {
+      return res
+        .status(400)
+        .json({ error: "UserId is required in the request body." });
+    }
 
-    const userProfiles = await Profile.find({ userId: { $in: userIds } });
+    const members = await Member.find({ userId: UserId }).select(
+      "-createdAt -userId -_id -__v"
+    );
 
-    return res.status(200).json({ members, userProfiles });
+    if (members.length === 0) {
+      return res
+        .status(404)
+        .json({ message: `No members found for the given userId: ${UserId}.` });
+    }
+
+    return res.status(200).json(members);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal Server Error" });
@@ -173,7 +187,7 @@ const deleteMemberById = async (req, res) => {
 };
 
 module.exports = {
-  GetAllMember,
+  GetAllMyMember,
   createMember,
   uploadMemberImage,
   getMembers,

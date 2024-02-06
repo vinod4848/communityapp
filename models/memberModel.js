@@ -10,12 +10,6 @@ const memberSchema = new mongoose.Schema({
     ref: "UserV1",
     required: true,
   },
-  fullname: {
-    type: String,
-  },
-  image: {
-    type: String,
-  },
   Relationship: {
     type: String,
     enum: [
@@ -33,17 +27,18 @@ const memberSchema = new mongoose.Schema({
       "Niece",
       "Husband",
       "Wife",
-      "Partner",
-      "Fiance",
-      "Fiancee",
-      "Ex-Spouse",
-      "In-law",
-      "Guardian",
       "Godfather",
       "Godmother",
     ],
     required: true,
   },
+  fullname: {
+    type: String,
+  },
+  image: {
+    type: String,
+  },
+ 
   createdAt: {
     type: Date,
     default: Date.now,
