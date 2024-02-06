@@ -1,7 +1,5 @@
 require("dotenv").config();
 const express = require("express");
-const http = require("http");
-const socketIO = require("./helper/socket");
 const dbConnect = require("./helper/dbConnect");
 const app = express();
 const bodyParser = require("body-parser");
@@ -16,7 +14,6 @@ const directoryRouter = require("./routes/directoryRoute");
 const blogRouter = require("./routes/blogRoute");
 const advertisingRouter = require("./routes/advertisingRoute");
 const userRoutes = require("./routes/userRoute");
-const notificationRoutes = require("./routes/notificationRoutes");
 const magazineRouter = require("./routes/magazineRouter");
 const announcementRouter = require("./routes/announcementRoutes");
 const announcementCategoryRouter = require("./routes/announcementCategoryRoutes");
@@ -44,8 +41,7 @@ app.use(
   })
 );
 
-const server = http.createServer(app);
-socketIO.attach(server);
+
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -68,7 +64,6 @@ app.use("/api", productRouter);
 app.use("/api", announcementRouter);
 app.use("/api", announcementCategoryRouter);
 app.use("/api", magazineRouter);
-app.use("/api", notificationRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api", advertisingRouter);
 app.use("/api", blogRouter);
