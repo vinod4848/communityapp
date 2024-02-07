@@ -1,4 +1,6 @@
 const PgGuestHouse = require("../models/PgGuestHouseModel");
+const User = require("../models/userV1Model");
+const Notification = require("../models/notificationModel");
 
 const AWS = require("aws-sdk");
 const fs = require("fs");
@@ -89,17 +91,45 @@ const getPgGuestHouseById = async (req, res) => {
   }
 };
 
+// const createPgGuestHouse = async (req, res) => {
+//   try {
+//     const newPgGuestHouse = new PgGuestHouse(req.body);
+//     await newPgGuestHouse.save();
+//     res.status(201).json(newPgGuestHouse);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Internal Server Error' });
+//   }
+// };
+
 const createPgGuestHouse = async (req, res) => {
   try {
-    const newPgGuestHouse = new PgGuestHouse(req.body);
-    await newPgGuestHouse.save();
+    const newPgGuestHouse = await PgGuestHouse.create(req.body);
+    const allUsers = await User.find({}, "username");
+    const notificationPromises = allUsers.map((user) => {
+      const notificationData = {
+        title: "New PgGuestHouse Post",
+        message: `A new PgGuestHouse post "${newPgGuestHouse.adTitle}" has been added.`,
+        timestamp: Date.now(),
+        isRead: false,
+        userId: user._id,
+      };
+
+      console.log("Creating Notification:", notificationData);
+
+      return Notification.create(notificationData);
+    });
+
+    await Promise.all(notificationPromises);
+
+    console.log("Notifications sent to all users.");
+
     res.status(201).json(newPgGuestHouse);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error("Error creating PgGuestHouse and notifications:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
 const updatePgGuestHouse = async (req, res) => {
   try {
     const pgGuestHouse = await PgGuestHouse.findByIdAndUpdate(

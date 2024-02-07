@@ -1,4 +1,6 @@
 const Gallery = require("../models/galleryModel");
+const User = require("../models/userV1Model");
+const Notification = require("../models/notificationModel");
 
 const AWS = require("aws-sdk");
 const fs = require("fs");
@@ -41,9 +43,7 @@ const uploadGallerieImages = async (req, res) => {
       return res.status(400).json({ error: "No files provided" });
     }
 
-    const image = await Promise.all(
-      req.files.map((file) => uploadImage(file))
-    );
+    const image = await Promise.all(req.files.map((file) => uploadImage(file)));
 
     if (!image.every((image) => image)) {
       return res
@@ -70,8 +70,7 @@ const uploadGallerieImages = async (req, res) => {
 };
 const getAllGalleries = async (req, res) => {
   try {
-    const galleries = await Gallery.find()
-    .populate("userId");
+    const galleries = await Gallery.find().populate("userId");
     res.json(galleries);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -92,11 +91,30 @@ const getGalleryById = async (req, res) => {
 
 const createGallery = async (req, res) => {
   try {
-    const newGallery = new Gallery(req.body);
-    const savedGallery = await newGallery.save();
-    res.status(201).json(savedGallery);
+    const newEvent = await Gallery.create(req.body);
+    const allUsers = await User.find({}, "username");
+    const notificationPromises = allUsers.map((user) => {
+      const notificationData = {
+        title: "New Gallery Post",
+        message: `A new Gallery post "${newEvent.Albumtitle}" has been added.`,
+        timestamp: Date.now(),
+        isRead: false,
+        userId: user._id,
+      };
+
+      console.log("Creating Notification:", notificationData);
+
+      return Notification.create(notificationData);
+    });
+
+    await Promise.all(notificationPromises);
+
+    console.log("Notifications sent to all users.");
+
+    res.status(201).json(newEvent);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error("Error creating Gallery and notifications:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -118,8 +136,9 @@ const updateGallery = async (req, res) => {
 
 const deleteGallery = async (req, res) => {
   try {
-    const gallery = await Gallery.findByIdAndRemove(req.params.id)
-    .populate("userId");
+    const gallery = await Gallery.findByIdAndRemove(req.params.id).populate(
+      "userId"
+    );
 
     if (!gallery) {
       return res.status(404).json({ message: "Gallery not found" });

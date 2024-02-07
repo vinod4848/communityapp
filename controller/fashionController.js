@@ -1,4 +1,7 @@
 const Fashion = require("../models/fashionModel");
+const User = require("../models/userV1Model");
+const Notification = require("../models/notificationModel");
+
 const AWS = require("aws-sdk");
 const fs = require("fs");
 
@@ -92,25 +95,54 @@ const getFashionById = async (req, res) => {
   }
 };
 
-const createFashion = async (req, res) => {
-  const fashion = new Fashion({
-    profileId: req.body.profileId,
-    fashionType: req.body.fashionType,
-    adTitle: req.body.adTitle,
-    price: req.body.price,
-    description: req.body.description,
-    address: req.body.address,
-    landmark: req.body.landmark,
-  });
+// const createFashion = async (req, res) => {
+//   const fashion = new Fashion({
+//     profileId: req.body.profileId,
+//     fashionType: req.body.fashionType,
+//     adTitle: req.body.adTitle,
+//     price: req.body.price,
+//     description: req.body.description,
+//     address: req.body.address,
+//     landmark: req.body.landmark,
+//   });
 
+//   try {
+//     const newFashion = await fashion.save();
+//     res.status(201).json(newFashion);
+//   } catch (error) {
+//     res.status(400).json({ message: error.message });
+//   }
+// };
+
+
+const createFashion = async (req, res) => {
   try {
-    const newFashion = await fashion.save();
-    res.status(201).json(newFashion);
+    const newFurniture = await Fashion.create(req.body);
+    const allUsers = await User.find({}, "username");
+    const notificationPromises = allUsers.map((user) => {
+      const notificationData = {
+        title: "New Fashion Post",
+        message: `A new Fashion post "${newFurniture.adTitle}" has been added.`,
+        timestamp: Date.now(),
+        isRead: false,
+        userId: user._id,
+      };
+
+      console.log("Creating Notification:", notificationData);
+
+      return Notification.create(notificationData);
+    });
+
+    await Promise.all(notificationPromises);
+
+    console.log("Notifications sent to all users.");
+
+    res.status(201).json(newFurniture);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error("Error creating Fashion and notifications:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
 const updateFashion = async (req, res) => {
   try {
     const updatedFashion = await Fashion.findByIdAndUpdate(

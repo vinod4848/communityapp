@@ -1,4 +1,7 @@
 const Furniture = require("../models/furnitureModel");
+const User = require("../models/userV1Model");
+const Notification = require("../models/notificationModel");
+
 const AWS = require("aws-sdk");
 const fs = require("fs");
 
@@ -64,28 +67,34 @@ const uploadFurnitureImages = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
 const createFurniture = async (req, res) => {
   try {
-    const { used, furnitureType, adTitle, description, price,address,landmark,profileId } = req.body;
-    const newFurniture = new Furniture({
-      furnitureType,
-      adTitle,
-      description,
-      address,
-      landmark,
-      price,
-      profileId,
-      used
-    });
-    const savedFurniture = await newFurniture.save();
+    const newJob = await Furniture.create(req.body);
+    const allUsers = await User.find({}, "username");
+    const notificationPromises = allUsers.map((user) => {
+      const notificationData = {
+        title: "New Furniture Post",
+        message: `A new Furniture post "${newJob.title}" has been added.`,
+        timestamp: Date.now(),
+        isRead: false,
+        userId: user._id,
+      };
 
-    res.status(201).json(savedFurniture);
+      console.log("Creating Notification:", notificationData);
+
+      return Notification.create(notificationData);
+    });
+
+    await Promise.all(notificationPromises);
+
+    console.log("Notifications sent to all users.");
+
+    res.status(201).json(newJob);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Error creating Furniture and notifications:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
 const getAllFurniture = async (req, res) => {
   try {
     const allFurniture = await Furniture.find()
