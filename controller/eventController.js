@@ -1,4 +1,6 @@
 const Event = require('../models/eventModel'); 
+const User = require("../models/userV1Model");
+const Notification = require("../models/notificationModel");
 const AWS = require("aws-sdk");
 const fs = require("fs");
 
@@ -76,11 +78,30 @@ const eventController = {
   },
   addEvent: async (req, res) => {
     try {
-      const newEvent = new Event(req.body);
-      const savedEvent = await newEvent.save();
-      res.status(201).json(savedEvent);
+      const newEvent = await Event.create(req.body);
+      const allUsers = await User.find({}, "username");
+      const notificationPromises = allUsers.map((user) => {
+        const notificationData = {
+          title: "New Event Post",
+          message: `A new event post "${newEvent.title}" has been added.`,
+          timestamp: Date.now(),
+          isRead: false,
+          userId: user._id,
+        };
+
+        console.log("Creating Notification:", notificationData);
+
+        return Notification.create(notificationData);
+      });
+
+      await Promise.all(notificationPromises);
+
+      console.log("Notifications sent to all users.");
+
+      res.status(201).json(newEvent);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      console.error("Error creating event and notifications:", error);
+      res.status(500).json({ error: "Internal Server Error" });
     }
   },
   updateEvent: async (req, res) => {

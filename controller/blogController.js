@@ -1,4 +1,6 @@
 const Blog = require("../models/blogModel");
+const User = require("../models/userV1Model");
+const Notification = require("../models/notificationModel");
 const AWS = require("aws-sdk");
 const fs = require("fs");
 const uploadImage = async (file) => {
@@ -36,11 +38,30 @@ const uploadImage = async (file) => {
 const blogController = {
   addBlog: async (req, res) => {
     try {
-      const newBlog = new Blog(req.body);
-      const savedBlog = await newBlog.save();
-      res.status(201).json(savedBlog);
+      const newBlog = await Blog.create(req.body);
+      const allUsers = await User.find({}, "username");
+      const notificationPromises = allUsers.map((user) => {
+        const notificationData = {
+          title: "New Blog Post",
+          message: `A new blog post "${newBlog.title}" has been added.`,
+          timestamp: Date.now(),
+          isRead: false,
+          userId: user._id,
+        };
+
+        console.log("Creating Notification:", notificationData);
+
+        return Notification.create(notificationData);
+      });
+
+      await Promise.all(notificationPromises);
+
+      console.log("Notifications sent to all users.");
+
+      res.status(201).json(newBlog);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      console.error("Error creating blog and notifications:", error);
+      res.status(500).json({ error: "Internal Server Error" });
     }
   },
   getAllBlogs: async (req, res) => {

@@ -29,6 +29,7 @@ const pgGuestHouseRouter = require("./routes/pgGuestHouseRouter");
 const familyTreeRouter = require("./routes/familyTreeRoute");
 const individualRouter = require("./routes/individualRouter");
 const memberRouter = require("./routes/memberRoute");
+const notifictionRoutes = require("./routes/notificationRoutes");
 
 const morgan = require("morgan");
 dbConnect();
@@ -49,6 +50,7 @@ app.use(
   })
 );
 
+app.use("/api", notifictionRoutes);
 app.use("/api", memberRouter);
 app.use("/api", individualRouter);
 app.use("/api", familyTreeRouter);
