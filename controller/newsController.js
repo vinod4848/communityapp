@@ -1,4 +1,6 @@
 const News = require("../models/newsModel");
+const User = require("../models/userV1Model");
+const Notification = require("../models/notificationModel");
 const AWS = require("aws-sdk");
 const fs = require("fs");
 
@@ -56,13 +58,33 @@ const newsController = {
   },
   addNews: async (req, res) => {
     try {
-      const newNews = new News(req.body);
-      const savedNews = await newNews.save();
-      res.status(201).json(savedNews);
+      const NewNews = await News.create(req.body);
+      const allUsers = await User.find({}, "username");
+      const notificationPromises = allUsers.map((user) => {
+        const notificationData = {
+          title: "New News Post",
+          message: `A new News post "${NewNews.title}" has been added.`,
+          timestamp: Date.now(),
+          isRead: false,
+          userId: user._id,
+        };
+
+        console.log("Creating Notification:", notificationData);
+
+        return Notification.create(notificationData);
+      });
+
+      await Promise.all(notificationPromises);
+
+      console.log("Notifications sent to all users.");
+
+      res.status(201).json(NewNews);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      console.error("Error creating News and notifications:", error);
+      res.status(500).json({ error: "Internal Server Error" });
     }
   },
+
   searchNewsByTitle: async (req, res) => {
     try {
       const { title } = req.query;
