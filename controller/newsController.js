@@ -1,4 +1,4 @@
-const News = require("../models/newModel");
+const News = require("../models/newsModel");
 const AWS = require("aws-sdk");
 const fs = require("fs");
 
