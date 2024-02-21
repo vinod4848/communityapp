@@ -59,7 +59,7 @@ const profileController = {
   },
   getAllProfiles: async (req, res) => {
     try {
-      const profiles = await Profile.find();
+      const profiles = await Profile.find().populate("userId");
       res.status(200).json(profiles);
     } catch (error) {
       res.status(500).json({ error: error.message });

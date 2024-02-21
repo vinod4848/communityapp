@@ -1,4 +1,7 @@
 const Property = require("../models/propertyModel");
+const User = require("../models/userV1Model");
+const Notification = require("../models/notificationModel");
+
 
 const AWS = require("aws-sdk");
 const fs = require("fs");
@@ -70,14 +73,33 @@ const uploadPropertyImages = async (req, res) => {
   }
 };
 
-const createProperty =  async (req, res) => {
+
+const createProperty = async (req, res) => {
   try {
-    const property = new Property(req.body);
-    await property.save();
-    res.status(201).send(property);
+    const newProperty = await Property.create(req.body);
+    const allUsers = await User.find({}, "username");
+    const notificationPromises = allUsers.map((user) => {
+      const notificationData = {
+        title: "New Property Post",
+        message: `A new Property post "${newProperty.adTitle}" has been added.`,
+        timestamp: Date.now(),
+        isRead: false,
+        userId: user._id,
+      };
+
+      console.log("Creating Notification:", notificationData);
+
+      return Notification.create(notificationData);
+    });
+
+    await Promise.all(notificationPromises);
+
+    console.log("Notifications sent to all users.");
+
+    res.status(201).json(newProperty);
   } catch (error) {
-    console.error("Error creating property:", error);
-    res.status(500).send(error);
+    console.error("Error creating Property and notifications:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 const getAllProperties = async (req, res) => {

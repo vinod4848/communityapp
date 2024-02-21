@@ -1,7 +1,5 @@
 require("dotenv").config();
 const express = require("express");
-const http = require("http");
-const socketIO = require("./helper/socket");
 const dbConnect = require("./helper/dbConnect");
 const app = express();
 const bodyParser = require("body-parser");
@@ -16,7 +14,6 @@ const directoryRouter = require("./routes/directoryRoute");
 const blogRouter = require("./routes/blogRoute");
 const advertisingRouter = require("./routes/advertisingRoute");
 const userRoutes = require("./routes/userRoute");
-const notificationRoutes = require("./routes/notificationRoutes");
 const magazineRouter = require("./routes/magazineRouter");
 const announcementRouter = require("./routes/announcementRoutes");
 const announcementCategoryRouter = require("./routes/announcementCategoryRoutes");
@@ -31,6 +28,9 @@ const shopOfficesRouter = require("./routes/shopOfficeRouter");
 const pgGuestHouseRouter = require("./routes/pgGuestHouseRouter");
 const familyTreeRouter = require("./routes/familyTreeRoute");
 const individualRouter = require("./routes/individualRouter");
+const memberRouter = require("./routes/memberRoute");
+const notifictionRoutes = require("./routes/notificationRoutes");
+const carRoutes = require("./routes/cartRoutes");
 
 const morgan = require("morgan");
 dbConnect();
@@ -43,8 +43,7 @@ app.use(
   })
 );
 
-const server = http.createServer(app);
-socketIO.attach(server);
+
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -52,6 +51,9 @@ app.use(
   })
 );
 
+app.use("/api", carRoutes);
+app.use("/api", notifictionRoutes);
+app.use("/api", memberRouter);
 app.use("/api", individualRouter);
 app.use("/api", familyTreeRouter);
 app.use("/api", pgGuestHouseRouter);
@@ -66,7 +68,6 @@ app.use("/api", productRouter);
 app.use("/api", announcementRouter);
 app.use("/api", announcementCategoryRouter);
 app.use("/api", magazineRouter);
-app.use("/api", notificationRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api", advertisingRouter);
 app.use("/api", blogRouter);
@@ -78,9 +79,9 @@ app.use("/api", jobRouter);
 app.use("/api", galleryRouter);
 app.use("/api", eventRouter);
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 8081, () => {
   console.log(
     `Server is running in ${process.env.NODE_ENV || "development"} mode`
   );
-  console.log(`App is listening on port ${process.env.PORT || 3000}`);
+  console.log(`App is listening on port ${process.env.PORT || 8081}`);
 });

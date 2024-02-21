@@ -3,7 +3,10 @@ const Directory = require("../models/directoryModel");
 const directoryController = {
   getAllDirectories: async (req, res) => {
     try {
-      const directories = await Directory.find().populate("userId").exec();
+      const directories = await Directory.find()
+      .populate("profileId")
+      .populate("userId")
+      .exec();
       res.status(200).json(directories);
     } catch (error) {
       res.status(500).json({ error: error.message });

@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
 
 const announcementSchema = new mongoose.Schema({
+  profileId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Profile",
+  },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "UserV1",
-    required: true,
+    ref: "User",
   },
   announcementType: { type: String, required: true },
   description: { type: String, required: true },

@@ -1,4 +1,7 @@
 const Electronics = require("../models/electronicsAndAppliancesModel");
+const User = require("../models/userV1Model");
+const Notification = require("../models/notificationModel");
+
 const AWS = require("aws-sdk");
 const fs = require("fs");
 
@@ -71,13 +74,32 @@ const uploadElectronicsImages = async (req, res) => {
 
 const createElectronics = async (req, res) => {
   try {
-    const newListing = await Electronics.create(req.body);
-    return res.status(201).json(newListing);
+    const newElectronics = await Electronics.create(req.body);
+    const allUsers = await User.find({}, "username");
+    const notificationPromises = allUsers.map((user) => {
+      const notificationData = {
+        title: "New Electronics Post",
+        message: `A new Electronics post "${newElectronics.adTitle}" has been added.`,
+        timestamp: Date.now(),
+        isRead: false,
+        userId: user._id,
+      };
+
+      console.log("Creating Notification:", notificationData);
+
+      return Notification.create(notificationData);
+    });
+
+    await Promise.all(notificationPromises);
+
+    console.log("Notifications sent to all users.");
+
+    res.status(201).json(newElectronics);
   } catch (error) {
-    return res.status(500).json({ error: "Internal Server Error" });
+    console.error("Error creating Electronics and notifications:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
 const getAllElectronics = async (req, res) => {
   try {
     const electronics = await Electronics.find().populate("profileId").exec();

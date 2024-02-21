@@ -8,6 +8,9 @@ const {
 } = require("../models/productModel");
 const AWS = require("aws-sdk");
 const fs = require("fs");
+const User = require("../models/userV1Model");
+const Notification = require("../models/notificationModel");
+
 
 const uploadImage = async (file) => {
   const bucketName = process.env.AWS_BUCKET_NAME;
@@ -242,54 +245,173 @@ const uploadCarImages = async (req, res) => {
 
 const createPhone = async (req, res) => {
   try {
-    const phone = await Phone.create(req.body);
-    res.status(201).json(phone);
+    const newPhone = await Phone.create(req.body);
+    const allUsers = await User.find({}, "username");
+    const notificationPromises = allUsers.map((user) => {
+      const notificationData = {
+        title: "New Phone Post",
+        message: `A new Phone post "${newPhone.adTitle}" has been added.`,
+        timestamp: Date.now(),
+        isRead: false,
+        userId: user._id,
+      };
+
+      console.log("Creating Notification:", notificationData);
+
+      return Notification.create(notificationData);
+    });
+
+    await Promise.all(notificationPromises);
+
+    console.log("Notifications sent to all users.");
+
+    res.status(201).json(newElectronics);
   } catch (error) {
+    console.error("Error creating Phone and notifications:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
 const createAccessories = async (req, res) => {
   try {
-    const accessories = await Accessories.create(req.body);
-    res.status(201).json(accessories);
+    const newPhone = await Accessories.create(req.body);
+    const allUsers = await User.find({}, "username");
+    const notificationPromises = allUsers.map((user) => {
+      const notificationData = {
+        title: "New Accessories Post",
+        message: `A new Accessories post "${newPhone.adTitle}" has been added.`,
+        timestamp: Date.now(),
+        isRead: false,
+        userId: user._id,
+      };
+
+      console.log("Creating Notification:", notificationData);
+
+      return Notification.create(notificationData);
+    });
+
+    await Promise.all(notificationPromises);
+
+    console.log("Notifications sent to all users.");
+
+    res.status(201).json(newElectronics);
   } catch (error) {
+    console.error("Error creating Accessories and notifications:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
 const createTablets = async (req, res) => {
   try {
-    const tablets = await Tablets.create(req.body);
-    res.status(201).json(tablets);
+    const newBicycles = await Tablets.create(req.body);
+    const allUsers = await User.find({}, "username");
+    const notificationPromises = allUsers.map((user) => {
+      const notificationData = {
+        title: "New Tablets Post",
+        message: `A new Tablets post "${newBicycles.adTitle}" has been added.`,
+        timestamp: Date.now(),
+        isRead: false,
+        userId: user._id,
+      };
+
+      console.log("Creating Notification:", notificationData);
+
+      return Notification.create(notificationData);
+    });
+
+    await Promise.all(notificationPromises);
+
+    console.log("Notifications sent to all users.");
+
+    res.status(201).json(newElectronics);
   } catch (error) {
+    console.error("Error creating Tablets and notifications:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
 const createBicycles = async (req, res) => {
   try {
-    const bicycles = await Bicycles.create(req.body);
-    res.status(201).json(bicycles);
+    const newBicycles = await Bicycles.create(req.body);
+    const allUsers = await User.find({}, "username");
+    const notificationPromises = allUsers.map((user) => {
+      const notificationData = {
+        title: "New Bicycles Post",
+        message: `A new Bicycles post "${newBicycles.adTitle}" has been added.`,
+        timestamp: Date.now(),
+        isRead: false,
+        userId: user._id,
+      };
+
+      console.log("Creating Notification:", notificationData);
+
+      return Notification.create(notificationData);
+    });
+
+    await Promise.all(notificationPromises);
+
+    console.log("Notifications sent to all users.");
+
+    res.status(201).json(newElectronics);
   } catch (error) {
+    console.error("Error creating Bicycles and notifications:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
 const createBike = async (req, res) => {
   try {
-    const bike = await Bike.create(req.body);
-    res.status(201).json(bike);
+    const newBike = await Bike.create(req.body);
+    const allUsers = await User.find({}, "username");
+    const notificationPromises = allUsers.map((user) => {
+      const notificationData = {
+        title: "New Bike Post",
+        message: `A new Bike post "${newBike.adTitle}" has been added.`,
+        timestamp: Date.now(),
+        isRead: false,
+        userId: user._id,
+      };
+
+      console.log("Creating Notification:", notificationData);
+
+      return Notification.create(notificationData);
+    });
+
+    await Promise.all(notificationPromises);
+
+    console.log("Notifications sent to all users.");
+
+    res.status(201).json(newElectronics);
   } catch (error) {
+    console.error("Error creating Bicycles and notifications:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
 const createCar = async (req, res) => {
   try {
-    const car = await Car.create(req.body);
-    res.status(201).json(car);
+    const newCar = await Car.create(req.body);
+    const allUsers = await User.find({}, "username");
+    const notificationPromises = allUsers.map((user) => {
+      const notificationData = {
+        title: "New Car Post",
+        message: `A new Car post "${newCar.adTitle}" has been added.`,
+        timestamp: Date.now(),
+        isRead: false,
+        userId: user._id,
+      };
+
+      console.log("Creating Notification:", notificationData);
+
+      return Notification.create(notificationData);
+    });
+
+    await Promise.all(notificationPromises);
+
+    console.log("Notifications sent to all users.");
+
+    res.status(201).json(newElectronics);
   } catch (error) {
+    console.error("Error creating Car and notifications:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

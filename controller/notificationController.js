@@ -1,22 +1,40 @@
 const Notification = require("../models/notificationModel");
 
-exports.getAllNotifications = async (req, res) => {
+const addNotification = async (req, res) => {
   try {
-    const userId = req.params.userId;
-    const notifications = await Notification.find({ userId }).sort({
-      timestamp: -1,
+    const { title, message } = req.body;
+
+    const newNotification = new Notification({
+      title,
+      message,
     });
 
+    const savedNotification = await newNotification.save();
+
+    res.status(201).json(savedNotification);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+const getAllNotifications = async (req, res) => {
+  try {
+    const targetUserId = req.params.userId;
+
+    if (!targetUserId) {
+      return res.status(400).json({ error: "Target user ID is required." });
+    }
+
+    const notifications = await Notification.find({ userId: targetUserId });
     res.status(200).json(notifications);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message });
   }
 };
 
-exports.markAsRead = async (req, res) => {
+const markNotificationAsRead = async (req, res) => {
   try {
-    const notificationId = req.params.notificationId;
+    const { notificationId } = req.params;
+
     const notification = await Notification.findByIdAndUpdate(
       notificationId,
       { isRead: true },
@@ -24,28 +42,45 @@ exports.markAsRead = async (req, res) => {
     );
 
     if (!notification) {
-      return res.status(404).json({ error: "Notification not found" });
+      return res.status(404).json({ message: "Notification not found" });
     }
 
     res.status(200).json(notification);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message });
   }
 };
 
-exports.deleteNotification = async (req, res) => {
+const deleteNotification = async (req, res) => {
   try {
-    const notificationId = req.params.notificationId;
-    const notification = await Notification.findByIdAndRemove(notificationId);
+    const { notificationId } = req.params;
 
-    if (!notification) {
-      return res.status(404).json({ error: "Notification not found" });
+    const deletedNotification = await Notification.findByIdAndDelete(
+      notificationId
+    );
+
+    if (!deletedNotification) {
+      return res.status(404).json({ message: "Notification not found" });
     }
 
-    res.status(204).end();
+    res.status(200).json({ message: "Notification deleted successfully" });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message });
   }
+};
+const getUnreadNotificationCount = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const count = await Notification.countDocuments({ userId, isRead: false });
+    res.status(200).json({ count });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+module.exports = {
+  getUnreadNotificationCount,
+  addNotification,
+  getAllNotifications,
+  markNotificationAsRead,
+  deleteNotification,
 };

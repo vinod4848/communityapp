@@ -1,4 +1,6 @@
 const Job = require("../models/jobModel");
+const User = require("../models/userV1Model");
+const Notification = require("../models/notificationModel");
 
 const jobController = {
   getAllJobs: async (req, res) => {
@@ -43,13 +45,32 @@ const jobController = {
       res.status(500).json({ error: error.message });
     }
   },
-  addJob: async (req, res) => {
+  addJob : async (req, res) => {
     try {
-      const newJob = new Job(req.body);
-      const savedJob = await newJob.save();
-      res.status(201).json(savedJob);
+      const newJob = await Job.create(req.body);
+      const allUsers = await User.find({}, "username");
+      const notificationPromises = allUsers.map((user) => {
+        const notificationData = {
+          title: "New Job Post",
+          message: `A new Job post "${newJob.title}" has been added.`,
+          timestamp: Date.now(),
+          isRead: false,
+          userId: user._id,
+        };
+  
+        console.log("Creating Notification:", notificationData);
+  
+        return Notification.create(notificationData);
+      });
+  
+      await Promise.all(notificationPromises);
+  
+      console.log("Notifications sent to all users.");
+  
+      res.status(201).json(newJob);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      console.error("Error creating Job and notifications:", error);
+      res.status(500).json({ error: "Internal Server Error" });
     }
   },
   updateJob: async (req, res) => {

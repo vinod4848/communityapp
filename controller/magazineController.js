@@ -1,4 +1,7 @@
 const Magazine = require("../models/magazineModel");
+const User = require("../models/userV1Model");
+const Notification = require("../models/notificationModel");
+
 const AWS = require("aws-sdk");
 const fs = require("fs");
 
@@ -44,19 +47,48 @@ const getAllMagazines = async (req, res) => {
   }
 };
 
-const createMagazine = async (req, res) => {
-  const { title, date } = req.body;
+// const createMagazine = async (req, res) => {
+//   const { title, date } = req.body;
 
+//   try {
+//     const newMagazine = new Magazine({
+//       title,
+//       date,
+//     });
+
+//     const savedMagazine = await newMagazine.save();
+//     res.status(201).json(savedMagazine);
+//   } catch (error) {
+//     res.status(400).json({ message: error.message });
+//   }
+// };
+
+const createMagazine= async (req, res) => {
   try {
-    const newMagazine = new Magazine({
-      title,
-      date,
+    const newEvent = await Magazine.create(req.body);
+    const allUsers = await User.find({}, "username");
+    const notificationPromises = allUsers.map((user) => {
+      const notificationData = {
+        title: "New Magazine Post",
+        message: `A new Magazine post "${newEvent.title}" has been added.`,
+        timestamp: Date.now(),
+        isRead: false,
+        userId: user._id,
+      };
+
+      console.log("Creating Notification:", notificationData);
+
+      return Notification.create(notificationData);
     });
 
-    const savedMagazine = await newMagazine.save();
-    res.status(201).json(savedMagazine);
+    await Promise.all(notificationPromises);
+
+    console.log("Notifications sent to all users.");
+
+    res.status(201).json(newEvent);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error("Error creating Magazine and notifications:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

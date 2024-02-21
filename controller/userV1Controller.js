@@ -108,7 +108,13 @@ const verifyOTP = async (req, res) => {
 const getAllUsers = async (req, res) => {
   try {
     const users = await UserV1.find();
-    return res.status(200).json(users);
+    const userProfilePromises = users.map(async (user) => {
+      return await Profile.findOne({ userId: user._id });
+    });
+
+    const userProfiles = await Promise.all(userProfilePromises);
+
+    return res.status(200).json({ users, userProfiles });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal Server Error" });
@@ -117,17 +123,17 @@ const getAllUsers = async (req, res) => {
 
 const findById = async (req, res) => {
   try {
-    const { userId } = req.params;
-    const user = await UserV1.findById(userId);
+    const user = await UserV1.findById(req.params.id);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    return res.status(200).json(user);
+    const userProfile = await Profile.findOne({ userId: user._id });
+
+    res.status(200).json({ user, userProfile });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message });
   }
 };
 
