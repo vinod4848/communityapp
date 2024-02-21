@@ -30,6 +30,7 @@ const familyTreeRouter = require("./routes/familyTreeRoute");
 const individualRouter = require("./routes/individualRouter");
 const memberRouter = require("./routes/memberRoute");
 const notifictionRoutes = require("./routes/notificationRoutes");
+const carRoutes = require("./routes/cartRoutes");
 
 const morgan = require("morgan");
 dbConnect();
@@ -50,6 +51,7 @@ app.use(
   })
 );
 
+app.use("/api", carRoutes);
 app.use("/api", notifictionRoutes);
 app.use("/api", memberRouter);
 app.use("/api", individualRouter);
@@ -77,9 +79,9 @@ app.use("/api", jobRouter);
 app.use("/api", galleryRouter);
 app.use("/api", eventRouter);
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 8081, () => {
   console.log(
     `Server is running in ${process.env.NODE_ENV || "development"} mode`
   );
-  console.log(`App is listening on port ${process.env.PORT || 3000}`);
+  console.log(`App is listening on port ${process.env.PORT || 8081}`);
 });
