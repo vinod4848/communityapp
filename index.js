@@ -1,9 +1,9 @@
-require("dotenv").config();
 const express = require("express");
+require("dotenv").config();
 const dbConnect = require("./helper/dbConnect");
 const app = express();
 const bodyParser = require("body-parser");
-var cors = require("cors");
+const cors = require("cors");
 const newsRouter = require("./routes/newRoute");
 const profileRouter = require("./routes/profileRoute");
 const matrimonialRouter = require("./routes/matrimonialRoute");
@@ -34,7 +34,11 @@ const carRoutes = require("./routes/cartRoutes");
 
 const morgan = require("morgan");
 dbConnect();
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+}));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(
@@ -79,9 +83,8 @@ app.use("/api", jobRouter);
 app.use("/api", galleryRouter);
 app.use("/api", eventRouter);
 
-app.listen(process.env.PORT || 8081, () => {
-  console.log(
-    `Server is running in ${process.env.NODE_ENV || "development"} mode`
-  );
-  console.log(`App is listening on port ${process.env.PORT || 8081}`);
+const PORT = process.env.PORT || 8081;
+app.listen(PORT, () => {
+  console.log(`Server is running in ${process.env.NODE_ENV || "development"} mode`);
+  console.log(`App is listening on port ${PORT}`);
 });
