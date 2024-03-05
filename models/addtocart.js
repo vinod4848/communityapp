@@ -1,28 +1,18 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const cartSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'UserV1',
-    required: true,
-  },
-  sellerProfileId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Profile",
-    required: true,
-  },
-  buyerProfileId : {
+  buyerProfileId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Profile",
     required: true,
   },
   productId: {
     type: mongoose.Schema.Types.ObjectId,
-    refPath: 'productModel',
+    refPath: "productModel",
     required: true,
   },
   productModel: {
     type: String,
-    enum: ['Phone', 'Accessories', 'Tablets', 'Bicycles', 'Bike', 'Car'],
+    enum: ["LandPlot", "PgGuestHouse", "Property", "ShopOffice"],
     required: true,
   },
   addedAt: {
@@ -30,6 +20,6 @@ const cartSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-const Cart = mongoose.model('Cart', cartSchema);
+const Cart = mongoose.model("Cart", cartSchema);
 
 module.exports = Cart;

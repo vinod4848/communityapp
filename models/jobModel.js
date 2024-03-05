@@ -47,7 +47,7 @@ const jobSchema = new mongoose.Schema({
     required: true,
   },
   salary: {
-    type: Number,
+    type: String,
     default: null,
   },
   applicationDeadline: {
@@ -69,7 +69,7 @@ const jobSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  
+
   isApproved: {
     type: Boolean,
     default: false,

@@ -1,9 +1,9 @@
-require("dotenv").config();
 const express = require("express");
+require("dotenv").config();
 const dbConnect = require("./helper/dbConnect");
 const app = express();
 const bodyParser = require("body-parser");
-var cors = require("cors");
+const cors = require("cors");
 const newsRouter = require("./routes/newRoute");
 const profileRouter = require("./routes/profileRoute");
 const matrimonialRouter = require("./routes/matrimonialRoute");
@@ -43,7 +43,6 @@ app.use(
   })
 );
 
-
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -79,9 +78,10 @@ app.use("/api", jobRouter);
 app.use("/api", galleryRouter);
 app.use("/api", eventRouter);
 
-app.listen(process.env.PORT || 8081, () => {
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
   console.log(
     `Server is running in ${process.env.NODE_ENV || "development"} mode`
   );
-  console.log(`App is listening on port ${process.env.PORT || 8081}`);
+  console.log(`App is listening on port ${PORT}`);
 });
