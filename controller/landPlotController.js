@@ -118,7 +118,9 @@ const createLandPlot = async (req, res) => {
 
     console.log("Notifications sent to all users.");
 
-    res.status(201).json(newLandPlot);
+    res.status(201).json(
+      
+    );
   } catch (error) {
     console.error("Error creating LandPlot and notifications:", error);
     res.status(500).json({ error: "Internal Server Error" });

@@ -168,7 +168,7 @@ const bikeSchema = new mongoose.Schema({
     type: Number,
   },
   number: {
-    type: Number,
+    type: String,
   },
   kmDriven: {
     type: Number,

@@ -2,44 +2,47 @@ const Cart = require("../models/addtocart");
 
 const addToCart = async (req, res) => {
   try {
-    const { userId, profileId, buyerProfile, productId, productModel } =
-      req.body;
-
-    const cartItem = new Cart({
-      userId,
-      profileId,
-      buyerProfile,
+    const { buyerProfileId, productId, productModel } = req.body;
+    const newCartItem = await Cart.create({
+      buyerProfileId,
       productId,
       productModel,
     });
-
-    await cartItem.save();
-
-    res.status(201).json({ message: "Product added to the cart successfully" });
+    res.status(201).json(newCartItem);
   } catch (error) {
-    console.error(error);
+    console.error("Error adding item to the cart:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
 const getCartItems = async (req, res) => {
   try {
-    const userId = req.params.userId;
-    const cartItems = await Cart.find({ userId })
-      .populate("userId")
-      .populate("productId")
-      .populate("profileId")
-      
-      .populate("buyerProfileId");
+    const cartItems = await Cart.find()
+      .populate("buyerProfileId")
+      .populate("productId");
 
-    res.status(200).json({ cartItems });
+    res.status(200).json(cartItems);
   } catch (error) {
-    console.error(error);
+    console.error("Error getting cart items:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
+const getCartItemsById = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const cartItems = await Cart.find({ productId })
+      .populate("buyerProfileId")
+      .populate("productId");
+    const uniqueBuyersCount = await Cart.distinct("buyerProfileId", {
+      productId,
+    }).length;
+    res.status(200).json({ cartItems, uniqueBuyersCount });
+  } catch (error) {
+    console.error("Error getting cart items:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 module.exports = {
   addToCart,
   getCartItems,
+  getCartItemsById,
 };

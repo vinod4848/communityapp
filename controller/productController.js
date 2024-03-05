@@ -265,7 +265,7 @@ const createPhone = async (req, res) => {
 
     console.log("Notifications sent to all users.");
 
-    res.status(201).json(newElectronics);
+    res.status(201).json(newPhone);
   } catch (error) {
     console.error("Error creating Phone and notifications:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -274,12 +274,12 @@ const createPhone = async (req, res) => {
 
 const createAccessories = async (req, res) => {
   try {
-    const newPhone = await Accessories.create(req.body);
+    const newAccessories = await Accessories.create(req.body);
     const allUsers = await User.find({}, "username");
     const notificationPromises = allUsers.map((user) => {
       const notificationData = {
         title: "New Accessories Post",
-        message: `A new Accessories post "${newPhone.adTitle}" has been added.`,
+        message: `A new Accessories post "${newAccessories.adTitle}" has been added.`,
         timestamp: Date.now(),
         isRead: false,
         userId: user._id,
@@ -294,7 +294,7 @@ const createAccessories = async (req, res) => {
 
     console.log("Notifications sent to all users.");
 
-    res.status(201).json(newElectronics);
+    res.status(201).json(newAccessories);
   } catch (error) {
     console.error("Error creating Accessories and notifications:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -322,7 +322,7 @@ const createTablets = async (req, res) => {
 
     console.log("Notifications sent to all users.");
 
-    res.status(201).json(newElectronics);
+    res.status(201).json(newBicycles);
   } catch (error) {
     console.error("Error creating Tablets and notifications:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -351,7 +351,7 @@ const createBicycles = async (req, res) => {
 
     console.log("Notifications sent to all users.");
 
-    res.status(201).json(newElectronics);
+    res.status(201).json(newBicycles);
   } catch (error) {
     console.error("Error creating Bicycles and notifications:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -380,7 +380,7 @@ const createBike = async (req, res) => {
 
     console.log("Notifications sent to all users.");
 
-    res.status(201).json(newElectronics);
+    res.status(201).json(newBike);
   } catch (error) {
     console.error("Error creating Bicycles and notifications:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -409,7 +409,7 @@ const createCar = async (req, res) => {
 
     console.log("Notifications sent to all users.");
 
-    res.status(201).json(newElectronics);
+    res.status(201).json(newCar);
   } catch (error) {
     console.error("Error creating Car and notifications:", error);
     res.status(500).json({ error: "Internal Server Error" });
