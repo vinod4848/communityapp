@@ -95,26 +95,6 @@ const getFashionById = async (req, res) => {
   }
 };
 
-// const createFashion = async (req, res) => {
-//   const fashion = new Fashion({
-//     profileId: req.body.profileId,
-//     fashionType: req.body.fashionType,
-//     adTitle: req.body.adTitle,
-//     price: req.body.price,
-//     description: req.body.description,
-//     address: req.body.address,
-//     landmark: req.body.landmark,
-//   });
-
-//   try {
-//     const newFashion = await fashion.save();
-//     res.status(201).json(newFashion);
-//   } catch (error) {
-//     res.status(400).json({ message: error.message });
-//   }
-// };
-
-
 const createFashion = async (req, res) => {
   try {
     const newFurniture = await Fashion.create(req.body);
