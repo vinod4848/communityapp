@@ -47,6 +47,7 @@ const blogController = {
           timestamp: Date.now(),
           isRead: false,
           userId: user._id,
+          Id: newBlog._id,
         };
 
         console.log("Creating Notification:", notificationData);
@@ -64,6 +65,7 @@ const blogController = {
       res.status(500).json({ error: "Internal Server Error" });
     }
   },
+
   getAllBlogs: async (req, res) => {
     try {
       const blogs = await Blog.find();
