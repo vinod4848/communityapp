@@ -54,6 +54,10 @@ const profileSchema = new mongoose.Schema({
     enum: ["Male", "Female"],
     required: true,
   },
+  blocked: {
+    type: Boolean,
+    default: false,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

@@ -16,7 +16,7 @@ const uploadImage = async (file) => {
     secretAccessKey: secretAccessKey,
     region: region,
   });
-  const fileName = `Magazine/${file.originalname}`;
+  const fileName = `Announcement/${file.originalname}`;
 
   return new Promise((resolve, reject) => {
     const fileStream = fs.createReadStream(file.path);
@@ -75,7 +75,6 @@ const createAnnouncement = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
 const getAllAnnouncements = async (req, res) => {
   try {
     const announcements = await Announcement.find().populate(

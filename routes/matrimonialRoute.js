@@ -10,6 +10,8 @@ const { authmiddleware, AproveAdmin } = require("../middleware/authmiddleware");
 router.get("/matrimonial/profiles", matrimonialController.getAllProfiles);
 router.get("/matrimonial/profiles/:id", matrimonialController.getProfileById);
 router.post("/matrimonial/profiles", matrimonialController.addProfile);
+router.post('/sendRequest/:senderId/:receiverId', matrimonialController.sendRequesttomatrimonial);
+router.put('/acceptRequest/:receiverId/:senderId', matrimonialController.acceptRequesttomatrimonial);
 router.put("/matrimonial/profiles/:id", matrimonialController.updateProfile);
 router.delete("/matrimonial/profiles/:id", matrimonialController.deleteProfile);
 router.put(

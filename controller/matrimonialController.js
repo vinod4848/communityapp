@@ -156,6 +156,103 @@ const matrimonialController = {
       res.status(500).json({ error: error.message });
     }
   },
+  sendRequesttomatrimonial: async (req, res) => {
+    try {
+      const senderProfileId = req.params.senderId;
+      const receiverProfileId = req.params.receiverId;
+
+      const senderProfile = await MatrimonialProfile.findById(senderProfileId);
+      const receiverProfile = await MatrimonialProfile.findById(
+        receiverProfileId
+      );
+
+      if (!senderProfile || !receiverProfile) {
+        return res
+          .status(404)
+          .json({ message: "Sender or receiver profile not found" });
+      }
+
+      if (
+        (senderProfile.sentRequests &&
+          senderProfile.sentRequests.includes(receiverProfileId)) ||
+        (receiverProfile.receivedRequests &&
+          receiverProfile.receivedRequests.includes(senderProfileId))
+      ) {
+        return res
+          .status(400)
+          .json({ message: "Request already sent or received" });
+      }
+
+      // Update sender's profile
+      if (!senderProfile.sentRequests) {
+        senderProfile.sentRequests = [];
+      }
+      senderProfile.sentRequests.push(receiverProfileId);
+      senderProfile.sentRequests.sort((a, b) => a.toString().localeCompare(b.toString()));
+      await senderProfile.save();
+
+      // Update receiver's profile
+      if (!receiverProfile.receivedRequests) {
+        receiverProfile.receivedRequests = [];
+      }
+      receiverProfile.receivedRequests.push(senderProfileId);
+      await receiverProfile.save();
+
+      res.status(200).json({ message: "Request sent successfully" });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+  acceptRequesttomatrimonial: async (req, res) => {
+    try {
+      const receiverProfileId = req.params.receiverId;
+      const senderProfileId = req.params.senderId;
+
+      const receiverProfile = await MatrimonialProfile.findById(
+        receiverProfileId
+      );
+      const senderProfile = await MatrimonialProfile.findById(senderProfileId);
+
+      if (!receiverProfile || !senderProfile) {
+        return res
+          .status(404)
+          .json({ message: "Sender or receiver profile not found" });
+      }
+
+      // Check if the friend request exists and is pending
+      const friendRequestIndex =
+        receiverProfile.receivedRequests.indexOf(senderProfileId);
+
+      if (
+        friendRequestIndex === -1 ||
+        senderProfile.sentRequests.indexOf(receiverProfileId) === -1
+      ) {
+        return res
+          .status(404)
+          .json({
+            message: "Friend request not found or already accepted/rejected",
+          });
+      }
+
+      // Remove friend request from both sender and receiver profiles
+      receiverProfile.receivedRequests.splice(friendRequestIndex, 1);
+      senderProfile.sentRequests = senderProfile.sentRequests.filter(
+        (id) => id !== receiverProfileId
+      );
+
+      // Add each other to friends list
+      receiverProfile.friends.push(senderProfileId);
+      senderProfile.friends.push(receiverProfileId);
+
+      // Save changes to both profiles
+      await receiverProfile.save();
+      await senderProfile.save();
+
+      res.status(200).json({ message: "Friend request accepted successfully" });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 };
 
 module.exports = matrimonialController;
