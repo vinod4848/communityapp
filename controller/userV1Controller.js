@@ -60,13 +60,21 @@ const signup = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { phone } = req.body;
-
+    const user = await UserV1.findOne({ phone });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    const userProfile = await Profile.findOne({ userId: user._id });
+    if (userProfile && userProfile.blocked) {
+      return res.status(403).json({
+        error: "Your account is temporarily blocked contact with admin",
+      });
+    }
     const { otp, expirationTime } = generateOTP();
 
     console.log(`Generated OTP for ${phone}: ${otp}`);
 
     sendOTP(phone, otp);
-
     await UserV1.updateOne(
       { phone },
       { $set: { otp, otpExpiration: expirationTime } }

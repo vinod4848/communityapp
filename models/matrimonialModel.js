@@ -1,6 +1,30 @@
 const mongoose = require("mongoose");
 
 const matrimonialSchema = new mongoose.Schema({
+  sentRequests: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "MatrimonialProfile",
+    },
+  ],
+  receivedRequests: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "MatrimonialProfile",
+    },
+  ],
+  acceptRequest: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "MatrimonialProfile",
+    },
+  ],
+  friends: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "MatrimonialProfile",
+    },
+  ],
   profileId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Profile",

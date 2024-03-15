@@ -10,7 +10,7 @@ const blogsSchema = mongoose.Schema(
     isApproved: {
       type: Boolean,
       default: function () {
-        return this.isActive; // Adjusted default value to isActive
+        return this.isActive; 
       },
     },
     createdTimestamp: {

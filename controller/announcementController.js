@@ -1,4 +1,7 @@
 const Announcement = require("../models/AnanouncementModel");
+const User = require("../models/userV1Model");
+const Notification = require("../models/notificationModel");
+
 const AWS = require("aws-sdk");
 const fs = require("fs");
 
@@ -13,7 +16,7 @@ const uploadImage = async (file) => {
     secretAccessKey: secretAccessKey,
     region: region,
   });
-  const fileName = `Magazine/${file.originalname}`;
+  const fileName = `Announcement/${file.originalname}`;
 
   return new Promise((resolve, reject) => {
     const fileStream = fs.createReadStream(file.path);
@@ -37,17 +40,38 @@ const uploadImage = async (file) => {
 
 const createAnnouncement = async (req, res) => {
   try {
-    const { createdBy,date, announcementType, description } = req.body;
+    const { createdBy, date, announcementType, description } = req.body;
+
     const newAnnouncement = new Announcement({
       createdBy,
       date,
       announcementType,
       description,
     });
+
     const savedAnnouncement = await newAnnouncement.save();
+    const allUsers = await User.find({}, "username");
+    const notificationPromises = allUsers.map((user) => {
+      const notificationData = {
+        title: "New Announcement Post",
+        message: `A new Announcement post "${savedAnnouncement.announcementType}" has been added.`,
+        timestamp: Date.now(),
+        isRead: false,
+        userId: user._id,
+      };
+
+      console.log("Creating Notification:", notificationData);
+
+      return Notification.create(notificationData);
+    });
+
+    await Promise.all(notificationPromises);
+
+    console.log("Notifications sent to all users.");
+
     res.status(201).json(savedAnnouncement);
   } catch (error) {
-    console.error(error);
+    console.error("Error creating Announcement and notifications:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -133,7 +157,7 @@ const deleteAnnouncement = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-const updateAnnouncementStatus =async (req, res) => {
+const updateAnnouncementStatus = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -143,19 +167,18 @@ const updateAnnouncementStatus =async (req, res) => {
       return res.status(404).json({ error: "Announcement not found" });
     }
 
-  
     announcement.isActive = true;
 
-   
     await announcement.save();
 
-    res.status(200).json({ message: "Announcement updated successfully", announcement });
+    res
+      .status(200)
+      .json({ message: "Announcement updated successfully", announcement });
   } catch (error) {
     console.error("Error updating announcement:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
 
 module.exports = {
   updateAnnouncementStatus,
