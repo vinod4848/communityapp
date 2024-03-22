@@ -6,6 +6,14 @@ const propertySchema = new mongoose.Schema({
     ref: "Profile",
     required: true,
   },
+  approvedby: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  locked: {
+    type: Boolean,
+    default: false,
+  },
   propertyFor: {
     type: String,
     enum: [
@@ -96,6 +104,10 @@ const propertySchema = new mongoose.Schema({
   price: {
     type: Number,
     required: true,
+  },
+  properties: {
+    type: String,
+    default: "properties"
   },
   image: {
     type: [String],

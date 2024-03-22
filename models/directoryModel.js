@@ -6,8 +6,12 @@ const directorySchema = new mongoose.Schema({
     ref: "Profile",
     required: true,
   },
-  companyLogo: {
-    type: String,
+  locked: {
+    type: Boolean,
+    default: false,
+  },
+  images: {
+    type: [String],
     required: true,
   },
   companyEmail: {
@@ -45,9 +49,6 @@ const directorySchema = new mongoose.Schema({
   description: {
     type: String,
   },
-  // establishedDate: {
-  //   type: Date,
-  // },
   socialMediaLinks: {
     facebook: String,
     twitter: String,

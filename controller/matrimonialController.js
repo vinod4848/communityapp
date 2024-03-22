@@ -39,7 +39,8 @@ const matrimonialController = {
     try {
       const profiles = await MatrimonialProfile.find()
         .populate("userId")
-        .populate("profileId");
+        .populate("profileId")
+        .populate("approvedby");
 
       res.status(200).json(profiles);
     } catch (error) {
@@ -147,6 +148,7 @@ const matrimonialController = {
 
       matrimonial.isApproved = true;
       matrimonial.isPublic = true;
+      matrimonial.approvedBy = req.user._id;
       await matrimonial.save();
 
       res
@@ -188,7 +190,9 @@ const matrimonialController = {
         senderProfile.sentRequests = [];
       }
       senderProfile.sentRequests.push(receiverProfileId);
-      senderProfile.sentRequests.sort((a, b) => a.toString().localeCompare(b.toString()));
+      senderProfile.sentRequests.sort((a, b) =>
+        a.toString().localeCompare(b.toString())
+      );
       await senderProfile.save();
 
       // Update receiver's profile
@@ -227,11 +231,9 @@ const matrimonialController = {
         friendRequestIndex === -1 ||
         senderProfile.sentRequests.indexOf(receiverProfileId) === -1
       ) {
-        return res
-          .status(404)
-          .json({
-            message: "Friend request not found or already accepted/rejected",
-          });
+        return res.status(404).json({
+          message: "Friend request not found or already accepted/rejected",
+        });
       }
 
       // Remove friend request from both sender and receiver profiles

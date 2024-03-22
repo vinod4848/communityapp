@@ -58,6 +58,10 @@ const profileSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  locked: {
+    type: Boolean,
+    default: false,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

@@ -74,7 +74,9 @@ const uploadshopOfficeImages = async (req, res) => {
 
 const getAllShopOffices = async (req, res) => {
   try {
-    const shopOffices = await ShopOffice.find().populate("profileId");
+    const shopOffices = await ShopOffice.find()
+    .populate("profileId")
+    .populate("approvedby");
     res.json(shopOffices);
   } catch (error) {
     res.status(500).json({ message: error.message });

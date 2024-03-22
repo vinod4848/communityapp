@@ -98,7 +98,8 @@ const createFurniture = async (req, res) => {
 const getAllFurniture = async (req, res) => {
   try {
     const allFurniture = await Furniture.find()
-    .populate("profileId");
+    .populate("profileId")
+    .populate("approvedby");
     res.status(200).json(allFurniture);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -108,7 +109,8 @@ const getAllFurniture = async (req, res) => {
 const getFurnitureById = async (req, res) => {
   try {
     const furniture = await Furniture.findById(req.params.id)
-    .populate("profileId");
+    .populate("profileId")
+    .populate("approvedby");
     if (!furniture) {
       return res.status(404).json({ message: "Furniture not found" });
     }

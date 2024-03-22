@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const jobController = require("../controller/jobController");
 const { authmiddleware, AproveAdmin } = require("../middleware/authmiddleware");
+const multer = require("multer");
+const uploadMultipleImage = multer({ dest: "uploads/" });
 
 // Routes
 router.get("/jobs/search", jobController.searchJobByTitle);
@@ -11,9 +13,14 @@ router.post("/jobs", jobController.addJob);
 router.put("/jobs/:id", jobController.updateJob);
 router.delete("/jobs/:id", jobController.deleteJob);
 router.put(
-    "/jobs/approve/:jobId",
-    authmiddleware,
-    AproveAdmin,
-    jobController.addJob
-  );
+  "/jobs/approve/:jobId",
+  authmiddleware,
+  AproveAdmin,
+  jobController.addJob
+);
+router.post(
+  "/joblogoImage/:id",
+  uploadMultipleImage.array("logo"),
+  jobController.logoImage
+);
 module.exports = router;

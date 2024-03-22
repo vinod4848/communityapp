@@ -74,7 +74,9 @@ const uploadFashionImages = async (req, res) => {
 
 const getAllFashion = async (req, res) => {
   try {
-    const fashionItems = await Fashion.find().populate("profileId");
+    const fashionItems = await Fashion.find()
+    .populate("profileId")
+    .populate("approvedby");
     res.json(fashionItems);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -83,9 +85,9 @@ const getAllFashion = async (req, res) => {
 
 const getFashionById = async (req, res) => {
   try {
-    const fashionItem = await Fashion.findById(req.params.id).populate(
-      "profileId"
-    );
+    const fashionItem = await Fashion.findById(req.params.id)
+    .populate("profileId")
+    .populate("approvedby");
     if (!fashionItem) {
       return res.status(404).json({ message: "Fashion item not found" });
     }

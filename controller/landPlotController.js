@@ -75,7 +75,9 @@ const uploadLandPlotImages = async (req, res) => {
 
 const getAllLandPlots = async (req, res) => {
   try {
-    const landPlots = await LandPlot.find().populate("profileId");
+    const landPlots = await LandPlot.find()
+    .populate("profileId")
+    .populate("approvedby");
     res.json(landPlots);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -84,9 +86,9 @@ const getAllLandPlots = async (req, res) => {
 
 const getLandPlotById = async (req, res) => {
   try {
-    const landPlot = await LandPlot.findById(req.params.id).populate(
-      "profileId"
-    );
+    const landPlot = await LandPlot.findById(req.params.id)
+    .populate("profileId")
+    .populate("approvedby");
     if (!landPlot) {
       return res.status(404).json({ message: "Land plot not found" });
     }

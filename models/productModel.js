@@ -6,6 +6,14 @@ const phoneSchema = new mongoose.Schema({
     ref: "Profile",
     required: true,
   },
+  approvedby: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  locked: {
+    type: Boolean,
+    default: false,
+  },
   brand: {
     type: String,
     required: true,
@@ -43,6 +51,14 @@ const accessoriesSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Profile",
     required: true,
+  },
+  approvedby: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  locked: {
+    type: Boolean,
+    default: false,
   },
   type: {
     type: String,
@@ -83,6 +99,14 @@ const tabletsSchema = new mongoose.Schema({
     ref: "Profile",
     required: true,
   },
+  approvedby: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  locked: {
+    type: Boolean,
+    default: false,
+  },
   type: {
     type: String,
     enum: ["iPads", "Samsung", "Other Tablets"],
@@ -122,6 +146,14 @@ const bicyclesSchema = new mongoose.Schema({
     ref: "Profile",
     required: true,
   },
+  approvedby: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  locked: {
+    type: Boolean,
+    default: false,
+  },
   brand: {
     type: String,
     enum: ["Hercules", "Hero", "Other Brands"],
@@ -159,6 +191,14 @@ const bikeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Profile",
     required: true,
+  },
+  approvedby: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  locked: {
+    type: Boolean,
+    default: false,
   },
   brand: {
     type: String,
@@ -212,6 +252,14 @@ const carSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Profile",
     required: true,
+  },
+  approvedby: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  locked: {
+    type: Boolean,
+    default: false,
   },
   brand: {
     type: String,

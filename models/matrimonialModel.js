@@ -49,6 +49,14 @@ const matrimonialSchema = new mongoose.Schema({
     subCommunity: String,
     gothraGothram: String,
   },
+  locked: {
+    type: Boolean,
+    default: false,
+  },
+  approvedby: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   family: {
     fatherStatus: String,
     with: String,

@@ -6,6 +6,18 @@ const shopOfficeSchema = new mongoose.Schema({
     ref: "Profile",
     required: true,
   },
+  approvedby: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  shopoffices: {
+    type: String,
+    default: "shopoffices"
+  },
+  locked: {
+    type: Boolean,
+    default: false,
+  },
   furnishing: {
     type: String,
     enum: ["Furnished", "Semi-Furnished", "Unfurnished"],

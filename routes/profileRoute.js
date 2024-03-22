@@ -9,6 +9,7 @@ router.get("/profiles/:id", profileController.getProfileById);
 router.post("/profiles", profileController.addProfile);
 router.put("/profiles/:id", profileController.updateProfile);
 router.delete("/profiles/:id", profileController.deleteProfile);
+router.put('/profileslock/:id', profileController.lockProfile);
 router.get("/profiles/search", profileController.searchProfileByName);
 router.post(
   "/uploadImage/profiles/:id",

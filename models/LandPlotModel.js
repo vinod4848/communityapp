@@ -6,6 +6,18 @@ const landPlotSchema = new mongoose.Schema({
     ref: "Profile",
     required: true,
   },
+  approvedby: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  landplots: {
+    type: String,
+    default: "landplots"
+  },
+  locked: {
+    type: Boolean,
+    default: false,
+  },
   type: {
     type: String,
     enum: ["For Rent", "For Sale"],

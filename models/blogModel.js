@@ -10,18 +10,18 @@ const blogsSchema = mongoose.Schema(
     isApproved: {
       type: Boolean,
       default: function () {
-        return this.isActive; 
+        return this.isActive;
       },
     },
     createdTimestamp: {
       type: Date,
-      default: Date.now, // Set a default value using Date.now
+      default: Date.now,
     },
   },
   {
     timestamps: {
-      createdAt: false, 
-      updatedAt: false, // Disable the default updatedAt field
+      createdAt: false,
+      updatedAt: false,
     },
   }
 );

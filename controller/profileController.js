@@ -1,6 +1,24 @@
 const Profile = require("../models/profileModel");
 const AWS = require("aws-sdk");
 const fs = require("fs");
+const Fashion = require("../models/fashionModel");
+const Furniture = require("../models/furnitureModel");
+const Job = require("../models/jobModel");
+const LandPlot = require("../models/LandPlotModel");
+const MatrimonialProfile = require("../models/matrimonialModel");
+const PgGuestHouse = require("../models/PgGuestHouseModel");
+const Property = require("../models/propertyModel");
+const ShopOffice = require("../models/ShopOfficeModel");
+const Announcement = require("../models/AnanouncementModel");
+const Directory = require("../models/directoryModel");
+const {
+  Phone,
+  Accessories,
+  Tablets,
+  Bicycles,
+  Bike,
+  Car,
+} = require("../models/productModel");
 
 const uploadImage = async (file) => {
   const bucketName = process.env.AWS_BUCKET_NAME;
@@ -59,7 +77,8 @@ const profileController = {
   },
   getAllProfiles: async (req, res) => {
     try {
-      const profiles = await Profile.find().populate("userId");
+      const profiles = await Profile.find()
+      .populate("userId");
       res.status(200).json(profiles);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -141,6 +160,47 @@ const profileController = {
       if (!updatedProfile) {
         return res.status(404).json({ message: "Profile not found" });
       }
+
+      res.status(200).json(updatedProfile);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  },
+  lockProfile: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const updatedProfile = await Profile.findByIdAndUpdate(
+        id,
+        { locked: true },
+        { new: true }
+      );
+
+      if (!updatedProfile) {
+        return res.status(404).json({ message: "Profile not found" });
+      }
+      const models = [
+        Directory,
+        Announcement,
+        Fashion,
+        Furniture,
+        Job,
+        LandPlot,
+        MatrimonialProfile,
+        PgGuestHouse,
+        Property,
+        ShopOffice,
+        Phone,
+        Accessories,
+        Tablets,
+        Bicycles,
+        Bike,
+        Car,
+      ];
+      const lockPromises = models.map(async (Model) => {
+        await Model.updateMany({ profileId: id }, { locked: true });
+      });
+
+      await Promise.all(lockPromises);
 
       res.status(200).json(updatedProfile);
     } catch (error) {

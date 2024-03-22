@@ -102,7 +102,10 @@ const createElectronics = async (req, res) => {
 };
 const getAllElectronics = async (req, res) => {
   try {
-    const electronics = await Electronics.find().populate("profileId").exec();
+    const electronics = await Electronics.find()
+    .populate("profileId")
+    .populate("approvedby")
+    .exec();
     res.json(electronics);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -111,7 +114,10 @@ const getAllElectronics = async (req, res) => {
 
 const getElectronicsById = async (req, res) => {
   try {
-    const electronics = await Electronics.findById(req.params.id).populate("profileId").exec();;
+    const electronics = await Electronics.findById(req.params.id)
+    .populate("profileId")
+    .populate("approvedby")
+    .exec();
     res.json(electronics);
   } catch (error) {
     res.status(500).json({ error: error.message });

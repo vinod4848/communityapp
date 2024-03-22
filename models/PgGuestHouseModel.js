@@ -6,6 +6,18 @@ const pgGuestHouseSchema = new mongoose.Schema({
     ref: "Profile",
     required: true,
   },
+  approvedby: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  pgguesthouses: {
+    type: String,
+    default: "pgguesthouses"
+  },
+  locked: {
+    type: Boolean,
+    default: false,
+  },
   subtype: {
     type: String,
     enum: ["Guest Houses", "PG", "Roommate"],

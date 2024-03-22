@@ -6,6 +6,14 @@ const fashionSchema = new mongoose.Schema({
     ref: "Profile",
     required: true,
   },
+  approvedby: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  locked: {
+    type: Boolean,
+    default: false,
+  },
   fashionType: {
     type: String,
     enum: ["Men", "Women", "Kids", "other"],

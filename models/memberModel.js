@@ -5,6 +5,10 @@ const memberSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Profile",
   },
+  locked: {
+    type: Boolean,
+    default: false,
+  },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "UserV1",

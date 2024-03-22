@@ -40,21 +40,12 @@ const uploadImage = async (file) => {
 
 const createAnnouncement = async (req, res) => {
   try {
-    const { createdBy, date, announcementType, description } = req.body;
-
-    const newAnnouncement = new Announcement({
-      createdBy,
-      date,
-      announcementType,
-      description,
-    });
-
-    const savedAnnouncement = await newAnnouncement.save();
+    const newAnnouncement = await Announcement.create(req.body);
     const allUsers = await User.find({}, "username");
-    const notificationPromises = allUsers.map((user) => {
+    const notificationPromises = allUsers.map(async (user) => {
       const notificationData = {
         title: "New Announcement Post",
-        message: `A new Announcement post "${savedAnnouncement.announcementType}" has been added.`,
+        message: `A new Announcement post "${newAnnouncement.announcementType}" has been added.`,
         timestamp: Date.now(),
         isRead: false,
         userId: user._id,
@@ -62,25 +53,25 @@ const createAnnouncement = async (req, res) => {
 
       console.log("Creating Notification:", notificationData);
 
-      return Notification.create(notificationData);
+      await Notification.create(notificationData);
     });
-
     await Promise.all(notificationPromises);
 
     console.log("Notifications sent to all users.");
 
-    res.status(201).json(savedAnnouncement);
+    res.status(201).json(newAnnouncement);
   } catch (error) {
-    console.error("Error creating Announcement and notifications:", error);
+    console.error("Error creating announcement and notifications:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 const getAllAnnouncements = async (req, res) => {
   try {
-    const announcements = await Announcement.find().populate(
-      "createdBy",
-      "username"
-    );
+    const announcements = await Announcement.find()
+      .populate("profileId")
+      .populate("createdBy")
+      .populate("approvedby");
+
     res.json(announcements);
   } catch (error) {
     console.error(error);
@@ -159,6 +150,7 @@ const deleteAnnouncement = async (req, res) => {
 };
 const updateAnnouncementStatus = async (req, res) => {
   const { id } = req.params;
+  const { approvedby } = req.body; // Extract approvedby from request body
 
   try {
     const announcement = await Announcement.findById(id);
@@ -168,6 +160,7 @@ const updateAnnouncementStatus = async (req, res) => {
     }
 
     announcement.isActive = true;
+    announcement.approvedby = approvedby; // Set approvedby field
 
     await announcement.save();
 

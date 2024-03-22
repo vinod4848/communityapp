@@ -5,16 +5,39 @@ const announcementSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Profile",
   },
+  locked: {
+    type: Boolean,
+    default: false,
+  },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  announcementType: { type: String, required: true },
-  description: { type: String, required: true },
-  date: { type: String, required: true },
+  approvedby: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  announcementType: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: Date,
+    required: true,
+  },
   image: String,
-  isActive: { type: Boolean, required: true, default: false },
-  createdAt: { type: Date, default: Date.now },
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Announcement = mongoose.model("Announcement", announcementSchema);

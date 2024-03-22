@@ -6,6 +6,14 @@ const furnitureSchema = new mongoose.Schema({
     ref: "Profile",
     required: true,
   },
+  approvedby: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  locked: {
+    type: Boolean,
+    default: false,
+  },
   furnitureType: {
     type: String,
     enum: [

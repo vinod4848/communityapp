@@ -104,7 +104,9 @@ const createProperty = async (req, res) => {
 };
 const getAllProperties = async (req, res) => {
   try {
-    const allProperties = await Property.find().populate("profileId");
+    const allProperties = await Property.find()
+    .populate("profileId")
+    .populate("approvedby");
     res.status(200).json(allProperties);
   } catch (error) {
     res.status(500).json({ error: error.message });

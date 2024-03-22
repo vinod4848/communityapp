@@ -6,9 +6,25 @@ const jobSchema = new mongoose.Schema({
     ref: "UserV1",
     required: true,
   },
+  profileId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Profile",
+    required: true,
+  },
+  locked: {
+    type: Boolean,
+    default: false,
+  },
   title: {
     type: String,
     required: true,
+  },
+  images: {
+    type: [String],
+  },
+  approvedby: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
   },
   company: {
     type: String,
