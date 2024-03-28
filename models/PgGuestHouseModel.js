@@ -12,7 +12,7 @@ const pgGuestHouseSchema = new mongoose.Schema({
   },
   pgguesthouses: {
     type: String,
-    default: "pgguesthouses"
+    default: "pgguesthouses",
   },
   locked: {
     type: Boolean,

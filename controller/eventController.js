@@ -79,7 +79,7 @@ const eventController = {
   addEvent: async (req, res) => {
     try {
       const newEvent = await Event.create(req.body);
-      const allUsers = await User.find({}, "username");
+      const allUsers = await User.find({Event: true }, "username");
       const notificationPromises = allUsers.map((user) => {
         const notificationData = {
           title: "New Event Post",

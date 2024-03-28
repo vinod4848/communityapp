@@ -17,6 +17,17 @@ const userSchemaV1 = new mongoose.Schema({
     required: true,
     minlength: 10,
   },
+  notification: {
+    type: Object,
+    default: {
+      Buy_Sell: { notification: true },
+      Property: { notification: true },
+      Event: { notification: true },
+      Job: { notification: true },
+      Blog: { notification: true },
+      Announcement: { notification: true },
+    },
+  },
   otp: {
     type: String,
   },

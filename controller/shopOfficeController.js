@@ -100,7 +100,7 @@ const getShopOfficeById = async (req, res) => {
 const createShopOffice = async (req, res) => {
   try {
     const newFurniture = await ShopOffice.create(req.body);
-    const allUsers = await User.find({}, "username");
+    const allUsers = await User.find({Property: true }, "username");
     const notificationPromises = allUsers.map((user) => {
       const notificationData = {
         title: "New ShopOffice Post",

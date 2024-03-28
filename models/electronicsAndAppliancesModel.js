@@ -14,6 +14,10 @@ const electronicsSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  electronics: {
+    type: String,
+    default: "electronics",
+  },
   electronicsAndAppliances: {
     type: String,
     enum: [

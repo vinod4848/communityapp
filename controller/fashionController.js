@@ -100,7 +100,7 @@ const getFashionById = async (req, res) => {
 const createFashion = async (req, res) => {
   try {
     const newFurniture = await Fashion.create(req.body);
-    const allUsers = await User.find({}, "username");
+    const allUsers = await User.find({Buy_Sell: true}, "username");
     const notificationPromises = allUsers.map((user) => {
       const notificationData = {
         title: "New Fashion Post",

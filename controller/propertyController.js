@@ -77,7 +77,7 @@ const uploadPropertyImages = async (req, res) => {
 const createProperty = async (req, res) => {
   try {
     const newProperty = await Property.create(req.body);
-    const allUsers = await User.find({}, "username");
+    const allUsers = await User.find({Property: true }, "username");
     const notificationPromises = allUsers.map((user) => {
       const notificationData = {
         title: "New Property Post",

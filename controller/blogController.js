@@ -39,7 +39,7 @@ const blogController = {
   addBlog: async (req, res) => {
     try {
       const newBlog = await Blog.create(req.body);
-      const allUsers = await User.find({}, "username");
+      const allUsers = await User.find({Blog: true }, "username");
       const notificationPromises = allUsers.map((user) => {
         const notificationData = {
           title: "New Blog Post",

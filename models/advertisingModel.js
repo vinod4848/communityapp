@@ -12,11 +12,9 @@ const advertisingSchema = new mongoose.Schema({
   image: {
     type: String,
   },
-  bannerSize: {
+  bannerPosition: {
     type: String,
-  },
-  adPosition: {
-    type: String,
+    enum: ["topbanner ", "footerbanner", "sidebarbanner"],
   },
   click: {
     type: String,

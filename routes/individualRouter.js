@@ -6,6 +6,7 @@ router.post("/signup", individualController.signup);
 router.post("/login", individualController.login);
 router.get("/getAllUsers", individualController.getAllUsers);
 router.get("/findById/:id", individualController.findById);
+router.put("/findById/:id", individualController.updateUser);
 router.post("/login", individualController.login);
 router.post("/verify-login", individualController.verifyOTP);
 

@@ -246,7 +246,7 @@ const uploadCarImages = async (req, res) => {
 const createPhone = async (req, res) => {
   try {
     const newPhone = await Phone.create(req.body);
-    const allUsers = await User.find({}, "username");
+    const allUsers = await User.find({Buy_Sell: true}, "username");
     const notificationPromises = allUsers.map((user) => {
       const notificationData = {
         title: "New Phone Post",
@@ -275,7 +275,7 @@ const createPhone = async (req, res) => {
 const createAccessories = async (req, res) => {
   try {
     const newAccessories = await Accessories.create(req.body);
-    const allUsers = await User.find({}, "username");
+    const allUsers = await User.find({Buy_Sell: true}, "username");
     const notificationPromises = allUsers.map((user) => {
       const notificationData = {
         title: "New Accessories Post",
@@ -303,7 +303,7 @@ const createAccessories = async (req, res) => {
 const createTablets = async (req, res) => {
   try {
     const newBicycles = await Tablets.create(req.body);
-    const allUsers = await User.find({}, "username");
+    const allUsers = await User.find({Buy_Sell: true}, "username");
     const notificationPromises = allUsers.map((user) => {
       const notificationData = {
         title: "New Tablets Post",
@@ -332,7 +332,7 @@ const createTablets = async (req, res) => {
 const createBicycles = async (req, res) => {
   try {
     const newBicycles = await Bicycles.create(req.body);
-    const allUsers = await User.find({}, "username");
+    const allUsers = await User.find({Buy_Sell: true}, "username");
     const notificationPromises = allUsers.map((user) => {
       const notificationData = {
         title: "New Bicycles Post",
@@ -361,7 +361,7 @@ const createBicycles = async (req, res) => {
 const createBike = async (req, res) => {
   try {
     const newBike = await Bike.create(req.body);
-    const allUsers = await User.find({}, "username");
+    const allUsers = await User.find({Buy_Sell: true}, "username");
     const notificationPromises = allUsers.map((user) => {
       const notificationData = {
         title: "New Bike Post",
@@ -390,7 +390,7 @@ const createBike = async (req, res) => {
 const createCar = async (req, res) => {
   try {
     const newCar = await Car.create(req.body);
-    const allUsers = await User.find({}, "username");
+    const allUsers = await User.find({Buy_Sell: true}, "username");
     const notificationPromises = allUsers.map((user) => {
       const notificationData = {
         title: "New Car Post",

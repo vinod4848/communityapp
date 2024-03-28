@@ -97,7 +97,7 @@ const getPgGuestHouseById = async (req, res) => {
 const createPgGuestHouse = async (req, res) => {
   try {
     const newPgGuestHouse = await PgGuestHouse.create(req.body);
-    const allUsers = await User.find({}, "username");
+    const allUsers = await User.find({Property: true }, "username");
     const notificationPromises = allUsers.map((user) => {
       const notificationData = {
         title: "New PgGuestHouse Post",

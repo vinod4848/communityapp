@@ -101,7 +101,7 @@ const getLandPlotById = async (req, res) => {
 const createLandPlot = async (req, res) => {
   try {
     const newLandPlot = await LandPlot.create(req.body);
-    const allUsers = await User.find({}, "username");
+    const allUsers = await User.find({Property: true }, "username");
     const notificationPromises = allUsers.map((user) => {
       const notificationData = {
         title: "New LandPlot Post",

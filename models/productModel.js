@@ -10,6 +10,10 @@ const phoneSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  phones: {
+    type: String,
+    default: "phones",
+  },
   locked: {
     type: Boolean,
     default: false,
@@ -55,6 +59,10 @@ const accessoriesSchema = new mongoose.Schema({
   approvedby: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+  },
+  accessories: {
+    type: String,
+    default: "accessories",
   },
   locked: {
     type: Boolean,
@@ -103,6 +111,10 @@ const tabletsSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  tablets: {
+    type: String,
+    default: "tablets",
+  },
   locked: {
     type: Boolean,
     default: false,
@@ -150,6 +162,10 @@ const bicyclesSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  bicycles: {
+    type: String,
+    default: "bicycles",
+  },
   locked: {
     type: Boolean,
     default: false,
@@ -195,6 +211,10 @@ const bikeSchema = new mongoose.Schema({
   approvedby: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+  },
+  bikes: {
+    type: String,
+    default: "bikes",
   },
   locked: {
     type: Boolean,
@@ -256,6 +276,10 @@ const carSchema = new mongoose.Schema({
   approvedby: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+  },
+  cars: {
+    type: String,
+    default: "cars",
   },
   locked: {
     type: Boolean,

@@ -14,6 +14,10 @@ const fashionSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  fashions: {
+    type: String,
+    default: "fashions",
+  },
   fashionType: {
     type: String,
     enum: ["Men", "Women", "Kids", "other"],

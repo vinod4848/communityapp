@@ -14,6 +14,10 @@ const furnitureSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  furnitures: {
+    type: String,
+    default: "furnitures",
+  },
   furnitureType: {
     type: String,
     enum: [

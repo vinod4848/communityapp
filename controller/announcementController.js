@@ -41,7 +41,7 @@ const uploadImage = async (file) => {
 const createAnnouncement = async (req, res) => {
   try {
     const newAnnouncement = await Announcement.create(req.body);
-    const allUsers = await User.find({}, "username");
+    const allUsers = await User.find({Announcement: true}, "username");
     const notificationPromises = allUsers.map(async (user) => {
       const notificationData = {
         title: "New Announcement Post",
@@ -150,7 +150,7 @@ const deleteAnnouncement = async (req, res) => {
 };
 const updateAnnouncementStatus = async (req, res) => {
   const { id } = req.params;
-  const { approvedby } = req.body; // Extract approvedby from request body
+  const { approvedby } = req.body; 
 
   try {
     const announcement = await Announcement.findById(id);
@@ -160,7 +160,7 @@ const updateAnnouncementStatus = async (req, res) => {
     }
 
     announcement.isActive = true;
-    announcement.approvedby = approvedby; // Set approvedby field
+    announcement.approvedby = approvedby;
 
     await announcement.save();
 

@@ -75,7 +75,7 @@ const uploadElectronicsImages = async (req, res) => {
 const createElectronics = async (req, res) => {
   try {
     const newElectronics = await Electronics.create(req.body);
-    const allUsers = await User.find({}, "username");
+    const allUsers = await User.find({ Buy_Sell: true }, "username"); 
     const notificationPromises = allUsers.map((user) => {
       const notificationData = {
         title: "New Electronics Post",
@@ -92,7 +92,7 @@ const createElectronics = async (req, res) => {
 
     await Promise.all(notificationPromises);
 
-    console.log("Notifications sent to all users.");
+    console.log("Notifications sent to eligible users.");
 
     res.status(201).json(newElectronics);
   } catch (error) {

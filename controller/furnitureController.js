@@ -70,7 +70,7 @@ const uploadFurnitureImages = async (req, res) => {
 const createFurniture = async (req, res) => {
   try {
     const newJob = await Furniture.create(req.body);
-    const allUsers = await User.find({}, "username");
+    const allUsers = await User.find({Buy_Sell: true}, "username");
     const notificationPromises = allUsers.map((user) => {
       const notificationData = {
         title: "New Furniture Post",

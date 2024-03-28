@@ -84,7 +84,7 @@ const jobController = {
   addJob: async (req, res) => {
     try {
       const newJob = await Job.create(req.body);
-      const allUsers = await User.find({}, "username");
+      const allUsers = await User.find({Job: true }, "username");
       const notificationPromises = allUsers.map((user) => {
         const notificationData = {
           title: "New Job Post",

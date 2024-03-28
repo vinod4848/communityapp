@@ -145,10 +145,34 @@ const findById = async (req, res) => {
   }
 };
 
+const updateUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const updates = req.body;
+
+    const user = await UserV1.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    await UserV1.findByIdAndUpdate(userId, updates);
+
+    const updatedUser = await UserV1.findById(userId);
+
+    return res
+      .status(200)
+      .json({ message: "User updated successfully", user: updatedUser });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   signup,
   login,
   verifyOTP,
   getAllUsers,
   findById,
+  updateUser
 };
